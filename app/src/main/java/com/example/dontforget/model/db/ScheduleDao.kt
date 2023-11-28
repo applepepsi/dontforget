@@ -15,5 +15,5 @@ interface ScheduleDao {
     fun updateSchedule(schedule:ScheduleModel)
 
     @Delete
-    fun delete(schedule:ScheduleModel)
+    fun deleteSchedule(schedule:ScheduleModel)
 }

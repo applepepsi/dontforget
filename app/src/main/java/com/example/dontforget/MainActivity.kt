@@ -1,13 +1,17 @@
 package com.example.dontforget
 
+import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.room.Room
 import com.example.dontforget.databinding.ActivityMainBinding
 import com.example.dontforget.model.EnterSchedule
+import com.example.dontforget.model.ModifySchedule
 import com.example.dontforget.model.RecyclerAdapter
 import com.example.dontforget.model.db.ScheduleDao
 import com.example.dontforget.model.db.ScheduleHelper
@@ -22,6 +26,7 @@ class MainActivity : AppCompatActivity() {
     val scheduleList= mutableListOf<ScheduleModel>()
     lateinit var scheduleDao:ScheduleDao
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -32,7 +37,14 @@ class MainActivity : AppCompatActivity() {
 
         scheduleDao=helper.scheduleDao()
 
-        scheduleAdapter= RecyclerAdapter(scheduleList)
+//        val scheduleClickListener = RecyclerAdapter.ScheduleClickListener { schedule ->
+//
+//            Toast.makeText(this@MainActivity, "Clicked: ${schedule.scheduleText}", Toast.LENGTH_SHORT)
+//                .show()
+//        }
+        val scheduleClickListener=deleteOrModify()
+
+        scheduleAdapter= RecyclerAdapter(scheduleList,scheduleClickListener)
 
         refreshAdapter()
 
@@ -56,10 +68,30 @@ class MainActivity : AppCompatActivity() {
         }
     }
     //todo: 코루틴 공부하기,삭제 수정 구현
-    fun refreshAdapter(){
+    private fun refreshAdapter(){
         scheduleList.clear()
         scheduleList.addAll(scheduleDao.getAll())
         scheduleAdapter.notifyDataSetChanged()
     }
 
+    private fun deleteOrModify(): RecyclerAdapter.ScheduleClickListener {
+
+        val scheduleClickListener = RecyclerAdapter.ScheduleClickListener { schedule ->
+
+            val builder=AlertDialog.Builder(this)
+            builder.setTitle("")
+                .setPositiveButton("삭제하기",DialogInterface.OnClickListener{dialog,_ ->
+                    scheduleDao.deleteSchedule(schedule)
+                    refreshAdapter()
+                })
+                .setPositiveButton("수정하기",DialogInterface.OnClickListener{dialog, _ ->
+                    startActivity(Intent(this@MainActivity,ModifySchedule::class.java))
+                })
+                .setNegativeButton("취소",DialogInterface.OnClickListener{dialog,_ ->
+                })
+            builder.show()
+        }
+        //todo: 버튼 리스트로 만들기
+        return scheduleClickListener
+    }
 }

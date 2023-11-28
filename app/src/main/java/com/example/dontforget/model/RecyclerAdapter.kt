@@ -17,7 +17,10 @@ import java.nio.file.Files.size
 import java.text.FieldPosition
 import java.text.SimpleDateFormat
 
-class RecyclerAdapter(private val scheduleList: List<ScheduleModel>): RecyclerView.Adapter<RecyclerAdapter.Holder>() {
+class RecyclerAdapter(private val scheduleList: List<ScheduleModel>,
+                        private val scheduleClickListener: ScheduleClickListener
+                        ): RecyclerView.Adapter<RecyclerAdapter.Holder>() {
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val binding=ScheduleItemViewBinding.inflate(
@@ -27,19 +30,26 @@ class RecyclerAdapter(private val scheduleList: List<ScheduleModel>): RecyclerVi
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.setSchedule(scheduleList.get(position))
+        holder.bind(scheduleList[position], scheduleClickListener)
     }
 
     override fun getItemCount()=scheduleList.size
 
-    class Holder(private val binding: ScheduleItemViewBinding):RecyclerView.ViewHolder(binding.root){
-        fun setSchedule(schedule:ScheduleModel){
-            with(binding){
-                scheduleNo.text="${schedule.id}"
-                scheduleInfo.text=schedule.scheduleText
+    class Holder(private val binding: ScheduleItemViewBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
-                val date=SimpleDateFormat("yyyy/MM/dd hh:mm")
-                scheduleDate.text=date.format(schedule.scheduleTime)
+        fun bind(schedule: ScheduleModel, scheduleClickListener: ScheduleClickListener) {
+            with(binding) {
+                scheduleNo.text = "${schedule.id}"
+                scheduleInfo.text = schedule.scheduleText
+
+                val date = SimpleDateFormat("yyyy/MM/dd hh:mm")
+                scheduleDate.text = date.format(schedule.scheduleTime)
+
+
+                itemView.setOnClickListener {
+                    scheduleClickListener.onClick(schedule)
+                }
             }
         }
     }
