@@ -8,21 +8,34 @@
 
 
     <Button
-        android:id="@+id/deleteSchedule"
+        android:id="@+id/timeModifyButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="스케쥴 삭제"
-        app:layout_constraintEnd_toStartOf="@+id/modifySchedule"
+        android:text="시간 선택"
+        app:layout_constraintEnd_toStartOf="@+id/modifyScheduleButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/modifySchedule"
+        android:id="@+id/modifyScheduleButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
         android:text="스케쥴 수정"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/deleteSchedule"
+        app:layout_constraintStart_toEndOf="@+id/timeModifyButton"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/scheduleText"
+        android:layout_width="410dp"
+        android:layout_height="560dp"
+        android:gravity="top"
+        android:hint="할 일을 입력해 주세요."
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timeModifyButton"
+        app:layout_constraintVertical_bias="0.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -76,22 +76,34 @@ class MainActivity : AppCompatActivity() {
 
     private fun deleteOrModify(): RecyclerAdapter.ScheduleClickListener {
 
+        val options = mutableListOf("삭제하기", "수정하기", "취소")
+
         val scheduleClickListener = RecyclerAdapter.ScheduleClickListener { schedule ->
 
-            val builder=AlertDialog.Builder(this)
+            val builder = AlertDialog.Builder(this)
+
             builder.setTitle("")
-                .setPositiveButton("삭제하기",DialogInterface.OnClickListener{dialog,_ ->
+                .setPositiveButton("삭제하기", DialogInterface.OnClickListener { dialog, _ ->
                     scheduleDao.deleteSchedule(schedule)
                     refreshAdapter()
                 })
-                .setPositiveButton("수정하기",DialogInterface.OnClickListener{dialog, _ ->
-                    startActivity(Intent(this@MainActivity,ModifySchedule::class.java))
+                .setNeutralButton("수정하기", DialogInterface.OnClickListener { dialog, _ ->
+                    val modifyValue = Intent(this@MainActivity, ModifySchedule::class.java)
+                    modifyValue.putExtra("scheduleText", schedule.scheduleText)
+                    startActivity(modifyValue)
+                    val modifyText = intent.getStringExtra("modifyText")
+
+                    if (modifyText != null) {
+                        val modifySchedule =
+                            ScheduleModel(schedule.id, modifyText, schedule.scheduleTime)
+                        scheduleDao.updateSchedule(modifySchedule)
+
+                    }
                 })
-                .setNegativeButton("취소",DialogInterface.OnClickListener{dialog,_ ->
+                .setNegativeButton("취소", DialogInterface.OnClickListener { dialog, _ ->
                 })
             builder.show()
         }
-        //todo: 버튼 리스트로 만들기
         return scheduleClickListener
     }
 }
