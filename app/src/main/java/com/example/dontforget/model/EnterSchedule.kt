@@ -17,12 +17,13 @@ class EnterSchedule : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        val intent=Intent(this,MainActivity::class.java)
+        val enterScheduleIntent=Intent(this,MainActivity::class.java)
 
         binding.scheduleInputComplete.setOnClickListener {
-            intent.putExtra("scheduleText", binding.scheduleText.text.toString())
-            intent.putExtra("scheduleTime",System.currentTimeMillis())
-            startActivity(intent)
+            enterScheduleIntent.putExtra("scheduleText", binding.scheduleText.text.toString())
+            enterScheduleIntent.putExtra("scheduleTime",System.currentTimeMillis())
+            setResult(RESULT_OK,enterScheduleIntent)
+            finish()
         }
     }
 }

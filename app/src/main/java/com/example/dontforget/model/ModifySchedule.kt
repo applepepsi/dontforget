@@ -30,7 +30,7 @@ class ModifySchedule : AppCompatActivity() {
 
         binding.modifyScheduleButton.setOnClickListener{
             modifyIntent.putExtra("modifyText", binding.scheduleText.text.toString())
-            startActivity(modifyIntent)
+            setResult(RESULT_OK,modifyIntent)
             finish()
         }
     }

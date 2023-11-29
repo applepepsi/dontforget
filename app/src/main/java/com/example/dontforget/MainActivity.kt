@@ -1,11 +1,13 @@
 package com.example.dontforget
 
+import android.app.Activity
 import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.room.Room
@@ -25,7 +27,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var scheduleAdapter: RecyclerAdapter
     val scheduleList= mutableListOf<ScheduleModel>()
     lateinit var scheduleDao:ScheduleDao
-
+    private var currentSchedule: ScheduleModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,24 +50,16 @@ class MainActivity : AppCompatActivity() {
 
         refreshAdapter()
 
-        with(binding){
-            scheduleViewer.adapter=scheduleAdapter
-            scheduleViewer.layoutManager=LinearLayoutManager(this@MainActivity)
 
-            CreateScheduleButton.setOnClickListener{
-                startActivity(Intent(this@MainActivity,EnterSchedule::class.java))
-            }
-            val scheduleText=intent.getStringExtra("scheduleText")
-            val scheduleTime=intent.getLongExtra("scheduleTime",0)
+        binding.scheduleViewer.adapter=scheduleAdapter
+        binding.scheduleViewer.layoutManager=LinearLayoutManager(this@MainActivity)
 
-            if(scheduleText!=null){
-                val schedule=ScheduleModel(id = null,scheduleText,scheduleTime)
-
-                scheduleDao.insertSchedule(schedule)
-                refreshAdapter()
-            }
-
+        binding.CreateScheduleButton.setOnClickListener{
+            val enterScheduleValue=Intent(this@MainActivity,EnterSchedule::class.java)
+            enterScheduleActivityResult.launch(enterScheduleValue)
         }
+
+
     }
     //todo: 코루틴 공부하기,삭제 수정 구현
     private fun refreshAdapter(){
@@ -79,7 +73,7 @@ class MainActivity : AppCompatActivity() {
         val options = mutableListOf("삭제하기", "수정하기", "취소")
 
         val scheduleClickListener = RecyclerAdapter.ScheduleClickListener { schedule ->
-
+            currentSchedule = schedule
             val builder = AlertDialog.Builder(this)
 
             builder.setTitle("")
@@ -90,15 +84,7 @@ class MainActivity : AppCompatActivity() {
                 .setNeutralButton("수정하기", DialogInterface.OnClickListener { dialog, _ ->
                     val modifyValue = Intent(this@MainActivity, ModifySchedule::class.java)
                     modifyValue.putExtra("scheduleText", schedule.scheduleText)
-                    startActivity(modifyValue)
-                    val modifyText = intent.getStringExtra("modifyText")
-
-                    if (modifyText != null) {
-                        val modifySchedule =
-                            ScheduleModel(schedule.id, modifyText, schedule.scheduleTime)
-                        scheduleDao.updateSchedule(modifySchedule)
-
-                    }
+                    modifyActivityResult.launch(modifyValue)
                 })
                 .setNegativeButton("취소", DialogInterface.OnClickListener { dialog, _ ->
                 })
@@ -106,4 +92,38 @@ class MainActivity : AppCompatActivity() {
         }
         return scheduleClickListener
     }
+
+    private val enterScheduleActivityResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data: Intent? = result.data
+
+                val scheduleText=data?.getStringExtra("scheduleText")
+                val scheduleTime=data?.getLongExtra("scheduleTime",0)
+
+                if (scheduleText != null) {
+                    if(scheduleText!=null){
+                        val schedule=ScheduleModel(id = null,scheduleText,scheduleTime!!)
+
+                        scheduleDao.insertSchedule(schedule)
+                        refreshAdapter()
+                    }
+                }
+            }
+        }
+
+    private val modifyActivityResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data: Intent? = result.data
+                val modifyText = data?.getStringExtra("modifyText")
+
+                if (modifyText != null && currentSchedule != null) {
+                    val modifySchedule =
+                        ScheduleModel(currentSchedule!!.id, modifyText, currentSchedule!!.scheduleTime)
+                    scheduleDao.updateSchedule(modifySchedule)
+                    refreshAdapter()
+                }
+            }
+        }
 }
