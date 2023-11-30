@@ -1,29 +1,85 @@
 package com.example.dontforget.model
 
+import android.app.DatePickerDialog
 import android.content.Intent
+import android.icu.util.Calendar
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
-import android.widget.EditText
+import android.view.View
+import android.widget.*
 import com.example.dontforget.MainActivity
 import com.example.dontforget.R
 import com.example.dontforget.databinding.ActivityEnterScheduleBinding
+import java.text.SimpleDateFormat
+import java.util.*
 
 class EnterSchedule : AppCompatActivity() {
     val binding by lazy{ActivityEnterScheduleBinding.inflate(layoutInflater)}
+    private var scheduleDate: Long? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        val enterScheduleIntent=Intent(this,MainActivity::class.java)
 
+        binding.setDateButton.setOnClickListener {
+            showDatePickerDialog()
+        }
+
+        val currentDate = getCurrentDateMillis()
+
+
+        val enterScheduleIntent = Intent(this, MainActivity::class.java)
         binding.scheduleInputComplete.setOnClickListener {
+            if (scheduleDate != null) {
+                val DdayCalculation = ((scheduleDate!!.toLong()) - currentDate) / (60 * 60 * 24 *1000)
+                enterScheduleIntent.putExtra("scheduleTime", DdayCalculation)
+                Log.d("EnterSchedule", "전송하는 디데이: $DdayCalculation")
+                Log.d("현재날짜","${currentDate}")
+                Log.d("지정날짜","$scheduleDate")
+                Log.d("계산날짜","${scheduleDate}와-${currentDate}")
+            }
             enterScheduleIntent.putExtra("scheduleText", binding.scheduleText.text.toString())
-            enterScheduleIntent.putExtra("scheduleTime",System.currentTimeMillis())
-            setResult(RESULT_OK,enterScheduleIntent)
+            setResult(RESULT_OK, enterScheduleIntent)
             finish()
         }
+//      enterScheduleIntent.putExtra("scheduleTime", System.currentTimeMillis())
+
     }
+    private fun showDatePickerDialog() {
+        val cal = Calendar.getInstance()
+
+        val datePickerDialog = DatePickerDialog(
+            this,
+            { _, year, month, day ->
+                val selectedCalendar = Calendar.getInstance()
+                selectedCalendar.set(year, month, day)
+
+                scheduleDate = selectedCalendar.timeInMillis
+                binding.setDate.setText("${year}년${month+1}월${day}일")
+
+            },
+            cal.get(Calendar.YEAR),
+            cal.get(Calendar.MONTH),
+            cal.get(Calendar.DAY_OF_MONTH)
+        )
+
+        datePickerDialog.show()
+    }
+
+
+    private fun getCurrentDateMillis(): Long {
+        val currentDate = Calendar.getInstance()
+        val year = currentDate.get(Calendar.YEAR)
+        val month = currentDate.get(Calendar.MONTH)
+        val day = currentDate.get(Calendar.DAY_OF_MONTH)
+
+        val calendar = Calendar.getInstance()
+        calendar.set(year, month, day+1, 0, 0, 0)
+
+        return calendar.timeInMillis
+    }
+
 }

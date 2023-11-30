@@ -100,7 +100,7 @@ class MainActivity : AppCompatActivity() {
 
                 val scheduleText=data?.getStringExtra("scheduleText")
                 val scheduleTime=data?.getLongExtra("scheduleTime",0)
-
+                Log.d("EnterSchedule", "scheduleTime: $scheduleTime")
                 if (scheduleText != null) {
                     if(scheduleText!=null){
                         val schedule=ScheduleModel(id = null,scheduleText,scheduleTime!!)
