@@ -56,6 +56,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.CreateScheduleButton.setOnClickListener{
             val enterScheduleValue=Intent(this@MainActivity,EnterSchedule::class.java)
+
             enterScheduleActivityResult.launch(enterScheduleValue)
         }
 
@@ -84,6 +85,7 @@ class MainActivity : AppCompatActivity() {
                 .setNeutralButton("수정하기", DialogInterface.OnClickListener { dialog, _ ->
                     val modifyValue = Intent(this@MainActivity, ModifySchedule::class.java)
                     modifyValue.putExtra("scheduleText", schedule.scheduleText)
+                    modifyValue.putExtra("scheduleTime", schedule.scheduleTime)
                     modifyActivityResult.launch(modifyValue)
                 })
                 .setNegativeButton("취소", DialogInterface.OnClickListener { dialog, _ ->
@@ -100,14 +102,13 @@ class MainActivity : AppCompatActivity() {
 
                 val scheduleText=data?.getStringExtra("scheduleText")
                 val scheduleTime=data?.getLongExtra("scheduleTime",0)
-                Log.d("EnterSchedule", "scheduleTime: $scheduleTime")
-                if (scheduleText != null) {
-                    if(scheduleText!=null){
-                        val schedule=ScheduleModel(id = null,scheduleText,scheduleTime!!)
 
-                        scheduleDao.insertSchedule(schedule)
-                        refreshAdapter()
-                    }
+
+                if(scheduleText!=null){
+                    val schedule=ScheduleModel(id = null,scheduleText,scheduleTime!!)
+
+                    scheduleDao.insertSchedule(schedule)
+                    refreshAdapter()
                 }
             }
         }
@@ -117,10 +118,12 @@ class MainActivity : AppCompatActivity() {
             if (result.resultCode == Activity.RESULT_OK) {
                 val data: Intent? = result.data
                 val modifyText = data?.getStringExtra("modifyText")
-
+                val modifyTime=data?.getLongExtra("scheduleTime",0)
+                Log.d("받은 스케쥴타임",modifyTime.toString())
+                Log.d("받은 텍스트",modifyText!!)
                 if (modifyText != null && currentSchedule != null) {
                     val modifySchedule =
-                        ScheduleModel(currentSchedule!!.id, modifyText, currentSchedule!!.scheduleTime)
+                        ScheduleModel(currentSchedule!!.id, modifyText, modifyTime!!)
                     scheduleDao.updateSchedule(modifySchedule)
                     refreshAdapter()
                 }

@@ -34,19 +34,15 @@ class EnterSchedule : AppCompatActivity() {
         val enterScheduleIntent = Intent(this, MainActivity::class.java)
         binding.scheduleInputComplete.setOnClickListener {
             if (scheduleDate != null) {
-                val DdayCalculation = ((scheduleDate!!.toLong()) - currentDate) / (60 * 60 * 24 *1000)
+                val DdayCalculation = ((scheduleDate!!.toLong()) - currentDate) / (24*60*60*1000)
                 enterScheduleIntent.putExtra("scheduleTime", DdayCalculation)
-                Log.d("EnterSchedule", "전송하는 디데이: $DdayCalculation")
-                Log.d("현재날짜","${currentDate}")
-                Log.d("지정날짜","$scheduleDate")
-                Log.d("계산날짜","${scheduleDate}와-${currentDate}")
+
             }
             enterScheduleIntent.putExtra("scheduleText", binding.scheduleText.text.toString())
             setResult(RESULT_OK, enterScheduleIntent)
             finish()
         }
 //      enterScheduleIntent.putExtra("scheduleTime", System.currentTimeMillis())
-
     }
     private fun showDatePickerDialog() {
         val cal = Calendar.getInstance()

@@ -45,7 +45,12 @@ class RecyclerAdapter(private val scheduleList: List<ScheduleModel>,
 
 //                val date = SimpleDateFormat("yyyy/MM/dd hh:mm")
 //                scheduleDate.text = date.format(schedule.scheduleTime)
-                scheduleDate.text = schedule.scheduleTime.toString()
+                if(schedule.scheduleTime>=1){
+                    scheduleDate.text = schedule.scheduleTime.toString()
+                }
+                else{
+                    scheduleDate.text=""
+                }
 
                 itemView.setOnClickListener {
                     scheduleClickListener.onClick(schedule)

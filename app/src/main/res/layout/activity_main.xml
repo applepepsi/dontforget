@@ -33,6 +33,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         />
+
+
 <!--        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
 <!--        tools:listitem="@layout/schedule_item_view"-->
 <!--        />-->
