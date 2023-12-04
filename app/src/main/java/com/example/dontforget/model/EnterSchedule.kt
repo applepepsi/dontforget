@@ -28,14 +28,14 @@ class EnterSchedule : AppCompatActivity() {
             showDatePickerDialog()
         }
 
-        val currentDate = getCurrentDateMillis()
+        val currentDate = DayCalculation().getCurrentDateMillis()
 
 
         val enterScheduleIntent = Intent(this, MainActivity::class.java)
         binding.scheduleInputComplete.setOnClickListener {
             if (scheduleDate != null) {
-                val DdayCalculation = ((scheduleDate!!.toLong()) - currentDate) / (24*60*60*1000)
-                enterScheduleIntent.putExtra("scheduleTime", DdayCalculation)
+//                val DdayCalculation = ((scheduleDate!!.toLong()) - currentDate) / (24*60*60*1000)
+                enterScheduleIntent.putExtra("scheduleTime", scheduleDate)
 
             }
             enterScheduleIntent.putExtra("scheduleText", binding.scheduleText.text.toString())
@@ -63,19 +63,6 @@ class EnterSchedule : AppCompatActivity() {
         )
 
         datePickerDialog.show()
-    }
-
-
-    private fun getCurrentDateMillis(): Long {
-        val currentDate = Calendar.getInstance()
-        val year = currentDate.get(Calendar.YEAR)
-        val month = currentDate.get(Calendar.MONTH)
-        val day = currentDate.get(Calendar.DAY_OF_MONTH)
-
-        val calendar = Calendar.getInstance()
-        calendar.set(year, month, day+1, 0, 0, 0)
-
-        return calendar.timeInMillis
     }
 
 }

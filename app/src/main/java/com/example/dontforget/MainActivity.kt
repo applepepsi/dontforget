@@ -5,6 +5,8 @@ import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -39,11 +41,7 @@ class MainActivity : AppCompatActivity() {
 
         scheduleDao=helper.scheduleDao()
 
-//        val scheduleClickListener = RecyclerAdapter.ScheduleClickListener { schedule ->
-//
-//            Toast.makeText(this@MainActivity, "Clicked: ${schedule.scheduleText}", Toast.LENGTH_SHORT)
-//                .show()
-//        }
+
         val scheduleClickListener=deleteOrModify()
 
         scheduleAdapter= RecyclerAdapter(scheduleList,scheduleClickListener)
@@ -59,9 +57,13 @@ class MainActivity : AppCompatActivity() {
 
             enterScheduleActivityResult.launch(enterScheduleValue)
         }
-
-
     }
+
+    override fun onResume() {
+        super.onResume()
+        refreshAdapter()
+    }
+
     //todo: 코루틴 공부하기,삭제 수정 구현
     private fun refreshAdapter(){
         scheduleList.clear()
@@ -121,7 +123,7 @@ class MainActivity : AppCompatActivity() {
                 val modifyTime=data?.getLongExtra("scheduleTime",0)
                 Log.d("받은 스케쥴타임",modifyTime.toString())
                 Log.d("받은 텍스트",modifyText!!)
-                if (modifyText != null && currentSchedule != null) {
+                if (currentSchedule != null) {
                     val modifySchedule =
                         ScheduleModel(currentSchedule!!.id, modifyText, modifyTime!!)
                     scheduleDao.updateSchedule(modifySchedule)
@@ -129,4 +131,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
+    //todo: 디자인 생각하기
 }

@@ -46,7 +46,10 @@ class RecyclerAdapter(private val scheduleList: List<ScheduleModel>,
 //                val date = SimpleDateFormat("yyyy/MM/dd hh:mm")
 //                scheduleDate.text = date.format(schedule.scheduleTime)
                 if(schedule.scheduleTime>=1){
-                    scheduleDate.text = schedule.scheduleTime.toString()
+                    var currentTime=DayCalculation().getCurrentDateMillis()
+                    val Dday=DayCalculation().calculationDday(schedule.scheduleTime,currentTime)
+
+                    scheduleDate.text = Dday.toString()
                 }
                 else{
                     scheduleDate.text=""

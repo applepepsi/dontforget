@@ -28,7 +28,7 @@ class ModifySchedule : AppCompatActivity() {
 
         val scheduleText = intent.getStringExtra("scheduleText")
         var modifyScheduleDate = intent.getLongExtra("scheduleTime",0)
-        Log.d("수정날짜 확인",modifyScheduleDate.toString())
+
         if (scheduleText != null) {
             binding.scheduleText.setText(scheduleText)
         }
@@ -38,13 +38,13 @@ class ModifySchedule : AppCompatActivity() {
             showDatePickerDialog()
         }
 
-        val currentDate = getCurrentDateMillis()
+        val currentDate = DayCalculation().getCurrentDateMillis()
 
         val modifyIntent = Intent(this, MainActivity::class.java)
         binding.modifyScheduleButton.setOnClickListener {
             if (scheduleDate != null) {
-                val DdayCalculation = ((scheduleDate!!.toLong()) - currentDate) / (24*60*60*1000)
-                modifyIntent.putExtra("scheduleTime", DdayCalculation)
+//                val DdayCalculation = ((scheduleDate!!.toLong()) - currentDate) / (24*60*60*1000)
+                modifyIntent.putExtra("scheduleTime", scheduleDate)
             }
             else{
                 modifyIntent.putExtra("scheduleTime", modifyScheduleDate)
@@ -80,18 +80,5 @@ class ModifySchedule : AppCompatActivity() {
         )
 
         datePickerDialog.show()
-    }
-
-
-    private fun getCurrentDateMillis(): Long {
-        val currentDate = Calendar.getInstance()
-        val year = currentDate.get(Calendar.YEAR)
-        val month = currentDate.get(Calendar.MONTH)
-        val day = currentDate.get(Calendar.DAY_OF_MONTH)
-
-        val calendar = Calendar.getInstance()
-        calendar.set(year, month, day+1, 0, 0, 0)
-
-        return calendar.timeInMillis
     }
 }
