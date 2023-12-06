@@ -33,6 +33,7 @@ class ModifySchedule : AppCompatActivity() {
 
         if (scheduleText != null) {
             binding.scheduleText.setText(scheduleText)
+            binding.scheduleText.setTextSize(modifyTextSize)
         }
 
         binding.characterSizeChange.setOnClickListener { view ->

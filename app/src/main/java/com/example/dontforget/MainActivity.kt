@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.room.Room
 import com.example.dontforget.databinding.ActivityMainBinding
@@ -22,6 +23,7 @@ import com.example.dontforget.model.RecyclerAdapter
 import com.example.dontforget.model.db.ScheduleDao
 import com.example.dontforget.model.db.ScheduleHelper
 import com.example.dontforget.model.db.ScheduleModel
+import com.example.dontforget.util.SwipeToDeleteCallback
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -53,6 +55,19 @@ class MainActivity : AppCompatActivity() {
         binding.scheduleViewer.adapter=scheduleAdapter
         binding.scheduleViewer.layoutManager=LinearLayoutManager(this@MainActivity)
 
+        val itemTouchHelper = ItemTouchHelper(SwipeToDeleteCallback(object : SwipeToDeleteCallback.OnSwipeListener {
+            override fun onSwipe(position: Int) {
+                val deletedSchedule = scheduleList[position]
+                lifecycleScope.launch(Dispatchers.IO) {
+                    scheduleDao.deleteSchedule(deletedSchedule)
+                }
+                scheduleList.removeAt(position)
+
+                scheduleAdapter.notifyItemRemoved(position)
+            }
+        }))
+        itemTouchHelper.attachToRecyclerView(binding.scheduleViewer)
+
         binding.CreateScheduleButton.setOnClickListener{
             val enterScheduleValue=Intent(this@MainActivity,EnterSchedule::class.java)
 
@@ -79,7 +94,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun deleteOrModify(): RecyclerAdapter.ScheduleClickListener {
-        val options = mutableListOf("삭제하기", "수정하기", "취소")
+        val options = mutableListOf("수정하기", "취소")
 
         val scheduleClickListener = RecyclerAdapter.ScheduleClickListener { schedule ->
             currentSchedule = schedule
@@ -89,14 +104,6 @@ class MainActivity : AppCompatActivity() {
                     val builder = AlertDialog.Builder(this@MainActivity)
 
                     builder.setTitle("")
-                        .setPositiveButton("삭제하기", DialogInterface.OnClickListener { dialog, _ ->
-                            lifecycleScope.launch {
-                                scheduleDao.deleteSchedule(schedule)
-                                withContext(Dispatchers.Main) {
-                                    refreshAdapter()
-                                }
-                            }
-                        })
                         .setNeutralButton("수정하기", DialogInterface.OnClickListener { dialog, _ ->
                             val modifyValue = Intent(this@MainActivity, ModifySchedule::class.java)
                             modifyValue.putExtra("scheduleText", schedule.scheduleText)
