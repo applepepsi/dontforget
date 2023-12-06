@@ -11,5 +11,7 @@ data class ScheduleModel(
     @ColumnInfo(name="scheduleInfo")
     var scheduleText: String,
     @ColumnInfo(name="dateInfo")
-    var scheduleTime:Long
+    var scheduleTime:Long,
+    @ColumnInfo(name="textSize")
+    var textSize:Float
 )

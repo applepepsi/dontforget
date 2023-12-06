@@ -5,15 +5,13 @@ plugins {
 }
 
 android {
-    compileSdk 34
-
+    compileSdkVersion 34
     defaultConfig {
         applicationId "com.example.dontforget"
-        minSdk 24
-        targetSdk 32
+        minSdkVersion 26
+        targetSdkVersion 34
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 

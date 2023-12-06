@@ -7,6 +7,7 @@ import android.icu.util.Calendar
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.util.TypedValue
 import android.view.View
 import android.widget.PopupMenu
 import com.example.dontforget.MainActivity
@@ -18,7 +19,7 @@ import com.example.dontforget.model.db.ScheduleModel
 
 class ModifySchedule : AppCompatActivity() {
     val binding by lazy{ ActivityModifyScheduleBinding.inflate(layoutInflater)}
-
+    private var textSize: Float = 0f
 
     private var scheduleDate: Long? = null
 
@@ -28,11 +29,34 @@ class ModifySchedule : AppCompatActivity() {
 
         val scheduleText = intent.getStringExtra("scheduleText")
         var modifyScheduleDate = intent.getLongExtra("scheduleTime",0)
+        val modifyTextSize=intent.getFloatExtra("textSize",15f)
 
         if (scheduleText != null) {
             binding.scheduleText.setText(scheduleText)
         }
 
+        binding.characterSizeChange.setOnClickListener { view ->
+            val popupMenu = PopupMenu(this, view)
+            popupMenu.inflate(R.menu.character_size_settings)
+
+            popupMenu.setOnMenuItemClickListener { menuItem ->
+                textSize = when (menuItem.itemId) {
+                    R.id.size15 -> 15f
+                    R.id.size20 -> 20f
+                    R.id.size25 -> 25f
+                    R.id.size30 -> 30f
+                    R.id.size35 -> 35f
+                    R.id.size40 -> 40f
+                    R.id.size45 -> 45f
+                    R.id.size50 -> 50f
+                    else -> modifyTextSize
+                }
+                binding.scheduleText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize)
+
+                true
+            }
+            popupMenu.show()
+        }
 
         binding.timeModifyButton.setOnClickListener {
             showDatePickerDialog()
@@ -49,6 +73,13 @@ class ModifySchedule : AppCompatActivity() {
             else{
                 modifyIntent.putExtra("scheduleTime", modifyScheduleDate)
             }
+            if(textSize!=0f){
+                modifyIntent.putExtra("textSize", textSize)
+            }
+            else{
+                modifyIntent.putExtra("textSize", modifyTextSize)
+            }
+
 
             modifyIntent.putExtra("modifyText", binding.scheduleText.text.toString())
             setResult(RESULT_OK, modifyIntent)

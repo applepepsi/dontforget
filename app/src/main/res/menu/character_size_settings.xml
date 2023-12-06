@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/size15"
+        android:title="15 크기" />
+    <item
+        android:id="@+id/size20"
+        android:title="20 크기" />
+    <item
+        android:id="@+id/size25"
+        android:title="25 크기" />
+    <item
+        android:id="@+id/size30"
+        android:title="30 크기" />
+    <item
+        android:id="@+id/size35"
+        android:title="35 크기" />
+    <item
+        android:id="@+id/size40"
+        android:title="40 크기" />
+    <item
+        android:id="@+id/size45"
+        android:title="45 크기" />
+    <item
+        android:id="@+id/size50"
+        android:title="50 크기" />
+</menu>
