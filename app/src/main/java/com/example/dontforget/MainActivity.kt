@@ -23,6 +23,7 @@ import com.example.dontforget.model.RecyclerAdapter
 import com.example.dontforget.model.db.ScheduleDao
 import com.example.dontforget.model.db.ScheduleHelper
 import com.example.dontforget.model.db.ScheduleModel
+import com.example.dontforget.util.ItemSpacingController
 import com.example.dontforget.util.SwipeToDeleteCallback
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -54,6 +55,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.scheduleViewer.adapter=scheduleAdapter
         binding.scheduleViewer.layoutManager=LinearLayoutManager(this@MainActivity)
+        binding.scheduleViewer.addItemDecoration(ItemSpacingController(20))
 
         val itemTouchHelper = ItemTouchHelper(SwipeToDeleteCallback(object : SwipeToDeleteCallback.OnSwipeListener {
             override fun onSwipe(position: Int) {

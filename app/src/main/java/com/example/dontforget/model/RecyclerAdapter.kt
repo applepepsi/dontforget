@@ -31,6 +31,8 @@ class RecyclerAdapter(private val scheduleList: List<ScheduleModel>,
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.bind(scheduleList[position], scheduleClickListener)
+
+
     }
 
     override fun getItemCount()=scheduleList.size
