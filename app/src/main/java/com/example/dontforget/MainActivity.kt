@@ -94,7 +94,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun deleteOrModify(): RecyclerAdapter.ScheduleClickListener {
-        val options = mutableListOf("수정하기", "취소")
 
         val scheduleClickListener = RecyclerAdapter.ScheduleClickListener { schedule ->
             currentSchedule = schedule
