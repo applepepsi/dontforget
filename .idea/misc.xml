@@ -9,6 +9,7 @@
         <entry key="..\:/Users/dlaej/Downloads/kotlin_app/Study/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1855" />
         <entry key="..\:/Users/dlaej/Downloads/kotlin_app/Study/app/src/main/res/drawable/option_icon.xml" value="0.1" />
         <entry key="..\:/Users/dlaej/Downloads/kotlin_app/Study/app/src/main/res/drawable/schedule_frame.xml" value="0.1855" />
+        <entry key="..\:/Users/dlaej/Downloads/kotlin_app/Study/app/src/main/res/drawable/schedule_frame_top.xml" value="0.125" />
         <entry key="..\:/Users/dlaej/Downloads/kotlin_app/Study/app/src/main/res/drawable/select_icon.xml" value="0.1" />
         <entry key="..\:/Users/dlaej/Downloads/kotlin_app/Study/app/src/main/res/drawable/up_bar.xml" value="0.1" />
         <entry key="..\:/Users/dlaej/Downloads/kotlin_app/Study/app/src/main/res/drawable/v_icon.xml" value="0.1" />
@@ -19,7 +20,7 @@
         <entry key="..\:/Users/dlaej/Downloads/kotlin_app/Study/app/src/main/res/layout/activity_modify_schedule.xml" value="0.33" />
         <entry key="..\:/Users/dlaej/Downloads/kotlin_app/Study/app/src/main/res/layout/activity_select_time.xml" value="0.25" />
         <entry key="..\:/Users/dlaej/Downloads/kotlin_app/Study/app/src/main/res/layout/custom_dialog_date_select.xml" value="0.2233502538071066" />
-        <entry key="..\:/Users/dlaej/Downloads/kotlin_app/Study/app/src/main/res/layout/schedule_item_view.xml" value="0.25" />
+        <entry key="..\:/Users/dlaej/Downloads/kotlin_app/Study/app/src/main/res/layout/schedule_item_view.xml" value="0.7144622991347342" />
         <entry key="..\:/Users/dlaej/Downloads/kotlin_app/Study/app/src/main/res/menu/character_size_settings.xml" value="0.221889696451475" />
         <entry key="..\:/Users/dlaej/Downloads/kotlin_app/Study/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1855" />
       </map>

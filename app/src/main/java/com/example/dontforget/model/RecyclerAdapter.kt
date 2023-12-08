@@ -51,10 +51,10 @@ class RecyclerAdapter(private val scheduleList: List<ScheduleModel>,
                 if(schedule.scheduleTime>=1){
                     var currentTime=DayCalculation().getCurrentDateMillis()
                     val Dday=DayCalculation().calculationDday(schedule.scheduleTime,currentTime)
-                    scheduleDate.text = Dday.toString()
+                    ddayCounter.text = Dday.toString()
                 }
                 else{
-                    scheduleDate.text=""
+                    ddayCounter.text=""
                 }
 
                 itemView.setOnClickListener {

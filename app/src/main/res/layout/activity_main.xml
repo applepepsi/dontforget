@@ -29,7 +29,7 @@
         android:id="@+id/scheduleViewer"
         android:layout_width="409dp"
         android:layout_height="650dp"
-        android:background="#ffffff"
+        android:background="#E3E3E3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
