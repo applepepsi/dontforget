@@ -27,7 +27,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/scheduleViewer"
-        android:layout_width="409dp"
+        android:layout_width="match_parent"
         android:layout_height="650dp"
         android:background="#E3E3E3"
         app:layout_constraintEnd_toEndOf="parent"

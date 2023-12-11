@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.scheduleViewer.adapter=scheduleAdapter
         binding.scheduleViewer.layoutManager=LinearLayoutManager(this@MainActivity)
-        binding.scheduleViewer.addItemDecoration(ItemSpacingController(20))
+        binding.scheduleViewer.addItemDecoration(ItemSpacingController(10))
 
         val itemTouchHelper = ItemTouchHelper(SwipeToDeleteCallback(object : SwipeToDeleteCallback.OnSwipeListener {
             override fun onSwipe(position: Int) {

@@ -3,6 +3,7 @@ package com.example.dontforget.model
 
 
 import android.content.Context
+import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,7 +43,7 @@ class RecyclerAdapter(private val scheduleList: List<ScheduleModel>,
 
         fun bind(schedule: ScheduleModel, scheduleClickListener: ScheduleClickListener) {
             with(binding) {
-                scheduleNo.text = "${schedule.id}"
+//                scheduleNo.text = "${schedule.id}"
                 scheduleInfo.text = schedule.scheduleText
 
                 scheduleInfo.textSize=schedule.textSize
