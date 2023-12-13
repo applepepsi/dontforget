@@ -11,43 +11,45 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
+        <TextView
             android:id="@+id/frameTop"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:background="@drawable/group_8_top"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.9"
-            app:srcCompat="@drawable/schedule_frame_top" />
+            app:layout_constraintWidth_percent="0.9" />
 
         <ImageView
             android:id="@+id/calendar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="5dp"
             app:layout_constraintStart_toStartOf="@+id/frameTop"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/calendar_icon" />
+
         <TextView
             android:id="@+id/scheduleDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="5dp"
             android:text="xxxx년xx월xx일"
             android:textSize="8dp"
             app:layout_constraintStart_toEndOf="@+id/calendar"
             app:layout_constraintTop_toTopOf="parent" />
+
         <ImageView
             android:id="@+id/ddayIcon"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
             android:layout_marginEnd="5dp"
             app:layout_constraintEnd_toEndOf="@+id/frameTop"
-            app:layout_constraintHorizontal_bias="0.987"
+            app:layout_constraintHorizontal_bias="0.902"
             app:layout_constraintStart_toEndOf="@+id/scheduleDate"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/dday_icon" />
@@ -67,13 +69,18 @@
             android:id="@+id/scheduleInfo"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:background="@drawable/schedule_frame_bottom3"
-            android:padding="10dp"
+            android:background="@drawable/group_8_bottom"
+
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.512"
+
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/frameTop"
             app:layout_constraintWidth_percent="0.9" />
-//todo:그림자 넣기
+
+        //todo:그림자 넣기
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
 </LinearLayout>
