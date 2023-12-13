@@ -57,6 +57,7 @@ class RecyclerAdapter(private val scheduleList: List<ScheduleModel>,
                 else{
                     ddayCounter.text=""
                 }
+                scheduleDate.text=schedule.scheduleDate
 
                 itemView.setOnClickListener {
                     scheduleClickListener.onClick(schedule)

@@ -57,8 +57,10 @@ class EnterSchedule : AppCompatActivity() {
         binding.scheduleInputComplete.setOnClickListener {
             if (scheduleDate != null) {
 //               val DdayCalculation = ((scheduleDate!!.toLong()) - currentDate) / (24*60*60*1000)
-                enterScheduleIntent.putExtra("scheduleTime", scheduleDate)
+                enterScheduleIntent.putExtra("scheduleDate", binding.setDate.getText().toString())
+                enterScheduleIntent.putExtra("scheduleDDay", scheduleDate)
             }
+
             enterScheduleIntent.putExtra("textSize", textSize)
             enterScheduleIntent.putExtra("scheduleText", binding.scheduleText.text.toString())
             setResult(RESULT_OK, enterScheduleIntent)

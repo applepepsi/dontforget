@@ -108,8 +108,10 @@ class MainActivity : AppCompatActivity() {
                         .setNeutralButton("수정하기", DialogInterface.OnClickListener { dialog, _ ->
                             val modifyValue = Intent(this@MainActivity, ModifySchedule::class.java)
                             modifyValue.putExtra("scheduleText", schedule.scheduleText)
-                            modifyValue.putExtra("scheduleTime", schedule.scheduleTime)
+                            modifyValue.putExtra("scheduleDDay", schedule.scheduleTime)
+                            modifyValue.putExtra("scheduleDate", schedule.scheduleDate)
                             modifyValue.putExtra("textSize", schedule.textSize)
+
                             modifyActivityResult.launch(modifyValue)
                         })
                         .setNegativeButton("취소", DialogInterface.OnClickListener { dialog, _ ->
@@ -129,12 +131,13 @@ class MainActivity : AppCompatActivity() {
                 val data: Intent? = result.data
 
                 val scheduleText=data?.getStringExtra("scheduleText")
-                val scheduleTime=data?.getLongExtra("scheduleTime",0)
+                val scheduleDDay=data?.getLongExtra("scheduleDDay",0)
+                val scheduleDate=data?.getStringExtra("scheduleDate")
                 val textSize=data?.getFloatExtra("textSize",15f)
 
                 if(scheduleText!=null) {
                     lifecycleScope.launch(Dispatchers.IO) {
-                        val schedule = ScheduleModel(id = null, scheduleText, scheduleTime!!, textSize!!)
+                        val schedule = ScheduleModel(id = null, scheduleText, scheduleDDay!!, textSize!!,scheduleDate!!)
                         scheduleDao.insertSchedule(schedule)
                         withContext(Dispatchers.Main) {
                             refreshAdapter()
@@ -149,14 +152,14 @@ class MainActivity : AppCompatActivity() {
             if (result.resultCode == Activity.RESULT_OK) {
                 val data: Intent? = result.data
                 val modifyText = data?.getStringExtra("modifyText")
-                val modifyTime = data?.getLongExtra("scheduleTime", 0)
+                val modifyScheduleDDay = data?.getLongExtra("scheduleDDay", 0)
                 val modifyTextSize = data?.getFloatExtra("textSize", 15f)
-                Log.d("받은 스케쥴타임", modifyTime.toString())
-                Log.d("받은 텍스트", modifyText!!)
+                val modifyScheduleDate=data?.getStringExtra("scheduleDate")
+
                 if (currentSchedule != null) {
                     lifecycleScope.launch(Dispatchers.IO) {
                         val modifySchedule =
-                            ScheduleModel(currentSchedule!!.id, modifyText, modifyTime!!, modifyTextSize!!)
+                            ScheduleModel(currentSchedule!!.id, modifyText!!, modifyScheduleDDay!!, modifyTextSize!!,modifyScheduleDate!!)
                         scheduleDao.updateSchedule(modifySchedule)
                         withContext(Dispatchers.Main) {
                             refreshAdapter()

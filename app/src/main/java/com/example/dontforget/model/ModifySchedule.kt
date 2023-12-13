@@ -19,21 +19,27 @@ import com.example.dontforget.model.db.ScheduleModel
 
 class ModifySchedule : AppCompatActivity() {
     val binding by lazy{ ActivityModifyScheduleBinding.inflate(layoutInflater)}
-    private var textSize: Float = 0f
+    private var modifyTextSize: Float = 0f
 
-    private var scheduleDate: Long? = null
+    private var modifyScheduleDDay: Long? = null
+
+    private var modifyScheduleDate:String?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
         val scheduleText = intent.getStringExtra("scheduleText")
-        var modifyScheduleDate = intent.getLongExtra("scheduleTime",0)
-        val modifyTextSize=intent.getFloatExtra("textSize",15f)
+        var scheduleDDay = intent.getLongExtra("scheduleDDay",0)
+        val textSize=intent.getFloatExtra("textSize",15f)
+        val scheduleDate=intent.getStringExtra("scheduleDate")
 
         if (scheduleText != null) {
             binding.scheduleText.setText(scheduleText)
-            binding.scheduleText.setTextSize(modifyTextSize)
+            binding.scheduleText.setTextSize(textSize)
+        }
+        if(scheduleDDay!=null){
+            binding.setDate.setText(scheduleDate)
         }
 
         binding.characterSizeChange.setOnClickListener { view ->
@@ -41,7 +47,7 @@ class ModifySchedule : AppCompatActivity() {
             popupMenu.inflate(R.menu.character_size_settings)
 
             popupMenu.setOnMenuItemClickListener { menuItem ->
-                textSize = when (menuItem.itemId) {
+                modifyTextSize = when (menuItem.itemId) {
                     R.id.size15 -> 15f
                     R.id.size20 -> 20f
                     R.id.size25 -> 25f
@@ -50,9 +56,9 @@ class ModifySchedule : AppCompatActivity() {
                     R.id.size40 -> 40f
                     R.id.size45 -> 45f
                     R.id.size50 -> 50f
-                    else -> modifyTextSize
+                    else -> textSize
                 }
-                binding.scheduleText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize)
+                binding.scheduleText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, modifyTextSize)
 
                 true
             }
@@ -67,19 +73,22 @@ class ModifySchedule : AppCompatActivity() {
 
         val modifyIntent = Intent(this, MainActivity::class.java)
         binding.modifyScheduleButton.setOnClickListener {
-            if (scheduleDate != null) {
+            if (modifyScheduleDDay != null) {
 //                val DdayCalculation = ((scheduleDate!!.toLong()) - currentDate) / (24*60*60*1000)
-                modifyIntent.putExtra("scheduleTime", scheduleDate)
+                modifyIntent.putExtra("scheduleDDay", modifyScheduleDDay)
+                modifyIntent.putExtra("scheduleDate",binding.setDate.getText().toString())
             }
             else{
-                modifyIntent.putExtra("scheduleTime", modifyScheduleDate)
+                modifyIntent.putExtra("scheduleDDay", scheduleDDay)
+                modifyIntent.putExtra("scheduleDate",scheduleDate)
             }
-            if(textSize!=0f){
-                modifyIntent.putExtra("textSize", textSize)
-            }
-            else{
+            if(modifyTextSize!=0f){
                 modifyIntent.putExtra("textSize", modifyTextSize)
             }
+            else{
+                modifyIntent.putExtra("textSize", textSize)
+            }
+
 
 
             modifyIntent.putExtra("modifyText", binding.scheduleText.text.toString())
@@ -102,7 +111,7 @@ class ModifySchedule : AppCompatActivity() {
                 val selectedCalendar = Calendar.getInstance()
                 selectedCalendar.set(year, month, day)
 
-                scheduleDate = selectedCalendar.timeInMillis
+                modifyScheduleDDay = selectedCalendar.timeInMillis
                 binding.setDate.setText("${year}년${month+1}월${day}일")
 
             },
