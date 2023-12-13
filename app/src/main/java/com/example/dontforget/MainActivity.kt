@@ -131,13 +131,13 @@ class MainActivity : AppCompatActivity() {
                 val data: Intent? = result.data
 
                 val scheduleText=data?.getStringExtra("scheduleText")
-                val scheduleDDay=data?.getLongExtra("scheduleDDay",0)
+                val scheduleDateMilli=data?.getLongExtra("scheduleDateMilli",0)
                 val scheduleDate=data?.getStringExtra("scheduleDate")
                 val textSize=data?.getFloatExtra("textSize",15f)
 
                 if(scheduleText!=null) {
                     lifecycleScope.launch(Dispatchers.IO) {
-                        val schedule = ScheduleModel(id = null, scheduleText, scheduleDDay!!, textSize!!,scheduleDate!!)
+                        val schedule = ScheduleModel(id = null, scheduleText, scheduleDateMilli!!, textSize!!,scheduleDate!!)
                         scheduleDao.insertSchedule(schedule)
                         withContext(Dispatchers.Main) {
                             refreshAdapter()
@@ -152,14 +152,14 @@ class MainActivity : AppCompatActivity() {
             if (result.resultCode == Activity.RESULT_OK) {
                 val data: Intent? = result.data
                 val modifyText = data?.getStringExtra("modifyText")
-                val modifyScheduleDDay = data?.getLongExtra("scheduleDDay", 0)
+                val modifyScheduleMilli = data?.getLongExtra("modifyScheduleMilli", 0)
                 val modifyTextSize = data?.getFloatExtra("textSize", 15f)
                 val modifyScheduleDate=data?.getStringExtra("scheduleDate")
 
                 if (currentSchedule != null) {
                     lifecycleScope.launch(Dispatchers.IO) {
                         val modifySchedule =
-                            ScheduleModel(currentSchedule!!.id, modifyText!!, modifyScheduleDDay!!, modifyTextSize!!,modifyScheduleDate!!)
+                            ScheduleModel(currentSchedule!!.id, modifyText!!, modifyScheduleMilli!!, modifyTextSize!!,modifyScheduleDate!!)
                         scheduleDao.updateSchedule(modifySchedule)
                         withContext(Dispatchers.Main) {
                             refreshAdapter()

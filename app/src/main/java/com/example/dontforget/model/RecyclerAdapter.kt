@@ -49,14 +49,22 @@ class RecyclerAdapter(private val scheduleList: List<ScheduleModel>,
                 scheduleInfo.textSize=schedule.textSize
 //                val date = SimpleDateFormat("yyyy/MM/dd hh:mm")
 //                scheduleDate.text = date.format(schedule.scheduleTime)
-                if(schedule.scheduleTime>=1){
+                if(schedule.scheduleTime>=1L){
                     var currentTime=DayCalculation().getCurrentDateMillis()
                     val Dday=DayCalculation().calculationDday(schedule.scheduleTime,currentTime)
-                    ddayCounter.text = Dday.toString()
+                    if(Dday==0L){
+                        ddayCounter.text = "D - Day"
+                    }
+                    else if(Dday!!>=1L)
+                    ddayCounter.text = "D - ${Dday.toString()}"
                 }
                 else{
-                    ddayCounter.text=""
+                    calendar.visibility = View.GONE
+                    scheduleDate.visibility = View.GONE
+                    ddayIcon.visibility = View.GONE
+                    ddayCounter.visibility = View.GONE
                 }
+
                 scheduleDate.text=schedule.scheduleDate
 
                 itemView.setOnClickListener {
@@ -72,3 +80,4 @@ class RecyclerAdapter(private val scheduleList: List<ScheduleModel>,
 }
 
 
+//Todo:내용을 입력하지 않고 날짜만 고르고 메모를 작성하면 출력문제생김

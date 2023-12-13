@@ -18,7 +18,7 @@ import java.util.*
 class EnterSchedule : AppCompatActivity() {
     val binding by lazy{ActivityEnterScheduleBinding.inflate(layoutInflater)}
     private var textSize: Float = 15f
-    private var scheduleDate: Long? = null
+    private var scheduleDateMilli: Long? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,16 +55,24 @@ class EnterSchedule : AppCompatActivity() {
 
         val enterScheduleIntent = Intent(this, MainActivity::class.java)
         binding.scheduleInputComplete.setOnClickListener {
-            if (scheduleDate != null) {
+            if (scheduleDateMilli != null) {
 //               val DdayCalculation = ((scheduleDate!!.toLong()) - currentDate) / (24*60*60*1000)
                 enterScheduleIntent.putExtra("scheduleDate", binding.setDate.getText().toString())
-                enterScheduleIntent.putExtra("scheduleDDay", scheduleDate)
+                enterScheduleIntent.putExtra("scheduleDateMilli", scheduleDateMilli)
+            }
+            else{
+                enterScheduleIntent.putExtra("scheduleDate", "")
+                enterScheduleIntent.putExtra("scheduleDateMilli", 0)
             }
 
             enterScheduleIntent.putExtra("textSize", textSize)
-            enterScheduleIntent.putExtra("scheduleText", binding.scheduleText.text.toString())
-            setResult(RESULT_OK, enterScheduleIntent)
-            finish()
+            if (binding.scheduleText.text.toString() != "") {
+                enterScheduleIntent.putExtra("scheduleText", binding.scheduleText.text.toString())
+                setResult(RESULT_OK, enterScheduleIntent)
+                finish()
+            } else {
+                Toast.makeText(this@EnterSchedule, "메모 내용을 입력해주세요.", Toast.LENGTH_SHORT).show()
+            }
         }
 //      enterScheduleIntent.putExtra("scheduleTime", System.currentTimeMillis())
     }
@@ -77,7 +85,7 @@ class EnterSchedule : AppCompatActivity() {
                 val selectedCalendar = Calendar.getInstance()
                 selectedCalendar.set(year, month, day)
 
-                scheduleDate = selectedCalendar.timeInMillis
+                scheduleDateMilli = selectedCalendar.timeInMillis
                 binding.setDate.setText("${year}년${month+1}월${day}일")
 
             },

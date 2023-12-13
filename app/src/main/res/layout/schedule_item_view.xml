@@ -41,7 +41,7 @@
             app:layout_constraintStart_toEndOf="@+id/calendar"
             app:layout_constraintTop_toTopOf="parent" />
         <ImageView
-            android:id="@+id/dday_icon"
+            android:id="@+id/ddayIcon"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_marginTop="8dp"
@@ -58,10 +58,10 @@
             android:layout_height="wrap_content"
             android:text="4"
             android:textSize="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/dday_icon"
-            app:layout_constraintEnd_toEndOf="@+id/dday_icon"
-            app:layout_constraintStart_toStartOf="@+id/dday_icon"
-            app:layout_constraintTop_toTopOf="@+id/dday_icon" />
+            app:layout_constraintBottom_toBottomOf="@+id/ddayIcon"
+            app:layout_constraintEnd_toEndOf="@+id/ddayIcon"
+            app:layout_constraintStart_toStartOf="@+id/ddayIcon"
+            app:layout_constraintTop_toTopOf="@+id/ddayIcon" />
 
         <TextView
             android:id="@+id/scheduleInfo"

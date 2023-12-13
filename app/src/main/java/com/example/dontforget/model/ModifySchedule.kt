@@ -21,9 +21,8 @@ class ModifySchedule : AppCompatActivity() {
     val binding by lazy{ ActivityModifyScheduleBinding.inflate(layoutInflater)}
     private var modifyTextSize: Float = 0f
 
-    private var modifyScheduleDDay: Long? = null
+    private var modifyScheduleMilli: Long? = null
 
-    private var modifyScheduleDate:String?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,13 +72,13 @@ class ModifySchedule : AppCompatActivity() {
 
         val modifyIntent = Intent(this, MainActivity::class.java)
         binding.modifyScheduleButton.setOnClickListener {
-            if (modifyScheduleDDay != null) {
+            if (modifyScheduleMilli != null) {
 //                val DdayCalculation = ((scheduleDate!!.toLong()) - currentDate) / (24*60*60*1000)
-                modifyIntent.putExtra("scheduleDDay", modifyScheduleDDay)
+                modifyIntent.putExtra("modifyScheduleMilli", modifyScheduleMilli)
                 modifyIntent.putExtra("scheduleDate",binding.setDate.getText().toString())
             }
             else{
-                modifyIntent.putExtra("scheduleDDay", scheduleDDay)
+                modifyIntent.putExtra("modifyScheduleMilli", scheduleDDay)
                 modifyIntent.putExtra("scheduleDate",scheduleDate)
             }
             if(modifyTextSize!=0f){
@@ -111,7 +110,7 @@ class ModifySchedule : AppCompatActivity() {
                 val selectedCalendar = Calendar.getInstance()
                 selectedCalendar.set(year, month, day)
 
-                modifyScheduleDDay = selectedCalendar.timeInMillis
+                modifyScheduleMilli = selectedCalendar.timeInMillis
                 binding.setDate.setText("${year}년${month+1}월${day}일")
 
             },

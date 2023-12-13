@@ -8,12 +8,16 @@ import androidx.room.PrimaryKey
 data class ScheduleModel(
     @PrimaryKey(autoGenerate = true)
     val id: Int? =0,
+
     @ColumnInfo(name="scheduleInfo")
     var scheduleText: String,
+
     @ColumnInfo(name="dateInfo")
     var scheduleTime:Long,
+
     @ColumnInfo(name="textSize")
     var textSize:Float,
+
     @ColumnInfo(name="scheduleDate")
     var scheduleDate:String
 )
