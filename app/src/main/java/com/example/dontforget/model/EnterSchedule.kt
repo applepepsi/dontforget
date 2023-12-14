@@ -1,6 +1,7 @@
 package com.example.dontforget.model
 
 import android.app.DatePickerDialog
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.icu.util.Calendar
 import androidx.appcompat.app.AppCompatActivity
@@ -24,7 +25,7 @@ class EnterSchedule : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        val currentDate = DayCalculation().getCurrentDateMillis()
+        val currentDateMilli = DayCalculation().getCurrentDateMillis()
 
         binding.setDateButton.setOnClickListener {
             showDatePickerDialog()
@@ -56,25 +57,37 @@ class EnterSchedule : AppCompatActivity() {
         val enterScheduleIntent = Intent(this, MainActivity::class.java)
         binding.scheduleInputComplete.setOnClickListener {
             if (scheduleDateMilli != null) {
-//               val DdayCalculation = ((scheduleDate!!.toLong()) - currentDate) / (24*60*60*1000)
-                enterScheduleIntent.putExtra("scheduleDate", binding.setDate.getText().toString())
-                enterScheduleIntent.putExtra("scheduleDateMilli", scheduleDateMilli)
+                if(currentDateMilli<=scheduleDateMilli!!) {
+
+                    enterScheduleIntent.putExtra("scheduleDate", binding.setDate.getText().toString())
+                    enterScheduleIntent.putExtra("scheduleDateMilli", scheduleDateMilli)
+                    enterScheduleIntent.putExtra("textSize", textSize)
+                    if (binding.scheduleText.text.toString() != "") {
+                        enterScheduleIntent.putExtra("scheduleText", binding.scheduleText.text.toString())
+                        setResult(RESULT_OK, enterScheduleIntent)
+                        finish()
+                    } else {
+                        Toast.makeText(this@EnterSchedule, "메모 내용을 입력해주세요.", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                else{
+                    Toast.makeText(this@EnterSchedule, "날짜는 최소 내일로 선택해 주세요.", Toast.LENGTH_SHORT).show()
+                }
+
             }
             else{
                 enterScheduleIntent.putExtra("scheduleDate", "")
                 enterScheduleIntent.putExtra("scheduleDateMilli", 0)
-            }
-
-            enterScheduleIntent.putExtra("textSize", textSize)
-            if (binding.scheduleText.text.toString() != "") {
-                enterScheduleIntent.putExtra("scheduleText", binding.scheduleText.text.toString())
-                setResult(RESULT_OK, enterScheduleIntent)
-                finish()
-            } else {
-                Toast.makeText(this@EnterSchedule, "메모 내용을 입력해주세요.", Toast.LENGTH_SHORT).show()
+                enterScheduleIntent.putExtra("textSize", textSize)
+                if (binding.scheduleText.text.toString() != "") {
+                    enterScheduleIntent.putExtra("scheduleText", binding.scheduleText.text.toString())
+                    setResult(RESULT_OK, enterScheduleIntent)
+                    finish()
+                } else {
+                    Toast.makeText(this@EnterSchedule, "메모 내용을 입력해주세요.", Toast.LENGTH_SHORT).show()
+                }
             }
         }
-//      enterScheduleIntent.putExtra("scheduleTime", System.currentTimeMillis())
     }
     private fun showDatePickerDialog() {
         val cal = Calendar.getInstance()

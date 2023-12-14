@@ -10,6 +10,7 @@ import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.widget.PopupMenu
+import android.widget.Toast
 import com.example.dontforget.MainActivity
 import com.example.dontforget.R
 
@@ -68,31 +69,55 @@ class ModifySchedule : AppCompatActivity() {
             showDatePickerDialog()
         }
 
-        val currentDate = DayCalculation().getCurrentDateMillis()
+        val currentDateMilli = DayCalculation().getCurrentDateMillis()
 
         val modifyIntent = Intent(this, MainActivity::class.java)
         binding.modifyScheduleButton.setOnClickListener {
             if (modifyScheduleMilli != null) {
-//                val DdayCalculation = ((scheduleDate!!.toLong()) - currentDate) / (24*60*60*1000)
-                modifyIntent.putExtra("modifyScheduleMilli", modifyScheduleMilli)
-                modifyIntent.putExtra("scheduleDate",binding.setDate.getText().toString())
+                if(currentDateMilli<=modifyScheduleMilli!!){
+                    modifyIntent.putExtra("modifyScheduleMilli", modifyScheduleMilli)
+                    modifyIntent.putExtra("scheduleDate",binding.setDate.getText().toString())
+                    if(binding.scheduleText.text.toString()!=""){
+                        modifyIntent.putExtra("modifyText", binding.scheduleText.text.toString())
+                        if(modifyTextSize!=0f){
+                            modifyIntent.putExtra("textSize", modifyTextSize)
+                            setResult(RESULT_OK, modifyIntent)
+                            finish()
+                        }
+                        else{
+                            modifyIntent.putExtra("textSize", textSize)
+                            setResult(RESULT_OK, modifyIntent)
+                            finish()
+                        }
+                    }
+                    else{
+                        Toast.makeText(this@ModifySchedule, "메모 내용을 입력해주세요.", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                else{
+                    Toast.makeText(this@ModifySchedule, "날짜는 최소 내일로 선택해 주세요.", Toast.LENGTH_SHORT).show()
+                }
             }
             else{
                 modifyIntent.putExtra("modifyScheduleMilli", scheduleDDay)
                 modifyIntent.putExtra("scheduleDate",scheduleDate)
+                if(binding.scheduleText.text.toString()!=""){
+                    modifyIntent.putExtra("modifyText", binding.scheduleText.text.toString())
+                    if(modifyTextSize!=0f){
+                        modifyIntent.putExtra("textSize", modifyTextSize)
+                        setResult(RESULT_OK, modifyIntent)
+                        finish()
+                    }
+                    else{
+                        modifyIntent.putExtra("textSize", textSize)
+                        setResult(RESULT_OK, modifyIntent)
+                        finish()
+                    }
+                }
+                else{
+                    Toast.makeText(this@ModifySchedule, "메모 내용을 입력해주세요.", Toast.LENGTH_SHORT).show()
+                }
             }
-            if(modifyTextSize!=0f){
-                modifyIntent.putExtra("textSize", modifyTextSize)
-            }
-            else{
-                modifyIntent.putExtra("textSize", textSize)
-            }
-
-
-
-            modifyIntent.putExtra("modifyText", binding.scheduleText.text.toString())
-            setResult(RESULT_OK, modifyIntent)
-            finish()
         }
 
 //        binding.modifyScheduleButton.setOnClickListener{

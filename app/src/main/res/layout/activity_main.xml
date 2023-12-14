@@ -4,38 +4,59 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#E3E3E3"
     tools:context=".MainActivity">
-
-    <Button
-        android:id="@+id/CreateScheduleButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="일정 생성"
-        app:layout_constraintEnd_toStartOf="@+id/OptionsButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scheduleViewer" />
-
-    <Button
-        android:id="@+id/OptionsButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="145dp"
-        android:text="옵션"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/CreateScheduleButton"
-        app:layout_constraintTop_toBottomOf="@+id/scheduleViewer" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/scheduleViewer"
         android:layout_width="match_parent"
-        android:layout_height="650dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="40dp"
         android:background="#E3E3E3"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/up_bar" />
 
-<!--        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
+    <ImageButton
+        android:id="@+id/CreateScheduleButton"
+        android:layout_width="39dp"
+        android:layout_height="29dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="8dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toTopOf="@+id/scheduleViewer"
+        app:layout_constraintEnd_toStartOf="@+id/OptionsButton"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/write_icon" />
+
+    <ImageButton
+        android:id="@+id/OptionsButton"
+        android:layout_width="39dp"
+        android:layout_height="29dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="12dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView5"
+        app:layout_constraintEnd_toEndOf="@+id/imageView5"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.25"
+        app:srcCompat="@drawable/option_icon" />
+
+    <!--        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
 <!--        tools:listitem="@layout/schedule_item_view"-->
 <!--        />-->
 

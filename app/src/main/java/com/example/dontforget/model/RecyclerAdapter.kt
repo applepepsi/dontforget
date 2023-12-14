@@ -58,12 +58,7 @@ class RecyclerAdapter(private val scheduleList: List<ScheduleModel>,
                     else if(Dday!!>=1L)
                     ddayCounter.text = "D - ${Dday.toString()}"
                 }
-                else{
-                    calendar.visibility = View.GONE
-                    scheduleDate.visibility = View.GONE
-                    ddayIcon.visibility = View.GONE
-                    ddayCounter.visibility = View.GONE
-                }
+
 
                 scheduleDate.text=schedule.scheduleDate
 
