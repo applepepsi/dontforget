@@ -58,6 +58,9 @@ class RecyclerAdapter(private val scheduleList: List<ScheduleModel>,
                     else if(Dday!!>=1L)
                     ddayCounter.text = "D - ${Dday.toString()}"
                 }
+//                else if(schedule.scheduleTime<=1L){
+//                    ddayCounter.text=""
+//                }
 
 
                 scheduleDate.text=schedule.scheduleDate
