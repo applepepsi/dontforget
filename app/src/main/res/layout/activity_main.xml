@@ -35,6 +35,7 @@
         android:layout_height="29dp"
         android:layout_marginTop="3dp"
         android:layout_marginBottom="8dp"
+
         android:background="@android:color/transparent"
         app:layout_constraintBottom_toTopOf="@+id/scheduleViewer"
         app:layout_constraintEnd_toStartOf="@+id/OptionsButton"

@@ -74,6 +74,7 @@
         android:elevation="20dp"
         android:paddingTop="30dp"
         android:scaleType="centerCrop"
+
         app:layout_constraintBottom_toTopOf="@+id/scheduleText"
         app:layout_constraintStart_toEndOf="@+id/setDateBar"
         app:layout_constraintTop_toTopOf="parent"
@@ -110,7 +111,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
-        android:text="dwdwdwdw"
         android:textSize="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/frameTop"
         app:layout_constraintEnd_toEndOf="parent"

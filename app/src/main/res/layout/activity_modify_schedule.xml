@@ -10,7 +10,6 @@
         android:id="@+id/timeModifyButton"
         android:layout_width="89dp"
         android:layout_height="30dp"
-        android:text="wdwdw"
         app:layout_constraintBottom_toBottomOf="@+id/setDateBar"
         app:layout_constraintEnd_toEndOf="@+id/setDateBar"
         app:layout_constraintStart_toStartOf="@+id/setDateBar"
@@ -22,6 +21,7 @@
         android:layout_height="66dp"
         android:layout_marginTop="30dp"
         android:background="@android:color/transparent"
+
         android:elevation="20dp"
         android:paddingTop="20dp"
         android:scaleType="centerCrop"
