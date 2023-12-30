@@ -52,11 +52,12 @@ class RecyclerAdapter(private val scheduleList: List<ScheduleModel>,
                 if(schedule.scheduleTime>=1L){
                     var currentTime=DayCalculation().getCurrentDateMillis()
                     val Dday=DayCalculation().calculationDday(schedule.scheduleTime,currentTime)
-                    if(Dday==0L){
+                    if(Dday!!>=1L){
+                        ddayCounter.text = "D - ${Dday.toString()}"
+                    }
+                    else{
                         ddayCounter.text = "D - Day"
                     }
-                    else if(Dday!!>=1L)
-                    ddayCounter.text = "D - ${Dday.toString()}"
                 }
 //                else if(schedule.scheduleTime<=1L){
 //                    ddayCounter.text=""
