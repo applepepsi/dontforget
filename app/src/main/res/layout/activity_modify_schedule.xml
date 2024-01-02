@@ -3,8 +3,37 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="#E3E3E3"
     android:layout_height="match_parent"
     tools:context=".model.ModifySchedule">
+
+
+    <ImageView
+        android:id="@+id/up_bar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/up_bar" />
+
+    <ImageButton
+        android:id="@+id/back_button"
+        android:layout_width="23dp"
+        android:layout_height="18dp"
+        android:layout_marginTop="7dp"
+        android:background="@android:color/transparent"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toTopOf="@+id/setDateBar"
+        app:layout_constraintEnd_toEndOf="@+id/up_bar"
+        app:layout_constraintHorizontal_bias="0.028"
+        app:layout_constraintStart_toStartOf="@+id/up_bar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/back_button" />
+
 
     <ImageButton
         android:id="@+id/timeModifyButton"

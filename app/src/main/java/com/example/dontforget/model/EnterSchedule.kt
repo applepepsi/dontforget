@@ -54,6 +54,10 @@ class EnterSchedule : AppCompatActivity() {
             popupMenu.show()
         }
 
+        binding.backButton.setOnClickListener{
+            finish()
+        }
+
         val enterScheduleIntent = Intent(this, MainActivity::class.java)
         binding.scheduleInputComplete.setOnClickListener {
             if (scheduleDateMilli != null) {

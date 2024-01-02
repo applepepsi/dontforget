@@ -69,6 +69,10 @@ class ModifySchedule : AppCompatActivity() {
             showDatePickerDialog()
         }
 
+        binding.backButton.setOnClickListener{
+            finish()
+        }
+
         val currentDateMilli = DayCalculation().getCurrentDateMillis()
 
         val modifyIntent = Intent(this, MainActivity::class.java)
