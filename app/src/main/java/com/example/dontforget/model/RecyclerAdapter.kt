@@ -3,6 +3,7 @@ package com.example.dontforget.model
 
 
 import android.content.Context
+import android.graphics.Color
 import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
@@ -52,11 +53,15 @@ class RecyclerAdapter(private val scheduleList: List<ScheduleModel>,
                 if(schedule.scheduleTime>=1L){
                     var currentTime=DayCalculation().getCurrentDateMillis()
                     val Dday=DayCalculation().calculationDday(schedule.scheduleTime,currentTime)
-                    if(Dday!!>=1L){
+                    if(Dday!!>1L){
                         ddayCounter.text = "D - ${Dday.toString()}"
                     }
-                    else{
+                    else if(Dday==1L){
                         ddayCounter.text = "D - Day"
+                        ddayCounter.setTextColor(Color.parseColor("#BE2E22"))
+                    }
+                    else{
+                        ddayCounter.text="만료"
                     }
                 }
 //                else if(schedule.scheduleTime<=1L){
