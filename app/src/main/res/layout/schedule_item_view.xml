@@ -39,8 +39,10 @@
             android:id="@+id/scheduleDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+
             android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
+            android:fontFamily="@font/inriasans_bold"
             android:textSize="8dp"
             app:layout_constraintStart_toEndOf="@+id/calendar"
             app:layout_constraintTop_toTopOf="parent" />
@@ -62,6 +64,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="8dp"
+            android:fontFamily="@font/inriasans_regular"
             app:layout_constraintBottom_toBottomOf="@+id/ddayIcon"
             app:layout_constraintEnd_toEndOf="@+id/ddayIcon"
             app:layout_constraintStart_toStartOf="@+id/ddayIcon"
@@ -73,6 +76,7 @@
             android:layout_height="match_parent"
             android:layout_marginEnd="1dp"
             android:background="@drawable/frame_bottom"
+            android:fontFamily="@font/inriasans_regular"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.512"
             app:layout_constraintStart_toStartOf="parent"
