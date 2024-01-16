@@ -17,15 +17,16 @@ class DayCalculation {
         calendar.set(year, month, day, 0, 0, 0)
 
         return calendar.timeInMillis
+//        return Calendar.getInstance().getTimeInMillis()
     }
-
-    fun calculationDday(scheduleDate:Long?,currentDate:Long):Long?{
+    fun calculationDday(scheduleDate: Long?, currentDate: Long): Long? {
         var DdayCalculation: Long? = null
-        if(scheduleDate!=null){
-            DdayCalculation = ((scheduleDate.toLong()) - currentDate) / (24*60*60*1000)
+        if (scheduleDate != null) {
+            DdayCalculation = (scheduleDate - currentDate) / (24 * 60 * 60 * 1000)
         }
         return DdayCalculation
     }
+
 //    val DdayCalculation = ((scheduleDate!!.toLong()) - currentDate) / (24*60*60*1000)
 
 }

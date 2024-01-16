@@ -137,7 +137,7 @@ class ModifySchedule : AppCompatActivity() {
             this,
             { _, year, month, day ->
                 val selectedCalendar = Calendar.getInstance()
-                selectedCalendar.set(year, month, day)
+                selectedCalendar.set(year, month, day,0,0,0)
 
                 modifyScheduleMilli = selectedCalendar.timeInMillis
                 binding.setDate.setText("${year}년${month+1}월${day}일")
