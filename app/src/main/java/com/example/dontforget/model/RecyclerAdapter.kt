@@ -45,19 +45,18 @@ class RecyclerAdapter(private val scheduleList: List<ScheduleModel>,
 
         fun bind(schedule: ScheduleModel, scheduleClickListener: ScheduleClickListener) {
             with(binding) {
-//                scheduleNo.text = "${schedule.id}"
+
                 scheduleInfo.text = schedule.scheduleText
 
                 scheduleInfo.textSize=schedule.textSize
-//                val date = SimpleDateFormat("yyyy/MM/dd hh:mm")
-//                scheduleDate.text = date.format(schedule.scheduleTime)
+
+                //만약 사용자가 설정한 시간이 1이상으로 설정됐다면
                 if(schedule.scheduleTime>=1L){
                     var currentTime=DayCalculation().getCurrentDateMillis()
                     val Dday=DayCalculation().calculationDday(schedule.scheduleTime,currentTime)
-                    Log.d("데이", Dday.toString())
-                    Log.d("지정시간", schedule.scheduleTime.toString())
-                    Log.d("현재시간", currentTime.toString())
-                    if(Dday!!>0L){
+
+                    //Dday를 계산했을때의 if문
+                   if(Dday!!>0L){
                         ddayCounter.text = "D - ${Dday.toString()}"
                     }
                     else if(Dday==0L){
@@ -67,10 +66,6 @@ class RecyclerAdapter(private val scheduleList: List<ScheduleModel>,
                         ddayCounter.text="만료"
                     }
                 }
-//                else if(schedule.scheduleTime<=1L){
-//                    ddayCounter.text=""
-//                }
-
 
                 scheduleDate.text=schedule.scheduleDate
 

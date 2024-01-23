@@ -46,9 +46,9 @@
 
     <ImageButton
         android:id="@+id/CreateScheduleButton"
-        android:layout_width="39dp"
-        android:layout_height="29dp"
-        android:layout_marginTop="3dp"
+        android:layout_width="46dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="5dp"
         android:layout_marginBottom="8dp"
         android:background="@android:color/transparent"
         app:layout_constraintBottom_toTopOf="@+id/scheduleViewer"
