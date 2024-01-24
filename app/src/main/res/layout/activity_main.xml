@@ -8,7 +8,6 @@
     tools:context=".MainActivity">
 
 
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/scheduleViewer"
         android:layout_width="match_parent"
@@ -23,20 +22,21 @@
     <ImageView
         android:id="@+id/imageView5"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginTop="-10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/up_bar" />
+        android:background="@drawable/up_bar_vector"
+        />
 
     <ImageView
         android:id="@+id/setDate"
-        android:layout_width="119dp"
-        android:layout_height="19dp"
+        android:layout_width="123dp"
+        android:layout_height="24dp"
         android:layout_marginStart="5dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="8dp"
         android:scaleType="fitCenter "
         app:layout_constraintBottom_toBottomOf="@+id/imageView5"
         app:layout_constraintStart_toStartOf="@+id/imageView5"
@@ -46,11 +46,13 @@
 
     <ImageButton
         android:id="@+id/CreateScheduleButton"
-        android:layout_width="46dp"
-        android:layout_height="35dp"
-        android:layout_marginTop="5dp"
+        android:layout_width="26dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="5dp"
         android:layout_marginBottom="8dp"
         android:background="@android:color/transparent"
+        android:scaleType="fitCenter "
         app:layout_constraintBottom_toTopOf="@+id/scheduleViewer"
         app:layout_constraintEnd_toEndOf="@+id/imageView5"
         app:layout_constraintTop_toTopOf="parent"

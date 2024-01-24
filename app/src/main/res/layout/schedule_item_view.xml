@@ -11,14 +11,13 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
         android:paddingTop="20dp"
         >
 
         <TextView
             android:id="@+id/frameTop"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="30dp"
             android:background="@drawable/frame_top"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -27,10 +26,10 @@
 
         <ImageView
             android:id="@+id/calendar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="28dp"
-            android:layout_marginTop="5dp"
+            android:layout_width="19dp"
+            android:layout_height="21dp"
+            android:layout_marginStart="26dp"
+            android:layout_marginTop="4dp"
             app:layout_constraintStart_toStartOf="@+id/frameTop"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/calendar_icon" />
@@ -41,9 +40,9 @@
             android:layout_height="wrap_content"
 
             android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="8dp"
             android:fontFamily="@font/inriasans_bold"
-            android:textSize="8dp"
+            android:textSize="12dp"
             app:layout_constraintStart_toEndOf="@+id/calendar"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -63,7 +62,7 @@
             android:id="@+id/ddayCounter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="8dp"
+            android:textSize="12dp"
             android:fontFamily="@font/inriasans_regular"
             app:layout_constraintBottom_toBottomOf="@+id/ddayIcon"
             app:layout_constraintEnd_toEndOf="@+id/ddayIcon"

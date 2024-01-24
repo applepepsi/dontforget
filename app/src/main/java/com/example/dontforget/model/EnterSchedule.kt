@@ -45,6 +45,7 @@ class EnterSchedule : AppCompatActivity() {
                     R.id.size40 -> 40f
                     R.id.size45 -> 45f
                     R.id.size50 -> 50f
+
                     else -> 15f
                 }
                 binding.scheduleText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize)
@@ -103,7 +104,7 @@ class EnterSchedule : AppCompatActivity() {
                 selectedCalendar.set(year, month, day)
 
                 scheduleDateMilli = selectedCalendar.timeInMillis
-                binding.setDate.setText("${year}년${month+1}월${day}일")
+                binding.setDate.setText("${year}년 ${month+1}월 ${day}일")
 
             },
             cal.get(Calendar.YEAR),

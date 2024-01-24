@@ -25,5 +25,4 @@
         android:id="@+id/size50"
         android:title="50 크기" />
 
-
 </menu>

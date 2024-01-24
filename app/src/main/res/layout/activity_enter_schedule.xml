@@ -10,27 +10,26 @@
     <ImageView
         android:id="@+id/up_bar"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginTop="-10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/up_bar" />
+        android:background="@drawable/up_bar_vector"
+         />
 
     <ImageButton
         android:id="@+id/back_button"
         android:layout_width="23dp"
         android:layout_height="18dp"
-        android:layout_marginTop="7dp"
+        android:layout_marginBottom="20dp"
         android:background="@android:color/transparent"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toTopOf="@+id/setDateBar"
         app:layout_constraintEnd_toEndOf="@+id/up_bar"
         app:layout_constraintHorizontal_bias="0.028"
         app:layout_constraintStart_toStartOf="@+id/up_bar"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/back_button" />
 
     <ImageButton
@@ -48,7 +47,8 @@
         android:id="@+id/setDateBar"
         android:layout_width="112dp"
         android:layout_height="66dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="48dp"
         android:background="@android:color/transparent"
         android:elevation="20dp"
         android:paddingTop="20dp"
@@ -57,7 +57,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/select_date_button" />
-
 
     <ImageButton
         android:id="@+id/scheduleInputComplete"
@@ -76,8 +75,8 @@
         android:id="@+id/scheduleInputCompleteIcon"
         android:layout_width="116dp"
         android:layout_height="67dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="12dp"
         android:layout_marginBottom="61dp"
         android:background="@android:color/transparent"
         android:elevation="20dp"
@@ -93,8 +92,8 @@
         android:id="@+id/characterSizeChangeIcon"
         android:layout_width="115dp"
         android:layout_height="66dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="48dp"
         android:layout_marginBottom="56dp"
         android:background="@android:color/transparent"
         android:elevation="20dp"
@@ -123,7 +122,7 @@
     <TextView
         android:id="@+id/frameTop"
         android:layout_width="0dp"
-        android:layout_height="20dp"
+        android:layout_height="30dp"
         android:layout_marginTop="124dp"
         android:background="@drawable/frame_top"
         app:layout_constraintEnd_toEndOf="parent"
@@ -136,20 +135,21 @@
         android:id="@+id/setDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:text="날짜 미선택"
-        android:textSize="8dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginBottom="7dp"
         android:fontFamily="@font/inriasans_bold"
+        android:text="날짜 미선택"
+        android:textSize="12dp"
         app:layout_constraintBottom_toBottomOf="@+id/frameTop"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.016"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/calendar" />
 
     <ImageView
         android:id="@+id/calendar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_width="23dp"
+        android:layout_height="19dp"
+        android:layout_marginStart="28dp"
         android:layout_marginTop="5dp"
         app:layout_constraintBottom_toBottomOf="@+id/frameTop"
         app:layout_constraintStart_toStartOf="@+id/frameTop"
@@ -164,6 +164,7 @@
         android:layout_marginEnd="3dp"
         android:background="@drawable/frame_bottom"
         android:gravity="top"
+        android:textSize="20dp"
         android:hint="할 일을 입력해 주세요."
         android:fontFamily="@font/inriasans_regular"
         app:layout_constraintEnd_toEndOf="parent"
