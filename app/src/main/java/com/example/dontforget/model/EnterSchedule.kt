@@ -27,6 +27,8 @@ class EnterSchedule : AppCompatActivity() {
         setContentView(binding.root)
         val currentDateMilli = DayCalculation().getCurrentDateMillis()
 
+        bottomNavigation()
+
         binding.setDateButton.setOnClickListener {
             showDatePickerDialog()
         }
@@ -49,7 +51,6 @@ class EnterSchedule : AppCompatActivity() {
                     else -> 15f
                 }
                 binding.scheduleText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize)
-
                 true
             }
             popupMenu.show()
@@ -113,6 +114,48 @@ class EnterSchedule : AppCompatActivity() {
         )
 
         datePickerDialog.show()
+    }
+
+    private fun bottomNavigation(){
+        binding.bottomNavigationView.setOnItemSelectedListener { item->
+            when(item.itemId){
+                R.id.selectDate->{
+                    showDatePickerDialog()
+                    true
+                }
+                R.id.textSize->{
+
+
+                    showTextSizeChangePopUp()
+                    true
+                }
+                else -> false
+            }
+        }
+    }
+
+
+    private fun showTextSizeChangePopUp(){
+        val popupMenu = PopupMenu(this, binding.bottomNavigationView)
+        popupMenu.inflate(R.menu.character_size_settings)
+
+        popupMenu.setOnMenuItemClickListener { menuItem ->
+            textSize = when (menuItem.itemId) {
+                R.id.size15 -> 15f
+                R.id.size20 -> 20f
+                R.id.size25 -> 25f
+                R.id.size30 -> 30f
+                R.id.size35 -> 35f
+                R.id.size40 -> 40f
+                R.id.size45 -> 45f
+                R.id.size50 -> 50f
+
+                else -> 15f
+            }
+            binding.scheduleText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize)
+            true
+        }
+        popupMenu.show()
     }
 
 }

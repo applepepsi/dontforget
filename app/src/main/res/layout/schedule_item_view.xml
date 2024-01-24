@@ -26,20 +26,20 @@
 
         <ImageView
             android:id="@+id/calendar"
-            android:layout_width="19dp"
-            android:layout_height="21dp"
-            android:layout_marginStart="26dp"
-            android:layout_marginTop="4dp"
+            android:layout_width="16dp"
+            android:layout_height="19dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="6dp"
             app:layout_constraintStart_toStartOf="@+id/frameTop"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/calendar_icon" />
+            app:srcCompat="@drawable/calendar_icon2" />
 
         <TextView
             android:id="@+id/scheduleDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="3dp"
             android:layout_marginTop="8dp"
             android:fontFamily="@font/inriasans_bold"
             android:textSize="12dp"
