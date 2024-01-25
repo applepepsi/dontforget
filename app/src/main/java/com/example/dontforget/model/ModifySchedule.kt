@@ -34,6 +34,8 @@ class ModifySchedule : AppCompatActivity() {
         val textSize=intent.getFloatExtra("textSize",15f)
         val scheduleDate=intent.getStringExtra("scheduleDate")
 
+        bottomNavigation()
+
         if (scheduleText != null) {
             binding.scheduleText.setText(scheduleText)
             binding.scheduleText.setTextSize(textSize)
@@ -41,33 +43,33 @@ class ModifySchedule : AppCompatActivity() {
         if(scheduleDDay!=null){
             binding.setDate.setText(scheduleDate)
         }
+//
+//        binding.characterSizeChange.setOnClickListener { view ->
+//            val popupMenu = PopupMenu(this, view)
+//            popupMenu.inflate(R.menu.character_size_settings)
+//
+//            popupMenu.setOnMenuItemClickListener { menuItem ->
+//                modifyTextSize = when (menuItem.itemId) {
+//                    R.id.size15 -> 15f
+//                    R.id.size20 -> 20f
+//                    R.id.size25 -> 25f
+//                    R.id.size30 -> 30f
+//                    R.id.size35 -> 35f
+//                    R.id.size40 -> 40f
+//                    R.id.size45 -> 45f
+//                    R.id.size50 -> 50f
+//                    else -> textSize
+//                }
+//                binding.scheduleText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, modifyTextSize)
+//
+//                true
+//            }
+//            popupMenu.show()
+//        }
 
-        binding.characterSizeChange.setOnClickListener { view ->
-            val popupMenu = PopupMenu(this, view)
-            popupMenu.inflate(R.menu.character_size_settings)
-
-            popupMenu.setOnMenuItemClickListener { menuItem ->
-                modifyTextSize = when (menuItem.itemId) {
-                    R.id.size15 -> 15f
-                    R.id.size20 -> 20f
-                    R.id.size25 -> 25f
-                    R.id.size30 -> 30f
-                    R.id.size35 -> 35f
-                    R.id.size40 -> 40f
-                    R.id.size45 -> 45f
-                    R.id.size50 -> 50f
-                    else -> textSize
-                }
-                binding.scheduleText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, modifyTextSize)
-
-                true
-            }
-            popupMenu.show()
-        }
-
-        binding.timeModifyButton.setOnClickListener {
-            showDatePickerDialog()
-        }
+//        binding.timeModifyButton.setOnClickListener {
+//            showDatePickerDialog()
+//        }
 
         binding.backButton.setOnClickListener{
             finish()
@@ -149,5 +151,45 @@ class ModifySchedule : AppCompatActivity() {
         )
 
         datePickerDialog.show()
+    }
+
+    private fun bottomNavigation(){
+        binding.bottomNavigationView.setOnItemSelectedListener { item->
+            when(item.itemId){
+                R.id.selectDate->{
+                    showDatePickerDialog()
+                    true
+                }
+                R.id.textSize->{
+                    showTextSizeChangePopUp()
+                    true
+                }
+                else -> false
+            }
+        }
+    }
+
+
+    private fun showTextSizeChangePopUp(){
+        val popupMenu = PopupMenu(this, binding.bottomNavigationView)
+        popupMenu.inflate(R.menu.character_size_settings)
+
+        popupMenu.setOnMenuItemClickListener { menuItem ->
+            modifyTextSize = when (menuItem.itemId) {
+                R.id.size15 -> 15f
+                R.id.size20 -> 20f
+                R.id.size25 -> 25f
+                R.id.size30 -> 30f
+                R.id.size35 -> 35f
+                R.id.size40 -> 40f
+                R.id.size45 -> 45f
+                R.id.size50 -> 50f
+
+                else -> 15f
+            }
+            binding.scheduleText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, modifyTextSize)
+            true
+        }
+        popupMenu.show()
     }
 }

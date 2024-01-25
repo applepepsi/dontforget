@@ -26,7 +26,6 @@
         android:layout_marginTop="7dp"
         android:background="@android:color/transparent"
         android:scaleType="centerCrop"
-        app:layout_constraintBottom_toTopOf="@+id/setDateBar"
         app:layout_constraintEnd_toEndOf="@+id/up_bar"
         app:layout_constraintHorizontal_bias="0.028"
         app:layout_constraintStart_toStartOf="@+id/up_bar"
@@ -35,59 +34,6 @@
         app:srcCompat="@drawable/back_button" />
 
 
-    <ImageButton
-        android:id="@+id/timeModifyButton"
-        android:layout_width="97dp"
-        android:layout_height="34dp"
-        app:layout_constraintBottom_toBottomOf="@+id/setDateBar"
-        app:layout_constraintEnd_toEndOf="@+id/setDateBar"
-        app:layout_constraintStart_toStartOf="@+id/setDateBar"
-        app:layout_constraintTop_toTopOf="@+id/setDateBar" />
-
-    <ImageView
-        android:id="@+id/setDateBar"
-        android:layout_width="133dp"
-        android:layout_height="99dp"
-        android:layout_marginTop="30dp"
-        android:background="@android:color/transparent"
-
-        android:elevation="20dp"
-        android:paddingTop="20dp"
-        android:scaleType="fitCenter "
-        app:layout_constraintEnd_toStartOf="@+id/characterSizeChangeIcon"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/select_date_icon" />
-
-    <ImageView
-        android:id="@+id/characterSizeChangeIcon"
-        android:layout_width="133dp"
-        android:layout_height="99dp"
-        android:layout_marginStart="2dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginBottom="56dp"
-        android:background="@android:color/transparent"
-        android:elevation="20dp"
-        android:paddingTop="30dp"
-        android:scaleType="fitCenter "
-        app:layout_constraintBottom_toTopOf="@+id/scheduleText"
-        app:layout_constraintStart_toEndOf="@+id/setDateBar"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.064"
-        app:srcCompat="@drawable/text_size_icon" />
-
-    <ImageButton
-        android:id="@+id/characterSizeChange"
-        android:layout_width="84dp"
-        android:layout_height="28dp"
-        android:layout_marginEnd="5dp"
-        android:text="Button"
-        app:layout_constraintBottom_toBottomOf="@+id/characterSizeChangeIcon"
-        app:layout_constraintEnd_toEndOf="@+id/characterSizeChangeIcon"
-        app:layout_constraintHorizontal_bias="0.384"
-        app:layout_constraintStart_toStartOf="@+id/characterSizeChangeIcon"
-        app:layout_constraintTop_toTopOf="@+id/characterSizeChangeIcon"
-        app:layout_constraintVertical_bias="0.526" />
 
     <ImageButton
         android:id="@+id/modifyScheduleButton"
@@ -173,7 +119,23 @@
         app:layout_constraintWidth_percent="0.9" />
 
 
+    <FrameLayout
+        android:id="@+id/bottom_frame_menu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="?attr/actionBarSize"/>
 
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation_view"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/write_menu"
+        app:labelVisibilityMode="labeled"
+        app:itemTextColor="@color/black"
+        app:itemIconTint="#000000"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

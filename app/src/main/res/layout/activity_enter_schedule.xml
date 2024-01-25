@@ -7,171 +7,147 @@
     android:background="#E3E3E3"
     tools:context=".model.EnterSchedule">
 
-    <ImageView
-        android:id="@+id/up_bar"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="-10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="@drawable/up_bar_vector"
-         />
+
+    <!--    <ImageButton-->
+<!--        android:id="@+id/setDateButton"-->
+<!--        android:layout_width="117dp"-->
+<!--        android:layout_height="34dp"-->
+<!--        android:text="wdwdw"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/setDateBar"-->
+<!--        app:layout_constraintEnd_toEndOf="@+id/setDateBar"-->
+<!--        app:layout_constraintHorizontal_bias="0.562"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/setDateBar"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/setDateBar"-->
+<!--        app:layout_constraintVertical_bias="0.461" />-->
 
 
-    <ImageButton
-        android:id="@+id/back_button"
-        android:layout_width="23dp"
-        android:layout_height="18dp"
-        android:background="@android:color/transparent"
-        android:scaleType="centerCrop"
-        app:layout_constraintEnd_toEndOf="@+id/up_bar"
-        app:layout_constraintHorizontal_bias="0.023"
-        app:layout_constraintStart_toStartOf="@+id/up_bar"
-        app:srcCompat="@drawable/back_button"
-        tools:layout_editor_absoluteY="6dp" />
+<!--    <ImageView-->
+<!--        android:id="@+id/setDateBar"-->
+<!--        android:layout_width="133dp"-->
+<!--        android:layout_height="99dp"-->
+<!--        android:background="@android:color/transparent"-->
+<!--        android:paddingTop="20dp"-->
+<!--        android:scaleType="fitCenter"-->
+<!--        app:layout_constraintEnd_toStartOf="@+id/characterSizeChangeIcon"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:srcCompat="@drawable/select_date_icon"-->
+<!--        tools:layout_editor_absoluteY="712dp" />-->
 
-    <ImageButton
-        android:id="@+id/setDateButton"
-        android:layout_width="117dp"
-        android:layout_height="34dp"
-        android:text="wdwdw"
-        app:layout_constraintBottom_toBottomOf="@+id/setDateBar"
-        app:layout_constraintEnd_toEndOf="@+id/setDateBar"
-        app:layout_constraintHorizontal_bias="0.562"
-        app:layout_constraintStart_toStartOf="@+id/setDateBar"
-        app:layout_constraintTop_toTopOf="@+id/setDateBar"
-        app:layout_constraintVertical_bias="0.461" />
+<!--    <ImageButton-->
+<!--        android:id="@+id/scheduleInputComplete"-->
+<!--        android:layout_width="114dp"-->
+<!--        android:layout_height="35dp"-->
+<!--        android:layout_marginTop="10dp"-->
+<!--        android:text="입력 완료"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/scheduleInputCompleteIcon"-->
+<!--        app:layout_constraintEnd_toEndOf="@+id/scheduleInputCompleteIcon"-->
+<!--        app:layout_constraintHorizontal_bias="0.578"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/scheduleInputCompleteIcon"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/scheduleInputCompleteIcon"-->
+<!--        app:layout_constraintVertical_bias="0.444" />-->
+
+    <!--    <ImageView-->
+<!--        android:id="@+id/characterSizeChangeIcon"-->
+<!--        android:layout_width="133dp"-->
+<!--        android:layout_height="99dp"-->
+<!--        android:layout_marginStart="128dp"-->
+<!--        android:background="@android:color/transparent"-->
+<!--        android:elevation="20dp"-->
+<!--        android:paddingTop="30dp"-->
+<!--        android:scaleType="fitCenter "-->
+<!--        app:layout_constraintStart_toEndOf="@+id/setDateBar"-->
+<!--        app:srcCompat="@drawable/text_size_icon"-->
+<!--        tools:layout_editor_absoluteY="678dp" />-->
+
+<!--    <ImageButton-->
+<!--        android:id="@+id/characterSizeChange"-->
+<!--        android:layout_width="110dp"-->
+<!--        android:layout_height="45dp"-->
+<!--        android:layout_marginEnd="5dp"-->
+<!--        android:text="Button"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/characterSizeChangeIcon"-->
+<!--        app:layout_constraintEnd_toEndOf="@+id/characterSizeChangeIcon"-->
+<!--        app:layout_constraintHorizontal_bias="0.833"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/characterSizeChangeIcon"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/characterSizeChangeIcon"-->
+<!--        app:layout_constraintVertical_bias="0.629" />-->
 
 
-    <ImageView
-        android:id="@+id/setDateBar"
-        android:layout_width="133dp"
-        android:layout_height="99dp"
-        android:background="@android:color/transparent"
-        android:paddingTop="20dp"
-        android:scaleType="fitCenter"
-        app:layout_constraintEnd_toStartOf="@+id/characterSizeChangeIcon"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/select_date_icon"
-        tools:layout_editor_absoluteY="712dp" />
-
-    <ImageButton
-        android:id="@+id/scheduleInputComplete"
-        android:layout_width="114dp"
-        android:layout_height="35dp"
-        android:layout_marginTop="10dp"
-        android:text="입력 완료"
-        app:layout_constraintBottom_toBottomOf="@+id/scheduleInputCompleteIcon"
-        app:layout_constraintEnd_toEndOf="@+id/scheduleInputCompleteIcon"
-        app:layout_constraintHorizontal_bias="0.578"
-        app:layout_constraintStart_toStartOf="@+id/scheduleInputCompleteIcon"
-        app:layout_constraintTop_toTopOf="@+id/scheduleInputCompleteIcon"
-        app:layout_constraintVertical_bias="0.444" />
-
-    <ImageView
-        android:id="@+id/scheduleInputCompleteIcon"
-        android:layout_width="133dp"
-        android:layout_height="99dp"
-        android:layout_marginTop="59dp"
-        android:layout_marginBottom="61dp"
-        android:background="@android:color/transparent"
-        android:elevation="20dp"
-        android:paddingTop="30dp"
-        android:scaleType="fitCenter "
-        app:layout_constraintBottom_toTopOf="@+id/scheduleText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.384"
-        app:srcCompat="@drawable/write_complete_icon2" />
-
-    <ImageView
-        android:id="@+id/characterSizeChangeIcon"
-        android:layout_width="133dp"
-        android:layout_height="99dp"
-        android:layout_marginStart="128dp"
-        android:background="@android:color/transparent"
-        android:elevation="20dp"
-        android:paddingTop="30dp"
-        android:scaleType="fitCenter "
-        app:layout_constraintStart_toEndOf="@+id/setDateBar"
-        app:srcCompat="@drawable/text_size_icon"
-        tools:layout_editor_absoluteY="678dp" />
-
-    <ImageButton
-        android:id="@+id/characterSizeChange"
-        android:layout_width="110dp"
-        android:layout_height="45dp"
-        android:layout_marginEnd="5dp"
-        android:text="Button"
-        app:layout_constraintBottom_toBottomOf="@+id/characterSizeChangeIcon"
-        app:layout_constraintEnd_toEndOf="@+id/characterSizeChangeIcon"
-        app:layout_constraintHorizontal_bias="0.833"
-        app:layout_constraintStart_toStartOf="@+id/characterSizeChangeIcon"
-        app:layout_constraintTop_toTopOf="@+id/characterSizeChangeIcon"
-        app:layout_constraintVertical_bias="0.629" />
-
-    <TextView
-        android:id="@+id/frameTop"
-        android:layout_width="0dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="150dp"
-        android:background="@drawable/frame_top"
-        app:layout_constraintBottom_toTopOf="@+id/scheduleText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.487"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent="0.9" />
+<!--    <ImageView-->
+<!--        android:id="@+id/scheduleInputCompleteIcon"-->
+<!--        android:layout_width="133dp"-->
+<!--        android:layout_height="99dp"-->
+<!--        android:layout_marginTop="4dp"-->
+<!--        android:layout_marginEnd="16dp"-->
+<!--        android:background="@android:color/transparent"-->
+<!--        android:elevation="20dp"-->
+<!--        android:paddingTop="30dp"-->
+<!--        android:scaleType="fitCenter "-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/scheduleText"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintVertical_bias="1.0"-->
+<!--        app:srcCompat="@drawable/write_complete_icon2" />-->
 
     <TextView
         android:id="@+id/setDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="3dp"
-        android:layout_marginBottom="7dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="296dp"
+        android:layout_marginBottom="4dp"
         android:fontFamily="@font/inriasans_bold"
         android:text="날짜 미선택"
-        android:textSize="12dp"
-        app:layout_constraintBottom_toBottomOf="@+id/frameTop"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toTopOf="@+id/scheduleText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/calendar" />
 
     <ImageView
         android:id="@+id/calendar"
-        android:layout_width="23dp"
-        android:layout_height="19dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="5dp"
-        app:layout_constraintBottom_toBottomOf="@+id/frameTop"
-        app:layout_constraintStart_toStartOf="@+id/frameTop"
-        app:layout_constraintTop_toTopOf="@+id/frameTop"
-        app:layout_constraintVertical_bias="0.0"
+        android:layout_width="26dp"
+        android:layout_height="24dp"
+
+        android:layout_marginStart="14dp"
+        android:layout_marginBottom="3dp"
+        app:layout_constraintBottom_toTopOf="@+id/scheduleText"
+        app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/calendar_icon2" />
 
     <EditText
         android:id="@+id/scheduleText"
         android:layout_width="0dp"
-        android:layout_height="200dp"
-        android:layout_marginEnd="3dp"
-        android:background="@drawable/frame_bottom"
+        android:layout_height="500dp"
+        android:layout_marginBottom="20dp"
+        android:background="#ffffff"
+        android:elevation="20dp"
         android:fontFamily="@font/inriasans_regular"
+
         android:gravity="top"
         android:hint="할 일을 입력해 주세요."
         android:textSize="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation_view"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.512"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/frameTop"
-        app:layout_constraintWidth_percent="0.9" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.514" />
 
-    <FrameLayout
-        android:id="@+id/bottom_frame_menu"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="?attr/actionBarSize"/>
+    <ImageButton
+        android:id="@+id/back_button"
+        android:layout_width="23dp"
+        android:layout_height="18dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="@android:color/transparent"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toTopOf="@+id/calendar"
+        app:layout_constraintEnd_toStartOf="@+id/scheduleInputCompleteIcon"
+        app:layout_constraintHorizontal_bias="0.071"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/back_button" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation_view"

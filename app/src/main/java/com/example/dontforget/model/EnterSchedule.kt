@@ -20,80 +20,80 @@ class EnterSchedule : AppCompatActivity() {
     val binding by lazy{ActivityEnterScheduleBinding.inflate(layoutInflater)}
     private var textSize: Float = 15f
     private var scheduleDateMilli: Long? = null
-
+    val currentDateMilli = DayCalculation().getCurrentDateMillis()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        val currentDateMilli = DayCalculation().getCurrentDateMillis()
+
 
         bottomNavigation()
 
-        binding.setDateButton.setOnClickListener {
-            showDatePickerDialog()
-        }
-
-        binding.characterSizeChange.setOnClickListener { view ->
-            val popupMenu = PopupMenu(this, view)
-            popupMenu.inflate(R.menu.character_size_settings)
-
-            popupMenu.setOnMenuItemClickListener { menuItem ->
-                textSize = when (menuItem.itemId) {
-                    R.id.size15 -> 15f
-                    R.id.size20 -> 20f
-                    R.id.size25 -> 25f
-                    R.id.size30 -> 30f
-                    R.id.size35 -> 35f
-                    R.id.size40 -> 40f
-                    R.id.size45 -> 45f
-                    R.id.size50 -> 50f
-
-                    else -> 15f
-                }
-                binding.scheduleText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize)
-                true
-            }
-            popupMenu.show()
-        }
+//        binding.setDateButton.setOnClickListener {
+//            showDatePickerDialog()
+//        }
+//
+//        binding.characterSizeChange.setOnClickListener { view ->
+//            val popupMenu = PopupMenu(this, view)
+//            popupMenu.inflate(R.menu.character_size_settings)
+//
+//            popupMenu.setOnMenuItemClickListener { menuItem ->
+//                textSize = when (menuItem.itemId) {
+//                    R.id.size15 -> 15f
+//                    R.id.size20 -> 20f
+//                    R.id.size25 -> 25f
+//                    R.id.size30 -> 30f
+//                    R.id.size35 -> 35f
+//                    R.id.size40 -> 40f
+//                    R.id.size45 -> 45f
+//                    R.id.size50 -> 50f
+//
+//                    else -> 15f
+//                }
+//                binding.scheduleText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize)
+//                true
+//            }
+//            popupMenu.show()
+//        }
 
         binding.backButton.setOnClickListener{
             finish()
         }
 
-        val enterScheduleIntent = Intent(this, MainActivity::class.java)
-        binding.scheduleInputComplete.setOnClickListener {
-            if (scheduleDateMilli != null) {
-                if(currentDateMilli<=scheduleDateMilli!!) {
-
-                    enterScheduleIntent.putExtra("scheduleDate", binding.setDate.getText().toString())
-                    enterScheduleIntent.putExtra("scheduleDateMilli", scheduleDateMilli)
-                    enterScheduleIntent.putExtra("textSize", textSize)
-                    if (binding.scheduleText.text.toString() != "") {
-                        enterScheduleIntent.putExtra("scheduleText", binding.scheduleText.text.toString())
-                        setResult(RESULT_OK, enterScheduleIntent)
-                        finish()
-                    } else {
-                        Toast.makeText(this@EnterSchedule, "메모 내용을 입력해주세요.", Toast.LENGTH_SHORT).show()
-                    }
-                }
-                else{
-                    Toast.makeText(this@EnterSchedule, "날짜는 최소 내일로 선택해 주세요.", Toast.LENGTH_SHORT).show()
-                }
-
-            }
-            else{
-                enterScheduleIntent.putExtra("scheduleDate", "")
-                enterScheduleIntent.putExtra("scheduleDateMilli", 0)
-                enterScheduleIntent.putExtra("textSize", textSize)
-                if (binding.scheduleText.text.toString() != "") {
-                    enterScheduleIntent.putExtra("scheduleText", binding.scheduleText.text.toString())
-                    setResult(RESULT_OK, enterScheduleIntent)
-                    finish()
-                } else {
-                    Toast.makeText(this@EnterSchedule, "메모 내용을 입력해주세요.", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
+//        val enterScheduleIntent = Intent(this, MainActivity::class.java)
+//        binding.scheduleInputComplete.setOnClickListener {
+//            if (scheduleDateMilli != null) {
+//                if(currentDateMilli<=scheduleDateMilli!!) {
+//
+//                    enterScheduleIntent.putExtra("scheduleDate", binding.setDate.getText().toString())
+//                    enterScheduleIntent.putExtra("scheduleDateMilli", scheduleDateMilli)
+//                    enterScheduleIntent.putExtra("textSize", textSize)
+//                    if (binding.scheduleText.text.toString() != "") {
+//                        enterScheduleIntent.putExtra("scheduleText", binding.scheduleText.text.toString())
+//                        setResult(RESULT_OK, enterScheduleIntent)
+//                        finish()
+//                    } else {
+//                        Toast.makeText(this@EnterSchedule, "메모 내용을 입력해주세요.", Toast.LENGTH_SHORT).show()
+//                    }
+//                }
+//                else{
+//                    Toast.makeText(this@EnterSchedule, "날짜는 최소 내일로 선택해 주세요.", Toast.LENGTH_SHORT).show()
+//                }
+//
+//            }
+//            else{
+//                enterScheduleIntent.putExtra("scheduleDate", "")
+//                enterScheduleIntent.putExtra("scheduleDateMilli", 0)
+//                enterScheduleIntent.putExtra("textSize", textSize)
+//                if (binding.scheduleText.text.toString() != "") {
+//                    enterScheduleIntent.putExtra("scheduleText", binding.scheduleText.text.toString())
+//                    setResult(RESULT_OK, enterScheduleIntent)
+//                    finish()
+//                } else {
+//                    Toast.makeText(this@EnterSchedule, "메모 내용을 입력해주세요.", Toast.LENGTH_SHORT).show()
+//                }
+//            }
+//        }
     }
     private fun showDatePickerDialog() {
         val cal = Calendar.getInstance()
@@ -124,9 +124,11 @@ class EnterSchedule : AppCompatActivity() {
                     true
                 }
                 R.id.textSize->{
-
-
                     showTextSizeChangePopUp()
+                    true
+                }
+                R.id.write->{
+                    handleScheduleInput()
                     true
                 }
                 else -> false
@@ -157,5 +159,41 @@ class EnterSchedule : AppCompatActivity() {
         }
         popupMenu.show()
     }
+
+    private fun handleScheduleInput() {
+        val enterScheduleIntent = Intent(this, MainActivity::class.java)
+
+        if (scheduleDateMilli != null) {
+            if (currentDateMilli <= scheduleDateMilli!!) {
+                enterScheduleIntent.putExtra("scheduleDate", binding.setDate.text.toString())
+                enterScheduleIntent.putExtra("scheduleDateMilli", scheduleDateMilli)
+                enterScheduleIntent.putExtra("textSize", textSize)
+
+                if (binding.scheduleText.text.toString().isNotEmpty()) {
+                    enterScheduleIntent.putExtra("scheduleText", binding.scheduleText.text.toString())
+                    setResult(RESULT_OK, enterScheduleIntent)
+                    finish()
+                } else {
+                    Toast.makeText(this@EnterSchedule, "메모 내용을 입력해주세요.", Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                Toast.makeText(this@EnterSchedule, "날짜는 최소 내일로 선택해 주세요.", Toast.LENGTH_SHORT).show()
+            }
+        } else {
+            enterScheduleIntent.putExtra("scheduleDate", "")
+            enterScheduleIntent.putExtra("scheduleDateMilli", 0)
+            enterScheduleIntent.putExtra("textSize", textSize)
+
+            if (binding.scheduleText.text.toString().isNotEmpty()) {
+                enterScheduleIntent.putExtra("scheduleText", binding.scheduleText.text.toString())
+                setResult(RESULT_OK, enterScheduleIntent)
+                finish()
+            } else {
+                Toast.makeText(this@EnterSchedule, "메모 내용을 입력해주세요.", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+
 
 }

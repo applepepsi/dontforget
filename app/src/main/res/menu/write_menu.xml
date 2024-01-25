@@ -4,10 +4,17 @@
         android:id="@+id/selectDate"
 
         android:icon="@drawable/calendar_icon2"
+        android:fontFamily="@font/inriasans_regular"
         android:title="날짜 선택" />
     <item
         android:id="@+id/textSize"
         android:icon="@drawable/text_size_change_icon"
+        android:fontFamily="@font/inriasans_regular"
         android:title="크기 변경" />
 
+    <item
+        android:id="@+id/write"
+        android:icon="@drawable/write_icon"
+        android:fontFamily="@font/inriasans_regular"
+        android:title="작성 하기" />
 </menu>
