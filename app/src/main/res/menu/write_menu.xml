@@ -3,14 +3,15 @@
     <item
         android:id="@+id/selectDate"
 
-        android:icon="@drawable/calendar_icon2"
+        android:icon="@drawable/ic_baseline_calendar_today_24"
         android:fontFamily="@font/inriasans_regular"
         android:title="날짜 선택" />
     <item
         android:id="@+id/textSize"
         android:icon="@drawable/text_size_change_icon"
         android:fontFamily="@font/inriasans_regular"
-        android:title="크기 변경" />
+        android:title="크기 변경"
+        />
 
     <item
         android:id="@+id/write"

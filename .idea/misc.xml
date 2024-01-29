@@ -7,7 +7,9 @@
         <entry key="..\:/Users/dlaej/Downloads/kotlin_app/Study/app/src/main/res/drawable/border.xml" value="0.239" />
         <entry key="..\:/Users/dlaej/Downloads/kotlin_app/Study/app/src/main/res/drawable/calendar_icon.xml" value="0.1" />
         <entry key="..\:/Users/dlaej/Downloads/kotlin_app/Study/app/src/main/res/drawable/dday_icon.xml" value="0.1" />
+        <entry key="..\:/Users/dlaej/Downloads/kotlin_app/Study/app/src/main/res/drawable/ic_baseline_calendar_today_24.xml" value="0.398" />
         <entry key="..\:/Users/dlaej/Downloads/kotlin_app/Study/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1855" />
+        <entry key="..\:/Users/dlaej/Downloads/kotlin_app/Study/app/src/main/res/drawable/icon_margin.xml" value="0.3295" />
         <entry key="..\:/Users/dlaej/Downloads/kotlin_app/Study/app/src/main/res/drawable/option_icon.xml" value="0.1" />
         <entry key="..\:/Users/dlaej/Downloads/kotlin_app/Study/app/src/main/res/drawable/schedule_frame.xml" value="0.1855" />
         <entry key="..\:/Users/dlaej/Downloads/kotlin_app/Study/app/src/main/res/drawable/schedule_frame_bottom.xml" value="0.1705" />
@@ -21,7 +23,7 @@
         <entry key="..\:/Users/dlaej/Downloads/kotlin_app/Study/app/src/main/res/drawable/write_icon.xml" value="0.1" />
         <entry key="..\:/Users/dlaej/Downloads/kotlin_app/Study/app/src/main/res/font/font.xml" value="0.2932877297990594" />
         <entry key="..\:/Users/dlaej/Downloads/kotlin_app/Study/app/src/main/res/layout/activity_delete_or_modify_pop_up.xml" value="0.22" />
-        <entry key="..\:/Users/dlaej/Downloads/kotlin_app/Study/app/src/main/res/layout/activity_enter_schedule.xml" value="0.33" />
+        <entry key="..\:/Users/dlaej/Downloads/kotlin_app/Study/app/src/main/res/layout/activity_enter_schedule.xml" value="0.25" />
         <entry key="..\:/Users/dlaej/Downloads/kotlin_app/Study/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/Users/dlaej/Downloads/kotlin_app/Study/app/src/main/res/layout/activity_modify_schedule.xml" value="0.33" />
         <entry key="..\:/Users/dlaej/Downloads/kotlin_app/Study/app/src/main/res/layout/activity_option.xml" value="0.3270628473706712" />

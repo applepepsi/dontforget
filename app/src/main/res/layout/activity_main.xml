@@ -20,32 +20,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/imageView5"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="-10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="@drawable/up_bar_vector"
-        />
-
-    <ImageView
-        android:id="@+id/setDate"
-        android:layout_width="123dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginBottom="8dp"
-        android:scaleType="fitCenter "
-        app:layout_constraintBottom_toBottomOf="@+id/imageView5"
-        app:layout_constraintStart_toStartOf="@+id/imageView5"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/logo" />
-
-<!--    <ImageButton-->
+    <!--    <ImageButton-->
 <!--        android:id="@+id/CreateScheduleButton"-->
 <!--        android:layout_width="26dp"-->
 <!--        android:layout_height="24dp"-->
