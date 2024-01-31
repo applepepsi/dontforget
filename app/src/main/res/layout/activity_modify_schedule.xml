@@ -3,139 +3,132 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="#E3E3E3"
+    android:background="#ffffff"
     android:layout_height="match_parent"
     tools:context=".model.ModifySchedule">
 
 
-    <ImageView
-        android:id="@+id/up_bar"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cstLyTop"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="-10dp"
+        android:layout_height="0dp"
+
+        app:layout_constraintBottom_toTopOf="@+id/cstLyMid"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.08"
+
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/up_bar" />
-
-    <ImageButton
-        android:id="@+id/back_button"
-        android:layout_width="23dp"
-        android:layout_height="18dp"
-        android:layout_marginTop="7dp"
-        android:background="@android:color/transparent"
-        android:scaleType="centerCrop"
-        app:layout_constraintEnd_toEndOf="@+id/up_bar"
-        app:layout_constraintHorizontal_bias="0.028"
-        app:layout_constraintStart_toStartOf="@+id/up_bar"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/back_button" />
+        app:layout_constraintWidth_percent="1.0">
 
 
+        <TextView
+            android:id="@+id/setDate"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:background="#ffffff"
+            android:fontFamily="@font/inriasans_bold"
+            android:gravity="center_vertical"
+            android:paddingStart="45dp"
+            android:text="날짜 미선택"
+            android:textSize="18dp"
+            app:layout_constraintBottom_toBottomOf="@id/line1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageButton
-        android:id="@+id/modifyScheduleButton"
-        android:layout_width="87dp"
-        android:layout_height="31dp"
-        android:layout_marginTop="10dp"
+        <!--        <ImageButton-->
+        <!--            android:id="@+id/back_button"-->
+        <!--            android:layout_width="23dp"-->
+        <!--            android:layout_height="18dp"-->
+        <!--            android:layout_marginStart="10dp"-->
+        <!--            android:layout_marginTop="10dp"-->
+        <!--            android:layout_marginBottom="28dp"-->
+        <!--            android:background="@android:color/transparent"-->
+        <!--            android:scaleType="centerCrop"-->
+        <!--            app:layout_constraintBottom_toTopOf="@+id/line2"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toTopOf="parent"-->
+        <!--            app:srcCompat="@drawable/ic_baseline_arrow_back_ios_24" />-->
 
-        app:layout_constraintBottom_toBottomOf="@+id/scheduleInputCompleteIcon"
-        app:layout_constraintEnd_toEndOf="@+id/scheduleInputCompleteIcon"
-        app:layout_constraintHorizontal_bias="0.482"
-        app:layout_constraintStart_toStartOf="@+id/scheduleInputCompleteIcon"
-        app:layout_constraintTop_toTopOf="@+id/scheduleInputCompleteIcon"
-        app:layout_constraintVertical_bias="0.346" />
+        <ImageView
+            android:id="@+id/calendar"
+            android:layout_width="34dp"
+            android:layout_height="30dp"
 
-    <ImageView
-        android:id="@+id/scheduleInputCompleteIcon"
-        android:layout_width="133dp"
-        android:layout_height="99dp"
-        android:layout_marginTop="27dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="61dp"
-        android:background="@android:color/transparent"
-        android:elevation="20dp"
-        android:paddingTop="30dp"
-        android:scaleType="fitCenter "
-        app:layout_constraintBottom_toTopOf="@+id/scheduleText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/write_complete_icon2" />
+            android:layout_marginStart="5dp"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintBottom_toBottomOf="@+id/setDate"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/setDate"
+            app:layout_constraintVertical_bias="0.692"
+            app:srcCompat="@drawable/calendar_icon2" />
 
-    <TextView
-        android:id="@+id/frameTop"
+        <View
+            android:id="@+id/line1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+
+
+            android:layout_marginBottom="2dp"
+            android:background="#cccccc"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cstLyMid"
         android:layout_width="0dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="124dp"
-        android:background="@drawable/frame_top"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.487"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent="0.9" />
-
-    <TextView
-        android:id="@+id/setDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="7dp"
-        android:fontFamily="@font/inriasans_bold"
-        android:text="날짜 미선택"
-        android:textSize="12dp"
-        app:layout_constraintBottom_toBottomOf="@+id/frameTop"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.016"
-        app:layout_constraintStart_toEndOf="@+id/calendar" />
-
-    <ImageView
-        android:id="@+id/calendar"
-        android:layout_width="23dp"
-        android:layout_height="19dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="5dp"
-        app:layout_constraintBottom_toBottomOf="@+id/frameTop"
-        app:layout_constraintStart_toStartOf="@+id/frameTop"
-        app:layout_constraintTop_toTopOf="@+id/frameTop"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/calendar_icon" />
-
-    <EditText
-        android:id="@+id/scheduleText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="3dp"
-        android:background="@drawable/frame_bottom"
-        android:gravity="top"
-        android:textSize="20dp"
-        android:hint="할 일을 입력해 주세요."
-        android:fontFamily="@font/inriasans_regular"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.512"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/frameTop"
-        app:layout_constraintWidth_percent="0.9" />
+        android:layout_height="0dp"
 
 
-    <FrameLayout
-        android:id="@+id/bottom_frame_menu"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="?attr/actionBarSize"/>
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation_view"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.92"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/write_menu"
-        app:labelVisibilityMode="labeled"
-        app:itemTextColor="@color/black"
-        app:itemIconTint="#000000"/>
+        app:layout_constraintWidth_percent="1.0">
+
+        <EditText
+            android:id="@+id/scheduleText"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="1dp"
+            android:background="#ffffff"
+            android:fontFamily="@font/inriasans_regular"
+
+            android:gravity="top"
+            android:hint="할 일을 입력해 주세요."
+
+            android:paddingStart="5dp"
+            android:paddingTop="7dp"
+            android:textSize="20dp"
+            app:layout_constraintBottom_toTopOf="@id/bottom_navigation_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_navigation_view"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+
+            app:itemIconTint="#000000"
+            app:labelVisibilityMode="labeled"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:menu="@menu/write_menu" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
