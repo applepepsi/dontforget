@@ -13,6 +13,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
 
+        app:layout_constraintBottom_toTopOf="@+id/cstLyMid"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.15"
         app:layout_constraintHorizontal_bias="0.0"
@@ -52,17 +53,16 @@
             android:id="@+id/back_button"
             android:layout_width="23dp"
             android:layout_height="18dp"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="20dp"
             android:background="@android:color/transparent"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toTopOf="@+id/calendar"
-            app:layout_constraintHorizontal_bias="0.071"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
-            app:srcCompat="@drawable/back_button" />
+            app:srcCompat="@drawable/ic_baseline_arrow_back_ios_24" />
 
         <View
             android:id="@+id/line1"
@@ -95,9 +95,10 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
 
-        app:layout_constraintBottom_toTopOf="@id/cstLyBottom"
+        app:layout_constraintBottom_toTopOf="@+id/cstLyBottom"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.77"
+        app:layout_constraintHeight_percent="0.75
+"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cstLyTop"
         app:layout_constraintWidth_percent="1.0">
@@ -121,8 +122,7 @@
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            app:layout_constraintWidth_percent="1.0" />
+            app:layout_constraintVertical_bias="0.0" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -130,29 +130,17 @@
         android:id="@+id/cstLyBottom"
         android:layout_width="0dp"
         android:layout_height="0dp"
-
-
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.08"
-
+        app:layout_constraintHeight_percent="0.1"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cstLyMid"
         app:layout_constraintWidth_percent="1.0">
-
-        <View
-            android:id="@+id/view"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:background="#cccccc"
-            app:layout_constraintBottom_toTopOf="@+id/bottom_navigation_view"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation_view"
             android:layout_width="0dp"
-            android:layout_height="55dp"
+            android:layout_height="wrap_content"
 
             app:itemHorizontalTranslationEnabled="false"
             app:itemIconTint="#000000"
@@ -160,8 +148,8 @@
             app:labelVisibilityMode="labeled"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view"
             app:menu="@menu/write_menu" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
