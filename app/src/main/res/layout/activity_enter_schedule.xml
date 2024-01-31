@@ -15,7 +15,8 @@
 
         app:layout_constraintBottom_toTopOf="@+id/cstLyMid"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.15"
+        app:layout_constraintHeight_percent="0.08"
+
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -24,45 +25,45 @@
         <TextView
             android:id="@+id/setDate"
             android:layout_width="0dp"
-            android:layout_height="30dp"
+            android:layout_height="60dp"
             android:background="#ffffff"
             android:fontFamily="@font/inriasans_bold"
             android:gravity="center_vertical"
-            android:paddingStart="34dp"
+            android:paddingStart="45dp"
             android:text="날짜 미선택"
-            android:textSize="15dp"
+            android:textSize="18dp"
             app:layout_constraintBottom_toBottomOf="@id/line1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!--        <ImageButton-->
+        <!--            android:id="@+id/back_button"-->
+        <!--            android:layout_width="23dp"-->
+        <!--            android:layout_height="18dp"-->
+        <!--            android:layout_marginStart="10dp"-->
+        <!--            android:layout_marginTop="10dp"-->
+        <!--            android:layout_marginBottom="28dp"-->
+        <!--            android:background="@android:color/transparent"-->
+        <!--            android:scaleType="centerCrop"-->
+        <!--            app:layout_constraintBottom_toTopOf="@+id/line2"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toTopOf="parent"-->
+        <!--            app:srcCompat="@drawable/ic_baseline_arrow_back_ios_24" />-->
 
         <ImageView
             android:id="@+id/calendar"
-            android:layout_width="26dp"
-            android:layout_height="24dp"
+            android:layout_width="34dp"
+            android:layout_height="30dp"
 
             android:layout_marginStart="5dp"
-            android:layout_marginBottom="4dp"
+            android:layout_marginBottom="10dp"
             app:layout_constraintBottom_toBottomOf="@+id/setDate"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/setDate"
-            app:layout_constraintVertical_bias="1.0"
+            app:layout_constraintVertical_bias="0.692"
             app:srcCompat="@drawable/calendar_icon2" />
-
-        <ImageButton
-            android:id="@+id/back_button"
-            android:layout_width="23dp"
-            android:layout_height="18dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="20dp"
-            android:background="@android:color/transparent"
-            android:scaleType="centerCrop"
-            app:layout_constraintBottom_toTopOf="@+id/calendar"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            app:srcCompat="@drawable/ic_baseline_arrow_back_ios_24" />
 
         <View
             android:id="@+id/line1"
@@ -70,24 +71,23 @@
             android:layout_height="1dp"
 
 
-            android:layout_marginBottom="3dp"
+            android:layout_marginBottom="2dp"
             android:background="#cccccc"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/setDate" />
-
-        <View
-            android:id="@+id/line2"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-
-            android:background="#cccccc"
-            app:layout_constraintBottom_toTopOf="@+id/setDate"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent" />
+
+<!--        <View-->
+<!--            android:id="@+id/line2"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="1dp"-->
+
+<!--            android:background="#cccccc"-->
+<!--            app:layout_constraintBottom_toTopOf="@+id/setDate"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintHorizontal_bias="0.0"-->
+<!--            app:layout_constraintStart_toStartOf="parent" />-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -95,12 +95,12 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
 
-        app:layout_constraintBottom_toTopOf="@+id/cstLyBottom"
+
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.75
-"
+        app:layout_constraintHeight_percent="0.92"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cstLyTop"
         app:layout_constraintWidth_percent="1.0">
 
 
@@ -108,50 +108,48 @@
             android:id="@+id/scheduleText"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginTop="1dp"
             android:background="#ffffff"
             android:fontFamily="@font/inriasans_regular"
+
             android:gravity="top"
             android:hint="할 일을 입력해 주세요."
-            android:paddingStart="5dp"
 
+            android:paddingStart="5dp"
             android:paddingTop="7dp"
             android:textSize="20dp"
-
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/bottom_navigation_view"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cstLyBottom"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cstLyMid"
-        app:layout_constraintWidth_percent="1.0">
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation_view"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
 
-            app:itemHorizontalTranslationEnabled="false"
             app:itemIconTint="#000000"
-            app:itemTextColor="@color/black"
             app:labelVisibilityMode="labeled"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:menu="@menu/write_menu" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--        android:id="@+id/cstLyBottom"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="0dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHeight_percent="0.07"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintWidth_percent="1.0">-->
+
+<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

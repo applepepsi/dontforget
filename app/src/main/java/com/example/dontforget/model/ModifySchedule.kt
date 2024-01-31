@@ -70,10 +70,10 @@ class ModifySchedule : AppCompatActivity() {
 //        binding.timeModifyButton.setOnClickListener {
 //            showDatePickerDialog()
 //        }
-
-        binding.backButton.setOnClickListener{
-            finish()
-        }
+//
+//        binding.backButton.setOnClickListener{
+//            finish()
+//        }
 
         val currentDateMilli = DayCalculation().getCurrentDateMillis()
 

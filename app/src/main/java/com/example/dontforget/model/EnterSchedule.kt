@@ -56,9 +56,9 @@ class EnterSchedule : AppCompatActivity() {
 //            popupMenu.show()
 //        }
 
-        binding.backButton.setOnClickListener{
-            finish()
-        }
+//        binding.backButton.setOnClickListener{
+//            finish()
+//        }
 
 //        val enterScheduleIntent = Intent(this, MainActivity::class.java)
 //        binding.scheduleInputComplete.setOnClickListener {
