@@ -18,9 +18,9 @@
             android:layout_width="0dp"
             android:layout_height="30dp"
             android:background="#ffffff"
+            app:layout_constraintBottom_toTopOf="@+id/scheduleInfo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="0.95" />
 
         <ImageView
@@ -74,6 +74,7 @@
             android:layout_height="1dp"
 
 
+            android:layout_marginBottom="3dp"
             android:background="#cccccc"
             app:layout_constraintBottom_toTopOf="@+id/scheduleInfo"
             app:layout_constraintEnd_toEndOf="parent"
@@ -89,22 +90,9 @@
             android:fontFamily="@font/inriasans_regular"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/line1"
+            app:layout_constraintTop_toBottomOf="@+id/frameTop"
             app:layout_constraintWidth_percent="0.95" />
 
-        <View
-            android:id="@+id/line2"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-
-
-            android:layout_marginBottom="1dp"
-            android:background="#cccccc"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/scheduleInfo"
-            app:layout_constraintWidth_percent="0.95" />
         //todo:그림자 넣기
     </androidx.constraintlayout.widget.ConstraintLayout>
 
