@@ -25,9 +25,9 @@
 
         <ImageView
             android:id="@+id/calendar"
-            android:layout_width="16dp"
+            android:layout_width="19dp"
             android:layout_height="19dp"
-            android:layout_marginStart="28dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="6dp"
             app:layout_constraintStart_toStartOf="@+id/frameTop"
             app:layout_constraintTop_toTopOf="parent"
@@ -45,28 +45,28 @@
             app:layout_constraintStart_toEndOf="@+id/calendar"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/ddayIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginBottom="2dp"
-            app:layout_constraintBottom_toTopOf="@+id/scheduleInfo"
-            app:layout_constraintEnd_toEndOf="@+id/frameTop"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/dday_icon" />
+<!--        <ImageView-->
+<!--            android:id="@+id/ddayIcon"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="0dp"-->
+<!--            android:layout_marginTop="4dp"-->
+<!--            android:layout_marginEnd="24dp"-->
+<!--            android:layout_marginBottom="2dp"-->
+<!--            app:layout_constraintBottom_toTopOf="@+id/scheduleInfo"-->
+<!--            app:layout_constraintEnd_toEndOf="@+id/frameTop"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:srcCompat="@drawable/dday_icon" />-->
 
         <TextView
             android:id="@+id/ddayCounter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:fontFamily="@font/inriasans_bold"
             android:textSize="12dp"
-            android:fontFamily="@font/inriasans_regular"
-            app:layout_constraintBottom_toBottomOf="@+id/ddayIcon"
-            app:layout_constraintEnd_toEndOf="@+id/ddayIcon"
-            app:layout_constraintStart_toStartOf="@+id/ddayIcon"
-            app:layout_constraintTop_toTopOf="@+id/ddayIcon" />
+            app:layout_constraintBottom_toBottomOf="@id/line1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <View
             android:id="@+id/line1"
@@ -85,26 +85,32 @@
             android:id="@+id/scheduleInfo"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:paddingStart="10dp"
+            android:paddingBottom="5dp"
+            android:paddingTop="3dp"
+            android:paddingEnd="10dp"
             android:background="#ffffff"
+            android:text="aa"
             android:fontFamily="@font/inriasans_regular"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/line1"
-            app:layout_constraintWidth_percent="0.95" />
+            app:layout_constraintWidth_percent="0.95"
+            />
 
-        <View
-            android:id="@+id/line2"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
+<!--        <View-->
+<!--            android:id="@+id/line2"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="1dp"-->
 
 
-            android:layout_marginBottom="1dp"
-            android:background="#cccccc"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/scheduleInfo"
-            app:layout_constraintWidth_percent="0.95" />
+<!--            android:layout_marginBottom="1dp"-->
+<!--            android:background="#cccccc"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/scheduleInfo"-->
+<!--            app:layout_constraintWidth_percent="0.95" />-->
         //todo:그림자 넣기
     </androidx.constraintlayout.widget.ConstraintLayout>
 

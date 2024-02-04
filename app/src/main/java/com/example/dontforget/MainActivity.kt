@@ -38,14 +38,16 @@ class MainActivity : AppCompatActivity() {
     val scheduleList= mutableListOf<ScheduleModel>()
     lateinit var scheduleDao:ScheduleDao
     private var currentSchedule: ScheduleModel? = null
+    val space=20
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        val itemSpacingController = ItemSpacingController(space)
         scheduleDao = ScheduleHelper.getDatabase(this).scheduleDao()
 
-
+        binding.scheduleViewer.addItemDecoration(itemSpacingController)
         val scheduleClickListener=deleteOrModify()
 
         scheduleAdapter= RecyclerAdapter(scheduleList,scheduleClickListener)
