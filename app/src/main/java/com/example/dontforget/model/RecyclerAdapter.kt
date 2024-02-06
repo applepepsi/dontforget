@@ -10,18 +10,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dontforget.R
+import com.example.dontforget.ScheduleDiffCallback
 import com.example.dontforget.databinding.ActivityMainBinding
 import com.example.dontforget.databinding.ScheduleItemViewBinding
 
 import com.example.dontforget.model.db.ScheduleModel
+import kotlinx.coroutines.Dispatchers
 import java.nio.file.Files.size
 import java.text.FieldPosition
 import java.text.SimpleDateFormat
 
-class RecyclerAdapter(private val scheduleList: List<ScheduleModel>,
-                        private val scheduleClickListener: ScheduleClickListener
+class RecyclerAdapter(private var scheduleList: List<ScheduleModel>,
+                      private val scheduleClickListener: ScheduleClickListener
                         ): RecyclerView.Adapter<RecyclerAdapter.Holder>() {
 
 
@@ -33,12 +37,29 @@ class RecyclerAdapter(private val scheduleList: List<ScheduleModel>,
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
+//        Log.d("ㅋㅋㅋ", scheduleList[position].toString())
         holder.bind(scheduleList[position], scheduleClickListener)
-
-
     }
 
     override fun getItemCount()=scheduleList.size
+
+    fun updateList(newList:List<ScheduleModel>){
+        val diffCallback= ScheduleDiffCallback(scheduleList,newList)
+        val diffResult=DiffUtil.calculateDiff(diffCallback)
+
+        scheduleList = newList.toMutableList()
+        Log.d("리스트값 확인", scheduleList.toString())
+        diffResult.dispatchUpdatesTo(this)
+    }
+
+    fun removeItem(position: Int){
+        Log.d("리스트 크기", "Before removeItem: ${scheduleList.size}")
+        val newList = scheduleList.toMutableList()
+        newList.removeAt(position)
+        updateList(newList)
+
+    }
+
 
     class Holder(private val binding: ScheduleItemViewBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -75,6 +96,7 @@ class RecyclerAdapter(private val scheduleList: List<ScheduleModel>,
             }
         }
     }
+
 
     class ScheduleClickListener(val clickListener: (schedule: ScheduleModel)->Unit){
         fun onClick(schedule: ScheduleModel)=clickListener(schedule)

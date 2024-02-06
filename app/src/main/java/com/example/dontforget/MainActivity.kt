@@ -15,6 +15,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
 import com.example.dontforget.databinding.ActivityMainBinding
 import com.example.dontforget.model.EnterSchedule
@@ -35,7 +36,7 @@ class MainActivity : AppCompatActivity() {
     val binding by lazy{ActivityMainBinding.inflate(layoutInflater)}
     lateinit var helper: ScheduleHelper
     lateinit var scheduleAdapter: RecyclerAdapter
-    val scheduleList= mutableListOf<ScheduleModel>()
+    var scheduleList= mutableListOf<ScheduleModel>()
     lateinit var scheduleDao:ScheduleDao
     private var currentSchedule: ScheduleModel? = null
     val space=20
@@ -61,13 +62,18 @@ class MainActivity : AppCompatActivity() {
 
         val itemTouchHelper = ItemTouchHelper(SwipeToDeleteCallback(object : SwipeToDeleteCallback.OnSwipeListener {
             override fun onSwipe(position: Int) {
-                val deletedSchedule = scheduleList[position]
+
+
+                Log.d("메인에서 리스트 값 보기", scheduleList.toString())
+
                 lifecycleScope.launch(Dispatchers.IO) {
+                    val allSchedule=scheduleDao.getAll()
+                    val deletedSchedule = allSchedule[position]
+
                     scheduleDao.deleteSchedule(deletedSchedule)
                 }
-                scheduleList.removeAt(position)
 
-                scheduleAdapter.notifyItemRemoved(position)
+                scheduleAdapter.removeItem(position)
             }
         }))
         itemTouchHelper.attachToRecyclerView(binding.scheduleViewer)
@@ -85,14 +91,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     //todo: 코루틴 공부하기,삭제 수정 구현
-    private fun refreshAdapter(){
-
+    private fun refreshAdapter() {
         lifecycleScope.launch(Dispatchers.IO) {
             val newList = scheduleDao.getAll()
             withContext(Dispatchers.Main) {
-                scheduleList.clear()
-                scheduleList.addAll(newList)
-                scheduleAdapter.notifyDataSetChanged()
+                scheduleAdapter.updateList(newList)
             }
         }
     }

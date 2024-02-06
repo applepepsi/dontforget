@@ -1,7 +1,9 @@
 package com.example.dontforget.util
 
+import android.util.Log
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.example.dontforget.model.RecyclerAdapter
 
 class SwipeToDeleteCallback(private val listener: OnSwipeListener) : ItemTouchHelper.Callback() {
 
@@ -25,6 +27,7 @@ class SwipeToDeleteCallback(private val listener: OnSwipeListener) : ItemTouchHe
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        listener.onSwipe(viewHolder.adapterPosition)
+        val position = viewHolder.adapterPosition
+        listener.onSwipe(position)
     }
 }
