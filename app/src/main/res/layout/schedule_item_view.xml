@@ -45,17 +45,6 @@
             app:layout_constraintStart_toEndOf="@+id/calendar"
             app:layout_constraintTop_toTopOf="parent" />
 
-<!--        <ImageView-->
-<!--            android:id="@+id/ddayIcon"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="0dp"-->
-<!--            android:layout_marginTop="4dp"-->
-<!--            android:layout_marginEnd="24dp"-->
-<!--            android:layout_marginBottom="2dp"-->
-<!--            app:layout_constraintBottom_toTopOf="@+id/scheduleInfo"-->
-<!--            app:layout_constraintEnd_toEndOf="@+id/frameTop"-->
-<!--            app:layout_constraintTop_toTopOf="parent"-->
-<!--            app:srcCompat="@drawable/dday_icon" />-->
 
         <TextView
             android:id="@+id/ddayCounter"
