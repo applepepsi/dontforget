@@ -83,10 +83,10 @@ class ModifySchedule : AppCompatActivity() {
                     showTextSizeChangePopUp()
                     true
                 }
-                R.id.write->{
-                    handleScheduleInput(textSize,scheduleDDay,scheduleDate)
-                    true
-                }
+//                R.id.write->{
+//                    handleScheduleInput(textSize,scheduleDDay,scheduleDate)
+//                    true
+//                }
                 else -> false
             }
         }

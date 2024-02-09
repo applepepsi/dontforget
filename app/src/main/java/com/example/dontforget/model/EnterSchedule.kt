@@ -29,6 +29,7 @@ class EnterSchedule : AppCompatActivity() {
 
         bottomNavigation()
 
+        binding.writeButton.setOnClickListener { handleScheduleInput() }
     }
     private fun showDatePickerDialog() {
         val cal = Calendar.getInstance()
@@ -62,10 +63,10 @@ class EnterSchedule : AppCompatActivity() {
                     showTextSizeChangePopUp()
                     true
                 }
-                R.id.write->{
-                    handleScheduleInput()
-                    true
-                }
+//                R.id.write->{
+//                    handleScheduleInput()
+//                    true
+//                }
                 else -> false
             }
         }

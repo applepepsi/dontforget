@@ -14,9 +14,9 @@
         android:title="날짜 선택" />
 
 
-    <item
-        android:id="@+id/write"
-        android:title="작성 하기"
-        android:icon="@drawable/write_icon"
-        />
+<!--    <item-->
+<!--        android:id="@+id/write"-->
+<!--        android:title="작성 하기"-->
+<!--        android:icon="@drawable/write_icon"-->
+<!--        />-->
 </menu>

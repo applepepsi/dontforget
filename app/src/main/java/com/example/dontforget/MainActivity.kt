@@ -58,13 +58,10 @@ class MainActivity : AppCompatActivity() {
 
         binding.scheduleViewer.adapter=scheduleAdapter
         binding.scheduleViewer.layoutManager=LinearLayoutManager(this@MainActivity)
-        binding.scheduleViewer.addItemDecoration(ItemSpacingController(0))
+
 
         val itemTouchHelper = ItemTouchHelper(SwipeToDeleteCallback(object : SwipeToDeleteCallback.OnSwipeListener {
             override fun onSwipe(position: Int) {
-
-
-                Log.d("메인에서 리스트 값 보기", scheduleList.toString())
 
                 lifecycleScope.launch(Dispatchers.IO) {
                     val allSchedule=scheduleDao.getAll()

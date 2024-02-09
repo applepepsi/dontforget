@@ -75,7 +75,7 @@ class RecyclerAdapter(private var scheduleList: List<ScheduleModel>,
                 if(schedule.scheduleTime>=1L){
                     var currentTime=DayCalculation().getCurrentDateMillis()
                     val Dday=DayCalculation().calculationDday(schedule.scheduleTime,currentTime)
-
+                    scheduleDate.text=schedule.scheduleDate
                     //Dday를 계산했을때의 if문
                    if(Dday!!>0L){
                         ddayCounter.text = "D - ${Dday.toString()}"
@@ -87,8 +87,10 @@ class RecyclerAdapter(private var scheduleList: List<ScheduleModel>,
                         ddayCounter.text="만료"
                     }
                 }
-
-                scheduleDate.text=schedule.scheduleDate
+                else{
+                    scheduleDate.text="미설정"
+                    ddayCounter.text = ""
+                }
 
                 itemView.setOnClickListener {
                     scheduleClickListener.onClick(schedule)
