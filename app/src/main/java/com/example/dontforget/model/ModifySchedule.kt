@@ -50,6 +50,10 @@ class ModifySchedule : AppCompatActivity() {
         }
 
         binding.writeButton.setOnClickListener { handleScheduleInput(textSize,scheduleDDay,scheduleDate!!) }
+
+        binding.backButton.setOnClickListener{
+            finish()
+        }
     }
     private fun showDatePickerDialog() {
         val cal = Calendar.getInstance()

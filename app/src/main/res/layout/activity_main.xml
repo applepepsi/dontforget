@@ -11,17 +11,17 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/scheduleViewer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="50dp"
+        android:layout_height="0dp"
 
         android:background="#E3E3E3"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/CreateScheduleButton" />
+        app:layout_constraintTop_toBottomOf="@+id/up_bar" />
 
-    <!--    <ImageButton-->
-<!--        android:id="@+id/CreateScheduleButton"-->
+<!--        <ImageButton-->
+<!--        android:id="@+id/CreateScheduleButton2"-->
 <!--        android:layout_width="26dp"-->
 <!--        android:layout_height="24dp"-->
 <!--        android:layout_marginTop="2dp"-->
@@ -35,19 +35,63 @@
 <!--        app:layout_constraintVertical_bias="1.0"-->
 <!--        app:srcCompat="@drawable/write_icon" />-->
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/CreateScheduleButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
 
-        android:layout_margin="16dp"
-        android:layout_marginTop="2dp"
-        android:layout_marginEnd="16dp"
-        android:src="@drawable/write_icon"
-        app:backgroundTint="@color/white"
-        app:fabSize="mini"
-        app:layout_constraintEnd_toEndOf="parent"
+    <Button
+        android:id="@+id/CreateScheduleButton"
+        android:layout_width="0dp"
+        android:layout_height="38dp"
+        android:layout_marginEnd="10dp"
+
+        android:fontFamily="@font/inriasans_bold"
+        android:text="작성 하기"
+
+        android:textSize="10dp"
+        app:backgroundTint="#E3E3E3"
+        app:layout_constraintBottom_toTopOf="@+id/scheduleViewer"
+        app:layout_constraintEnd_toEndOf="@+id/up_bar"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/up_bar"
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:paddingStart="10dp"
+        android:background="#ffffff"
+        android:fontFamily="@font/inriasans_bold"
+        android:gravity="center_vertical"
+        android:text="Don't Forget"
+        android:textSize="20dp"
+        android:textColor="#000000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/line1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+
+
+        android:background="#cccccc"
+        app:layout_constraintBottom_toTopOf="@+id/scheduleViewer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/up_bar" />
+<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--        android:id="@+id/CreateScheduleButton"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+
+<!--        android:layout_margin="16dp"-->
+<!--        android:layout_marginStart="16dp"-->
+<!--        android:layout_marginEnd="84dp"-->
+<!--        android:src="@drawable/write_icon"-->
+<!--        app:backgroundTint="@color/white"-->
+<!--        app:fabSize="mini"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/scheduleViewer"-->
+<!--        tools:layout_editor_absoluteY="603dp" />-->
 
     <!--        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
 <!--        tools:listitem="@layout/schedule_item_view"-->

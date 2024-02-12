@@ -30,6 +30,10 @@ class EnterSchedule : AppCompatActivity() {
         bottomNavigation()
 
         binding.writeButton.setOnClickListener { handleScheduleInput() }
+
+        binding.backButton.setOnClickListener{
+            finish()
+        }
     }
     private fun showDatePickerDialog() {
         val cal = Calendar.getInstance()
