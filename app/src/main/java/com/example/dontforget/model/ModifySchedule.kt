@@ -34,7 +34,7 @@ class ModifySchedule : AppCompatActivity() {
         val textSize=intent.getFloatExtra("textSize",15f)
         var scheduleDate=intent.getStringExtra("scheduleDate")
 
-        bottomNavigation(textSize,scheduleDDay,scheduleDate!!)
+        bottomNavigation()
 
         if (scheduleText != null) {
             binding.scheduleText.setText(scheduleText)
@@ -47,9 +47,9 @@ class ModifySchedule : AppCompatActivity() {
             else{
                 binding.setDate.setText(scheduleDate)
             }
-
         }
 
+        binding.writeButton.setOnClickListener { handleScheduleInput(textSize,scheduleDDay,scheduleDate!!) }
     }
     private fun showDatePickerDialog() {
         val cal = Calendar.getInstance()
@@ -72,7 +72,7 @@ class ModifySchedule : AppCompatActivity() {
         datePickerDialog.show()
     }
 
-    private fun bottomNavigation(textSize:Float,scheduleDDay:Long,scheduleDate:String){
+    private fun bottomNavigation(){
         binding.bottomNavigationView.setOnItemSelectedListener { item->
             when(item.itemId){
                 R.id.selectDate->{
