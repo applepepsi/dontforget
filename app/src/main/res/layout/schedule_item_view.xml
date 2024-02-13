@@ -17,7 +17,7 @@
             android:id="@+id/frameTop"
             android:layout_width="0dp"
             android:layout_height="30dp"
-            android:background="#ffffff"
+            android:background="@drawable/radius_top"
 
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -75,18 +75,18 @@
             android:id="@+id/scheduleInfo"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:background="@drawable/radius_bottom"
+            android:fontFamily="@font/inriasans_regular"
             android:paddingStart="10dp"
-            android:paddingBottom="5dp"
             android:paddingTop="3dp"
             android:paddingEnd="10dp"
-            android:background="#ffffff"
+            android:paddingBottom="5dp"
             android:text="aa"
-            android:fontFamily="@font/inriasans_regular"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/line1"
-            app:layout_constraintWidth_percent="0.95"
-            />
+            app:layout_constraintWidth_percent="0.95" />
 
 <!--        <View-->
 <!--            android:id="@+id/line2"-->
