@@ -1,20 +1,21 @@
 package com.example.dontforget.model
 
 import android.app.DatePickerDialog
-import android.content.ContentValues.TAG
 import android.content.Intent
 import android.icu.util.Calendar
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.util.TypedValue
-import android.view.View
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import com.example.dontforget.MainActivity
 import com.example.dontforget.R
 import com.example.dontforget.databinding.ActivityEnterScheduleBinding
-import java.text.SimpleDateFormat
+import com.github.dhaval2404.colorpicker.MaterialColorPickerDialog
+import com.github.dhaval2404.colorpicker.model.ColorShape
+import com.github.dhaval2404.colorpicker.model.ColorSwatch
 import java.util.*
+
 
 class EnterSchedule : AppCompatActivity() {
     val binding by lazy{ActivityEnterScheduleBinding.inflate(layoutInflater)}
@@ -56,6 +57,20 @@ class EnterSchedule : AppCompatActivity() {
         datePickerDialog.show()
     }
 
+    private fun colorPickerDialog(){
+        val changeColor=MaterialColorPickerDialog
+            .Builder(this)
+            .setTitle("색상 선택")
+            .setColorShape(ColorShape.SQAURE)
+            .setColorSwatch(ColorSwatch._300)
+            .setColors(arrayListOf("#f6e58d", "#ffbe76", "#ff7979", "#badc58", "#dff9fb", "#7ed6df", "#e056fd", "#686de0", "#30336b", "#95afc0","#E3E3E3","#000000"))
+            .setDefaultColor("#000000")
+            .setColorListener { color, colorHex ->
+                binding.scheduleText.setTextColor(color)
+            }
+            .show()
+    }
+
     private fun bottomNavigation(){
         binding.bottomNavigationView.setOnItemSelectedListener { item->
             when(item.itemId){
@@ -67,10 +82,10 @@ class EnterSchedule : AppCompatActivity() {
                     showTextSizeChangePopUp()
                     true
                 }
-//                R.id.write->{
-//                    handleScheduleInput()
-//                    true
-//                }
+                R.id.selectColor->{
+                    colorPickerDialog()
+                    true
+                }
                 else -> false
             }
         }
