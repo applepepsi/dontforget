@@ -2,10 +2,14 @@ package com.example.dontforget.model
 
 import android.app.DatePickerDialog
 import android.content.Intent
+import android.graphics.Color
 import android.icu.util.Calendar
 import android.os.Bundle
+import android.text.*
+import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.util.TypedValue
+import android.view.MotionEvent
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.example.dontforget.MainActivity
@@ -22,6 +26,7 @@ class EnterSchedule : AppCompatActivity() {
     private var textSize: Float = 15f
     private var scheduleDateMilli: Long? = null
     val currentDateMilli = DayCalculation().getCurrentDateMillis()
+    private val textColorList= mutableMapOf<Int,Int>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +35,11 @@ class EnterSchedule : AppCompatActivity() {
 
         bottomNavigation()
 
+        textWatcher()
+
+
         binding.writeButton.setOnClickListener { handleScheduleInput() }
+
 
         binding.backButton.setOnClickListener{
             finish()
@@ -64,11 +73,50 @@ class EnterSchedule : AppCompatActivity() {
             .setColorShape(ColorShape.SQAURE)
             .setColorSwatch(ColorSwatch._300)
             .setColors(arrayListOf("#f6e58d", "#ffbe76", "#ff7979", "#badc58", "#dff9fb", "#7ed6df", "#e056fd", "#686de0", "#30336b", "#95afc0","#E3E3E3","#000000"))
-            .setDefaultColor("#000000")
-            .setColorListener { color, colorHex ->
-                binding.scheduleText.setTextColor(color)
+            .setDefaultColor("#ff7979")
+            .setColorListener { color, _ ->
+//                selectedColor = color
+                changeColor(color)
+//                binding.scheduleText.setTextColor(color)
+
             }
             .show()
+    }
+
+    private fun changeColor(color:Int){
+
+        val start = binding.scheduleText.selectionStart
+        val end = binding.scheduleText.selectionEnd
+        val text = binding.scheduleText.text
+        val spannable = SpannableStringBuilder(text)
+        Log.d("시작값 종료값 테스트", "시작값${start.toString()},종료값${end.toString()}" )
+
+        for (i in start until end){
+            textColorList[i]=color
+        }
+        Log.d("리스트값 확인", textColorList.toString())
+        spannable.setSpan(ForegroundColorSpan(color), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        binding.scheduleText.text = spannable
+
+    }
+
+    private fun textWatcher() {
+        binding.scheduleText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // 텍스트 변경 전에 호출됩니다.
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // 텍스트가 변경될 때 호출됩니다.
+                // 이곳에서 텍스트의 변경사항을 처리합니다.
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                val currentCursorPosition = binding.scheduleText.selectionStart
+                val spannable = SpannableStringBuilder(binding.scheduleText.text)
+
+            }
+        })
     }
 
     private fun bottomNavigation(){
@@ -84,12 +132,14 @@ class EnterSchedule : AppCompatActivity() {
                 }
                 R.id.selectColor->{
                     colorPickerDialog()
+
                     true
                 }
                 else -> false
             }
         }
     }
+
 
 
     private fun showTextSizeChangePopUp(){
@@ -114,6 +164,7 @@ class EnterSchedule : AppCompatActivity() {
         }
         popupMenu.show()
     }
+
 
     private fun handleScheduleInput() {
         val enterScheduleIntent = Intent(this, MainActivity::class.java)
