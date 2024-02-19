@@ -136,6 +136,7 @@ class MainActivity : AppCompatActivity() {
                 val scheduleDateMilli=data?.getLongExtra("scheduleDateMilli",0)
                 val scheduleDate=data?.getStringExtra("scheduleDate")
                 val textSize=data?.getFloatExtra("textSize",15f)
+                val textColorList=data?.getMutableMapOf
 
                 if(scheduleText!=null) {
                     lifecycleScope.launch(Dispatchers.IO) {

@@ -6,7 +6,9 @@ import android.graphics.Color
 import android.icu.util.Calendar
 import android.os.Bundle
 import android.text.*
+import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
+import android.text.style.RelativeSizeSpan
 import android.util.Log
 import android.util.TypedValue
 import android.view.MotionEvent
@@ -27,6 +29,7 @@ class EnterSchedule : AppCompatActivity() {
     private var scheduleDateMilli: Long? = null
     val currentDateMilli = DayCalculation().getCurrentDateMillis()
     private val textColorList= mutableMapOf<Int,Int>()
+    private val textSizeList= mutableMapOf<Int,Float>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -94,7 +97,7 @@ class EnterSchedule : AppCompatActivity() {
         for (i in start until end){
             textColorList[i]=color
         }
-        Log.d("리스트값 확인", textColorList.toString())
+        Log.d("색 리스트값 확인", textColorList.toString())
         spannable.setSpan(ForegroundColorSpan(color), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         binding.scheduleText.text = spannable
 
@@ -103,12 +106,9 @@ class EnterSchedule : AppCompatActivity() {
     private fun textWatcher() {
         binding.scheduleText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                // 텍스트 변경 전에 호출됩니다.
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                // 텍스트가 변경될 때 호출됩니다.
-                // 이곳에서 텍스트의 변경사항을 처리합니다.
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -127,7 +127,7 @@ class EnterSchedule : AppCompatActivity() {
                     true
                 }
                 R.id.textSize->{
-                    showTextSizeChangePopUp()
+                    showTextSizeChangePopUp2()
                     true
                 }
                 R.id.selectColor->{
@@ -164,7 +164,42 @@ class EnterSchedule : AppCompatActivity() {
         }
         popupMenu.show()
     }
+    private fun showTextSizeChangePopUp2(){
+        val popupMenu = PopupMenu(this, binding.bottomNavigationView)
+        popupMenu.inflate(R.menu.character_size_settings)
 
+        popupMenu.setOnMenuItemClickListener { menuItem ->
+            textSize = when (menuItem.itemId) {
+                R.id.size15 -> 15f
+                R.id.size20 -> 20f
+                R.id.size25 -> 25f
+                R.id.size30 -> 30f
+                R.id.size35 -> 35f
+                R.id.size40 -> 40f
+                R.id.size45 -> 45f
+                R.id.size50 -> 50f
+
+                else -> 15f
+            }
+            changeTextSize(textSize)
+            true
+        }
+        popupMenu.show()
+    }
+
+    private fun changeTextSize(textSize: Float){
+        val start = binding.scheduleText.selectionStart
+        val end = binding.scheduleText.selectionEnd
+        val text = binding.scheduleText.text
+        val spannable = SpannableStringBuilder(text)
+
+        for (i in start until end){
+            textSizeList[i]=textSize
+        }
+        Log.d("글자 크기 리스트값 확인", textSizeList.toString())
+        spannable.setSpan(AbsoluteSizeSpan(textSize.toInt(),true), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        binding.scheduleText.text=spannable
+    }
 
     private fun handleScheduleInput() {
         val enterScheduleIntent = Intent(this, MainActivity::class.java)
