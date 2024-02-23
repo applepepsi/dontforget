@@ -3,6 +3,7 @@ package com.example.dontforget
 import android.app.Activity
 import android.content.DialogInterface
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -136,7 +137,19 @@ class MainActivity : AppCompatActivity() {
                 val scheduleDateMilli=data?.getLongExtra("scheduleDateMilli",0)
                 val scheduleDate=data?.getStringExtra("scheduleDate")
                 val textSize=data?.getFloatExtra("textSize",15f)
-                val textColorList=data?.getMutableMapOf
+                val textSizeList = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                    data?.getParcelableExtra<TextSizeData>("textSizeList")
+                } else {
+                    data?.getParcelableExtra("textSizeList")
+                }
+                val textColorList=if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                    data?.getParcelableExtra<TextColorData>("textColorList")
+                } else {
+                    data?.getParcelableExtra("textColorList")
+                }
+
+                Log.d("받은 글자크기 리스트 확인", textSizeList.toString())
+                Log.d("받은 글자색 리스트 확인", textColorList.toString())
 
                 if(scheduleText!=null) {
                     lifecycleScope.launch(Dispatchers.IO) {

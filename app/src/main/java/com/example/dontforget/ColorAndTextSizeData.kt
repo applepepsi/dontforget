@@ -4,7 +4,11 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class ColorAndTextSizeData(
+data class TextColorData(
     val textIdToColorMap: Map<Int, Int>,
-    val textIdToSizeMap: Map<Int, Float>
 ) : Parcelable
+
+@Parcelize
+data class TextSizeData(
+    val textIdToSizeMap: Map<Int, Float>
+): Parcelable

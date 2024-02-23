@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.icu.util.Calendar
 import android.os.Bundle
+import android.os.Parcelable
 import android.text.*
 import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
@@ -16,10 +17,13 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.example.dontforget.MainActivity
 import com.example.dontforget.R
+import com.example.dontforget.TextColorData
+import com.example.dontforget.TextSizeData
 import com.example.dontforget.databinding.ActivityEnterScheduleBinding
 import com.github.dhaval2404.colorpicker.MaterialColorPickerDialog
 import com.github.dhaval2404.colorpicker.model.ColorShape
 import com.github.dhaval2404.colorpicker.model.ColorSwatch
+import java.io.Serializable
 import java.util.*
 
 
@@ -204,11 +208,14 @@ class EnterSchedule : AppCompatActivity() {
     private fun handleScheduleInput() {
         val enterScheduleIntent = Intent(this, MainActivity::class.java)
 
+
         if (scheduleDateMilli != null) {
             if (currentDateMilli <= scheduleDateMilli!!) {
                 enterScheduleIntent.putExtra("scheduleDate", binding.setDate.text.toString())
                 enterScheduleIntent.putExtra("scheduleDateMilli", scheduleDateMilli)
                 enterScheduleIntent.putExtra("textSize", textSize)
+                enterScheduleIntent.putExtra("textSizeList", TextSizeData(textSizeList))
+                enterScheduleIntent.putExtra("textColorList", TextColorData(textColorList))
 
                 if (binding.scheduleText.text.toString().isNotEmpty()) {
                     enterScheduleIntent.putExtra("scheduleText", binding.scheduleText.text.toString())
