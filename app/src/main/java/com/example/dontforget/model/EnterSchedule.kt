@@ -30,10 +30,12 @@ import java.util.*
 class EnterSchedule : AppCompatActivity() {
     val binding by lazy{ActivityEnterScheduleBinding.inflate(layoutInflater)}
     private var textSize: Float = 15f
+
     private var scheduleDateMilli: Long? = null
     val currentDateMilli = DayCalculation().getCurrentDateMillis()
     private val textColorList= mutableMapOf<Int,Int>()
     private val textSizeList= mutableMapOf<Int,Float>()
+    private var defaultColor=-16777216
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,8 +44,8 @@ class EnterSchedule : AppCompatActivity() {
 
         bottomNavigation()
 
-        textWatcher()
 
+        textWatcher()
 
         binding.writeButton.setOnClickListener { handleScheduleInput() }
 
@@ -52,6 +54,9 @@ class EnterSchedule : AppCompatActivity() {
             finish()
         }
     }
+
+
+
     private fun showDatePickerDialog() {
         val cal = Calendar.getInstance()
 
@@ -83,7 +88,9 @@ class EnterSchedule : AppCompatActivity() {
             .setDefaultColor("#ff7979")
             .setColorListener { color, _ ->
 //                selectedColor = color
+
                 changeColor(color)
+                defaultColor=color
 //                binding.scheduleText.setTextColor(color)
 
             }
@@ -98,30 +105,26 @@ class EnterSchedule : AppCompatActivity() {
         val spannable = SpannableStringBuilder(text)
         Log.d("시작값 종료값 테스트", "시작값${start.toString()},종료값${end.toString()}" )
 
-        for (i in start until end){
-            textColorList[i]=color
-        }
+//        for (i in start until end){
+//            textColorList[i]=color
+//        }
         Log.d("색 리스트값 확인", textColorList.toString())
         spannable.setSpan(ForegroundColorSpan(color), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         binding.scheduleText.text = spannable
 
     }
+    private fun changeDefaultColor(text:Editable){
+        val end=text.length
+        val start= if (end < 1) 0 else (end-1)
 
-    private fun textWatcher() {
-        binding.scheduleText.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                val currentCursorPosition = binding.scheduleText.selectionStart
-                val spannable = SpannableStringBuilder(binding.scheduleText.text)
-
-            }
-        })
+        binding.scheduleText.text?.setSpan(
+            ForegroundColorSpan(defaultColor),
+            start,
+            end,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
     }
+
 
     private fun bottomNavigation(){
         binding.bottomNavigationView.setOnItemSelectedListener { item->
@@ -145,29 +148,6 @@ class EnterSchedule : AppCompatActivity() {
     }
 
 
-
-    private fun showTextSizeChangePopUp(){
-        val popupMenu = PopupMenu(this, binding.bottomNavigationView)
-        popupMenu.inflate(R.menu.character_size_settings)
-
-        popupMenu.setOnMenuItemClickListener { menuItem ->
-            textSize = when (menuItem.itemId) {
-                R.id.size15 -> 15f
-                R.id.size20 -> 20f
-                R.id.size25 -> 25f
-                R.id.size30 -> 30f
-                R.id.size35 -> 35f
-                R.id.size40 -> 40f
-                R.id.size45 -> 45f
-                R.id.size50 -> 50f
-
-                else -> 15f
-            }
-            binding.scheduleText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize)
-            true
-        }
-        popupMenu.show()
-    }
     private fun showTextSizeChangePopUp2(){
         val popupMenu = PopupMenu(this, binding.bottomNavigationView)
         popupMenu.inflate(R.menu.character_size_settings)
@@ -196,18 +176,35 @@ class EnterSchedule : AppCompatActivity() {
         val end = binding.scheduleText.selectionEnd
         val text = binding.scheduleText.text
         val spannable = SpannableStringBuilder(text)
-
+        Log.d("시작 끝 확인", "시작${start.toString()},끝${end}")
         for (i in start until end){
             textSizeList[i]=textSize
+        }
+        if(start==end){
+            textSize
         }
         Log.d("글자 크기 리스트값 확인", textSizeList.toString())
         spannable.setSpan(AbsoluteSizeSpan(textSize.toInt(),true), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         binding.scheduleText.text=spannable
+
+    }
+
+    private fun textWatcher() {
+        binding.scheduleText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                s?.let{changeDefaultColor(it)}
+            }
+        })
     }
 
     private fun handleScheduleInput() {
         val enterScheduleIntent = Intent(this, MainActivity::class.java)
-
 
         if (scheduleDateMilli != null) {
             if (currentDateMilli <= scheduleDateMilli!!) {
