@@ -79,6 +79,8 @@ class EnterSchedule : AppCompatActivity() {
     }
 
     private fun colorPickerDialog(){
+        val start = binding.scheduleText.selectionStart
+        val end = binding.scheduleText.selectionEnd
         val changeColor=MaterialColorPickerDialog
             .Builder(this)
             .setTitle("색상 선택")
@@ -89,8 +91,13 @@ class EnterSchedule : AppCompatActivity() {
             .setColorListener { color, _ ->
 //                selectedColor = color
 
-                changeColor(color)
+
                 defaultColor=color
+
+                changeColor(color)
+
+
+
 //                binding.scheduleText.setTextColor(color)
 
             }
@@ -114,15 +121,24 @@ class EnterSchedule : AppCompatActivity() {
 
     }
     private fun changeDefaultColor(text:Editable){
-        val end=text.length
-        val start= if (end < 1) 0 else (end-1)
 
-        binding.scheduleText.text?.setSpan(
+        val end=text.length
+        var lastColorIndex=-1
+        for (i in  0 until end) {
+            val spans = text.getSpans(i, i +  1, ForegroundColorSpan::class.java)
+            if (spans.isNotEmpty()) {
+                lastColorIndex = i
+            }
+        }
+        val start = if (lastColorIndex >=  0) lastColorIndex +  1 else  0
+        Log.d("디폴트색 확인", defaultColor.toString())
+        text.setSpan(
             ForegroundColorSpan(defaultColor),
             start,
             end,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
+
     }
 
 
