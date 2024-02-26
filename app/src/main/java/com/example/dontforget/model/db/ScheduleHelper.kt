@@ -7,10 +7,11 @@ import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
-@Database(entities = [ScheduleModel::class], version = 3, exportSchema = false)
+@Database(entities = [ScheduleModel::class,TextStyleModel::class], version = 4, exportSchema = false)
 abstract class ScheduleHelper : RoomDatabase() {
 
     abstract fun scheduleDao(): ScheduleDao
+    abstract fun textStyleDao(): TextStyleDao
 
     companion object {
         private val MIGRATION_1_2 = object : Migration(1, 2) {
@@ -24,6 +25,17 @@ abstract class ScheduleHelper : RoomDatabase() {
                 database.execSQL("ALTER TABLE schedule ADD COLUMN scheduleDate TEXT NOT NULL DEFAULT ''")
             }
         }
+        private val MIGRATION_3_4 = object : Migration(3, 4) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("CREATE TABLE IF NOT EXISTS text_style " +
+                        "(id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                        "scheduleId INTEGER NOT NULL," +
+                        "startIndex INTEGER NOT NULL," +
+                        "endIndex INTEGER NOT NULL," +
+                        "color INTEGER," +
+                        "textSize REAL)")
+                }
+        }
 
         @Volatile
         private var INSTANCE: ScheduleHelper? = null
@@ -35,7 +47,7 @@ abstract class ScheduleHelper : RoomDatabase() {
                     ScheduleHelper::class.java,
                     "schedule_database"
                 )
-                    .addMigrations(MIGRATION_1_2,MIGRATION_2_3)
+                    .addMigrations(MIGRATION_1_2,MIGRATION_2_3, MIGRATION_3_4)
                     .build()
                 INSTANCE = instance
                 instance

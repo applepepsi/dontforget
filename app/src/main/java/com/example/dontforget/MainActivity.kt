@@ -25,6 +25,7 @@ import com.example.dontforget.model.RecyclerAdapter
 import com.example.dontforget.model.db.ScheduleDao
 import com.example.dontforget.model.db.ScheduleHelper
 import com.example.dontforget.model.db.ScheduleModel
+import com.example.dontforget.model.db.TextStyleModel
 import com.example.dontforget.util.ItemSpacingController
 import com.example.dontforget.util.SwipeToDeleteCallback
 import kotlinx.coroutines.Dispatchers
@@ -98,6 +99,18 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun convertSpanInfoToTextStyleModel(spanInfo: List<SpanInfo>, scheduleId: Int): List<TextStyleModel> {
+        return spanInfo.map { spanInfo ->
+            TextStyleModel(
+                scheduleId = scheduleId,
+                startIndex = spanInfo.start,
+                endIndex = spanInfo.end,
+                color = spanInfo.color ?:  0,
+                textSize = spanInfo.size ?:  0f
+            )
+        }
+    }
+
     private fun deleteOrModify(): RecyclerAdapter.ScheduleClickListener {
 
         val scheduleClickListener = RecyclerAdapter.ScheduleClickListener { schedule ->
@@ -137,19 +150,15 @@ class MainActivity : AppCompatActivity() {
                 val scheduleDateMilli=data?.getLongExtra("scheduleDateMilli",0)
                 val scheduleDate=data?.getStringExtra("scheduleDate")
                 val textSize=data?.getFloatExtra("textSize",15f)
-                val textSizeList = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                    data?.getParcelableExtra<TextSizeData>("textSizeList")
+                val spanInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                    data?.getParcelableArrayListExtra<TextSizeData>("spanInfo")
                 } else {
-                    data?.getParcelableExtra("textSizeList")
+                    data?.getParcelableArrayListExtra("spanInfo")
                 }
-                val textColorList=if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                    data?.getParcelableExtra<TextColorData>("textColorList")
-                } else {
-                    data?.getParcelableExtra("textColorList")
-                }
+//                val spanInfos: ArrayList<SpanInfo>? = intent.getParcelableArrayListExtra<SpanInfo>("spanInfo")
 
-                Log.d("받은 글자크기 리스트 확인", textSizeList.toString())
-                Log.d("받은 글자색 리스트 확인", textColorList.toString())
+
+                Log.d("받은 글자크기 리스트 확인", spanInfo.toString())
 
                 if(scheduleText!=null) {
                     lifecycleScope.launch(Dispatchers.IO) {

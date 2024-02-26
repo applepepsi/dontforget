@@ -8,8 +8,8 @@ import java.time.format.TextStyle
 @Dao
 interface TextStyleDao {
     @Insert
-    suspend fun insert(textStyle: TextStyle)
+    suspend fun insert(textStyle: TextStyleModel)
 
     @Query("SELECT * FROM text_style WHERE scheduleId = :scheduleId")
-    suspend fun getTextStylesByScheduleId(scheduleId: Int): List<TextStyle>
+    suspend fun getTextStylesByScheduleId(scheduleId: Int): List<TextStyleModel>
 }
