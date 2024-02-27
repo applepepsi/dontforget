@@ -99,17 +99,17 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun convertSpanInfoToTextStyleModel(spanInfo: List<SpanInfo>, scheduleId: Int): List<TextStyleModel> {
-        return spanInfo.map { spanInfo ->
-            TextStyleModel(
-                scheduleId = scheduleId,
-                startIndex = spanInfo.start,
-                endIndex = spanInfo.end,
-                color = spanInfo.color ?:  0,
-                textSize = spanInfo.size ?:  0f
-            )
-        }
-    }
+//    fun convertSpanInfoToTextStyleModel(spanInfo: List<SpanInfo>, scheduleId: Int): List<TextStyleModel> {
+//        return spanInfo.map { spanInfo ->
+//            TextStyleModel(
+//                scheduleId = scheduleId,
+//                startIndex = spanInfo.start,
+//                endIndex = spanInfo.end,
+//                color = spanInfo.color ?:  0,
+//                textSize = spanInfo.size ?:  0f
+//            )
+//        }
+//    }
 
     private fun deleteOrModify(): RecyclerAdapter.ScheduleClickListener {
 
@@ -151,7 +151,7 @@ class MainActivity : AppCompatActivity() {
                 val scheduleDate=data?.getStringExtra("scheduleDate")
                 val textSize=data?.getFloatExtra("textSize",15f)
                 val spanInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                    data?.getParcelableArrayListExtra<TextSizeData>("spanInfo")
+                    data?.getParcelableArrayListExtra<SpanInfo>("spanInfo")
                 } else {
                     data?.getParcelableArrayListExtra("spanInfo")
                 }
@@ -164,6 +164,16 @@ class MainActivity : AppCompatActivity() {
                     lifecycleScope.launch(Dispatchers.IO) {
                         val schedule = ScheduleModel(id = null, scheduleText, scheduleDateMilli!!, textSize!!,scheduleDate!!)
                         scheduleDao.insertSchedule(schedule)
+//                        for (spanInfo in spanInfoList) {
+//                            val textStyle = TextStyleModel(
+//                                scheduleId = scheduleId.toInt(), // scheduleId를 Int로 변환
+//                                startIndex = spanInfo.start,
+//                                endIndex = spanInfo.end,
+//                                color = spanInfo.color ?:  0,
+//                                textSize = spanInfo.size ?:  0f
+//                            )
+//                            textStyleDao.insertTextStyle(textStyle) // textStyleDao는 TextStyleModel을 삽입하는 DAO입니다.
+//                        }
                         withContext(Dispatchers.Main) {
                             refreshAdapter()
                         }

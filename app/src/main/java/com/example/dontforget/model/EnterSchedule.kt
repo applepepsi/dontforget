@@ -232,28 +232,34 @@ class EnterSchedule : AppCompatActivity() {
         val sizeInfo=mutableListOf<SpanInfo>()
 
         val colorSpans = text.getSpans(0, text.length, ForegroundColorSpan::class.java)
+        val sizeSpans2 = text.getSpans(0, text.length, AbsoluteSizeSpan::class.java)
         Log.d("색 getSpans",colorSpans.toString())
         for (span in colorSpans) {
             val start = text.getSpanStart(span)
             val end = text.getSpanEnd(span)
             val color = span.foregroundColor
-            val newSpanInfo=SpanInfo(start,end,"ForegroundColorSpan",color)
-            deleteDuplicateInfo(colorInfo, newSpanInfo)
+
+            val newSpanInfo=SpanInfo(start,end,color)
+            colorInfo.add(newSpanInfo)
+//            deleteDuplicateInfo(colorInfo, newSpanInfo)
         }
-//        Log.d("스판인포", colorInfo.toString())
+
 
         val sizeSpans = text.getSpans(0, text.length, AbsoluteSizeSpan::class.java)
         for (span in sizeSpans) {
             val start = text.getSpanStart(span)
             val end = text.getSpanEnd(span)
             val size = span.size
-            val newSpanInfo=SpanInfo(start, end, "AbsoluteSizeSpan", null, size.toFloat())
+            val newSpanInfo=SpanInfo(start, end,null, size.toFloat())
 //            sizeInfo.add(SpanInfo(start, end, "AbsoluteSizeSpan", null, size.toFloat()))
-            deleteDuplicateInfo(sizeInfo, newSpanInfo)
+//            deleteDuplicateInfo(sizeInfo, newSpanInfo)
+            sizeInfo.add(newSpanInfo)
         }
-//        Log.d("스판인포", sizeInfo.toString())
+//        Log.d("더한스판인포", addTextAndColorInfo(colorInfo+sizeInfo).toString())
+        Log.d("스판인포", ((colorInfo+sizeInfo).toString()))
         return colorInfo+sizeInfo
     }
+
 
     private fun deleteDuplicateInfo(spanInfo:MutableList<SpanInfo>, newSpanInfo:SpanInfo){
         val index=spanInfo.indexOfFirst{it.start==newSpanInfo.start && it.end==newSpanInfo.end}
@@ -261,16 +267,32 @@ class EnterSchedule : AppCompatActivity() {
             spanInfo.removeAt(index)
         }
         spanInfo.add(newSpanInfo)
-
     }
+
+
+    private fun addTextAndColorInfo(spanInfoList: List<SpanInfo>): List<SpanInfo> {
+        val groupedByPosition = spanInfoList.groupBy { it.start to it.end }
+
+        val mergedSpanInfoList = groupedByPosition.map { (position, spanInfos) ->
+            val start = position.first
+            val end = position.second
+            val color = spanInfos.firstOrNull { it.color != null }?.color ?:  0
+            val size = spanInfos.firstOrNull { it.size != null }?.size ?:  0f
+            SpanInfo(start, end, color, size)
+        }
+
+        return mergedSpanInfoList
+    }
+
 
     private fun handleScheduleInput() {
         val enterScheduleIntent = Intent(this, MainActivity::class.java)
         val text=binding.scheduleText.text as Editable
         val spanInfos = getSpansInfo(text)
+
         enterScheduleIntent.putParcelableArrayListExtra("spanInfo", ArrayList(spanInfos))
-        Log.d("스판인포", ArrayList(spanInfos).toString())
-//        Log.d("스판인포", spanInfos.toString())
+//        Log.d("스판인포", ArrayList(spanInfos).toString())
+
         if (scheduleDateMilli != null) {
             if (currentDateMilli <= scheduleDateMilli!!) {
                 enterScheduleIntent.putExtra("scheduleDate", binding.setDate.text.toString())

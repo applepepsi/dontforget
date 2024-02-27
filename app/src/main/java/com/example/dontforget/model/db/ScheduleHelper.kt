@@ -33,8 +33,9 @@ abstract class ScheduleHelper : RoomDatabase() {
                         "startIndex INTEGER NOT NULL," +
                         "endIndex INTEGER NOT NULL," +
                         "color INTEGER," +
-                        "textSize REAL)")
-                }
+                        "textSize REAL," +
+                        "FOREIGN KEY(scheduleId) REFERENCES schedule(id) ON DELETE CASCADE)")
+            }
         }
 
         @Volatile

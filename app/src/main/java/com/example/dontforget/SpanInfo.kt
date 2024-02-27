@@ -7,7 +7,6 @@ import kotlinx.android.parcel.Parcelize
 data class SpanInfo(
     val start: Int,
     val end: Int,
-    val spanType: String,
-    val color: Int? = null,
-    val size: Float? = null
+    var color: Int? = null,
+    var size: Float? = null
 ): Parcelable
