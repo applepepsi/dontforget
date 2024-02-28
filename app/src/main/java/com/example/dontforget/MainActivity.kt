@@ -3,11 +3,8 @@ package com.example.dontforget
 import android.app.Activity
 import android.content.DialogInterface
 import android.content.Intent
-import android.os.Build
+import android.os.*
 import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import android.util.TypedValue
 import android.widget.Toast
@@ -151,7 +148,7 @@ class MainActivity : AppCompatActivity() {
                 val scheduleDate=data?.getStringExtra("scheduleDate")
                 val textSize=data?.getFloatExtra("textSize",15f)
                 val spanInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                    data?.getParcelableArrayListExtra<SpanInfo>("spanInfo")
+                    data?.getParcelableArrayListExtra<Parcelable>("spanInfo")
                 } else {
                     data?.getParcelableArrayListExtra("spanInfo")
                 }
@@ -166,13 +163,13 @@ class MainActivity : AppCompatActivity() {
                         scheduleDao.insertSchedule(schedule)
 //                        for (spanInfo in spanInfoList) {
 //                            val textStyle = TextStyleModel(
-//                                scheduleId = scheduleId.toInt(), // scheduleId를 Int로 변환
+//                                scheduleId = scheduleId.toInt(),
 //                                startIndex = spanInfo.start,
 //                                endIndex = spanInfo.end,
 //                                color = spanInfo.color ?:  0,
 //                                textSize = spanInfo.size ?:  0f
 //                            )
-//                            textStyleDao.insertTextStyle(textStyle) // textStyleDao는 TextStyleModel을 삽입하는 DAO입니다.
+//                            textStyleDao.insertTextStyle(textStyle)
 //                        }
                         withContext(Dispatchers.Main) {
                             refreshAdapter()
