@@ -6,14 +6,16 @@ import androidx.room.*
 @Dao
 interface ScheduleDao {
     @Query("SELECT * FROM schedule")
-    fun getAll(): List<ScheduleModel>
+    suspend fun getAll(): List<ScheduleModel>
 
     @Insert
-    fun insertSchedule(schedule:ScheduleModel)
+    suspend fun insertSchedule(schedule: ScheduleModel): Long
 
     @Update
-    fun updateSchedule(schedule:ScheduleModel)
+    suspend fun updateSchedule(schedule: ScheduleModel)
 
     @Delete
-    fun deleteSchedule(schedule:ScheduleModel)
+    suspend fun deleteSchedule(schedule: ScheduleModel)
+
+
 }

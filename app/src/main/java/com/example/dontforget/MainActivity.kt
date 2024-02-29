@@ -147,7 +147,7 @@ class MainActivity : AppCompatActivity() {
                 val scheduleDateMilli=data?.getLongExtra("scheduleDateMilli",0)
                 val scheduleDate=data?.getStringExtra("scheduleDate")
                 val textSize=data?.getFloatExtra("textSize",15f)
-                val spanInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                val spanInfoList = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                     data?.getParcelableArrayListExtra<Parcelable>("spanInfo")
                 } else {
                     data?.getParcelableArrayListExtra("spanInfo")
@@ -155,21 +155,21 @@ class MainActivity : AppCompatActivity() {
 //                val spanInfos: ArrayList<SpanInfo>? = intent.getParcelableArrayListExtra<SpanInfo>("spanInfo")
 
 
-                Log.d("받은 글자크기 리스트 확인", spanInfo.toString())
+                Log.d("받은 글자크기 리스트 확인", spanInfoList.toString())
 
                 if(scheduleText!=null) {
                     lifecycleScope.launch(Dispatchers.IO) {
                         val schedule = ScheduleModel(id = null, scheduleText, scheduleDateMilli!!, textSize!!,scheduleDate!!)
-                        scheduleDao.insertSchedule(schedule)
-//                        for (spanInfo in spanInfoList) {
-//                            val textStyle = TextStyleModel(
-//                                scheduleId = scheduleId.toInt(),
-//                                startIndex = spanInfo.start,
-//                                endIndex = spanInfo.end,
-//                                color = spanInfo.color ?:  0,
-//                                textSize = spanInfo.size ?:  0f
-//                            )
-//                            textStyleDao.insertTextStyle(textStyle)
+                        val scheduleId=scheduleDao.insertSchedule(schedule)
+                        Log.d("스케쥴 Id", scheduleId.toString())
+//                        if (spanInfoList != null) {
+//                            for (spanInfo in spanInfoList) {
+//                                val textStyle = TextStyleModel(
+//                                    id=null,
+//
+//                                )
+//                                textStyleDao.insertTextStyle(textStyle)
+//                            }
 //                        }
                         withContext(Dispatchers.Main) {
                             refreshAdapter()
