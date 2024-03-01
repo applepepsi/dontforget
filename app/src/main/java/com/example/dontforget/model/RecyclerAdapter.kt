@@ -19,13 +19,15 @@ import com.example.dontforget.databinding.ActivityMainBinding
 import com.example.dontforget.databinding.ScheduleItemViewBinding
 
 import com.example.dontforget.model.db.ScheduleModel
+import com.example.dontforget.model.db.TextStyleDao
 import kotlinx.coroutines.Dispatchers
 import java.nio.file.Files.size
 import java.text.FieldPosition
 import java.text.SimpleDateFormat
 
 class RecyclerAdapter(private var scheduleList: List<ScheduleModel>,
-                      private val scheduleClickListener: ScheduleClickListener
+                      private val scheduleClickListener: ScheduleClickListener,
+                      private val textStyleDao: TextStyleDao
                         ): RecyclerView.Adapter<RecyclerAdapter.Holder>() {
 
 

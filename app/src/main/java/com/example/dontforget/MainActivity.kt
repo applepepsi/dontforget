@@ -19,10 +19,9 @@ import com.example.dontforget.databinding.ActivityMainBinding
 import com.example.dontforget.model.EnterSchedule
 import com.example.dontforget.model.ModifySchedule
 import com.example.dontforget.model.RecyclerAdapter
-import com.example.dontforget.model.db.ScheduleDao
-import com.example.dontforget.model.db.ScheduleHelper
-import com.example.dontforget.model.db.ScheduleModel
-import com.example.dontforget.model.db.TextStyleModel
+import com.example.dontforget.model.db.*
+import com.example.dontforget.spanInfo.ColorInfo
+import com.example.dontforget.spanInfo.SizeInfo
 import com.example.dontforget.util.ItemSpacingController
 import com.example.dontforget.util.SwipeToDeleteCallback
 import kotlinx.coroutines.Dispatchers
@@ -37,6 +36,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var scheduleAdapter: RecyclerAdapter
     var scheduleList= mutableListOf<ScheduleModel>()
     lateinit var scheduleDao:ScheduleDao
+    lateinit var textStyleDao:TextStyleDao
     private var currentSchedule: ScheduleModel? = null
     val space=20
 
@@ -46,6 +46,7 @@ class MainActivity : AppCompatActivity() {
 
         val itemSpacingController = ItemSpacingController(space)
         scheduleDao = ScheduleHelper.getDatabase(this).scheduleDao()
+        textStyleDao=ScheduleHelper.getDatabase(this).textStyleDao()
 
         binding.scheduleViewer.addItemDecoration(itemSpacingController)
         val scheduleClickListener=deleteOrModify()
@@ -162,15 +163,41 @@ class MainActivity : AppCompatActivity() {
                         val schedule = ScheduleModel(id = null, scheduleText, scheduleDateMilli!!, textSize!!,scheduleDate!!)
                         val scheduleId=scheduleDao.insertSchedule(schedule)
                         Log.d("스케쥴 Id", scheduleId.toString())
-//                        if (spanInfoList != null) {
-//                            for (spanInfo in spanInfoList) {
-//                                val textStyle = TextStyleModel(
-//                                    id=null,
-//
-//                                )
-//                                textStyleDao.insertTextStyle(textStyle)
-//                            }
-//                        }
+                        if (spanInfoList != null) {
+                            for (spanInfo in spanInfoList) {
+                                val startIndex: Int
+                                val endIndex: Int
+                                val color: Int?
+                                val size: Float?
+
+                                when (spanInfo) {
+                                    is ColorInfo -> {
+                                        startIndex = spanInfo.start
+                                        endIndex = spanInfo.end
+                                        color = spanInfo.color!!
+                                        size = null
+                                    }
+                                    is SizeInfo -> {
+                                        startIndex = spanInfo.start
+                                        endIndex = spanInfo.end
+                                        color = null
+                                        size = spanInfo.size!!
+                                    }
+                                    else -> {
+                                        continue
+                                    }
+                                }
+                                val textStyle = TextStyleModel(
+                                    id=null,
+                                    scheduleId=scheduleId.toInt(),
+                                    startIndex=startIndex,
+                                    endIndex=endIndex,
+                                    color=color,
+                                    textSize=size
+                                )
+                                textStyleDao.insertTextStyle(textStyle)
+                            }
+                        }
                         withContext(Dispatchers.Main) {
                             refreshAdapter()
                         }
