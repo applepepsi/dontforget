@@ -20,7 +20,10 @@ import com.example.dontforget.databinding.ScheduleItemViewBinding
 
 import com.example.dontforget.model.db.ScheduleModel
 import com.example.dontforget.model.db.TextStyleDao
+import com.example.dontforget.model.db.TextStyleModel
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.nio.file.Files.size
 import java.text.FieldPosition
 import java.text.SimpleDateFormat
@@ -39,8 +42,10 @@ class RecyclerAdapter(private var scheduleList: List<ScheduleModel>,
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-//        Log.d("ㅋㅋㅋ", scheduleList[position].toString())
-        holder.bind(scheduleList[position], scheduleClickListener)
+
+        CoroutineScope(Dispatchers.Main).launch {
+            holder.bind(scheduleList[position], scheduleClickListener, textStyleDao)
+        }
     }
 
     override fun getItemCount()=scheduleList.size
@@ -66,13 +71,15 @@ class RecyclerAdapter(private var scheduleList: List<ScheduleModel>,
     class Holder(private val binding: ScheduleItemViewBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(schedule: ScheduleModel, scheduleClickListener: ScheduleClickListener) {
+        suspend fun bind(schedule: ScheduleModel, scheduleClickListener: ScheduleClickListener, textStyleDao: TextStyleDao) {
             with(binding) {
 
                 scheduleInfo.text = schedule.scheduleText
 
                 scheduleInfo.textSize=schedule.textSize
 
+                val textStyle= textStyleDao.getTextStylesByScheduleId(schedule.id!!)
+                Log.d("들어온 값확인", textStyle.toString())
                 //만약 사용자가 설정한 시간이 1이상으로 설정됐다면
                 if(schedule.scheduleTime>=1L){
                     var currentTime=DayCalculation().getCurrentDateMillis()

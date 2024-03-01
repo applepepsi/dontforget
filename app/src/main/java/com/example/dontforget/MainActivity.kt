@@ -32,9 +32,10 @@ import kotlinx.coroutines.withContext
 class MainActivity : AppCompatActivity() {
 
     val binding by lazy{ActivityMainBinding.inflate(layoutInflater)}
-    lateinit var helper: ScheduleHelper
+
     lateinit var scheduleAdapter: RecyclerAdapter
     var scheduleList= mutableListOf<ScheduleModel>()
+
     lateinit var scheduleDao:ScheduleDao
     lateinit var textStyleDao:TextStyleDao
     private var currentSchedule: ScheduleModel? = null
@@ -51,7 +52,7 @@ class MainActivity : AppCompatActivity() {
         binding.scheduleViewer.addItemDecoration(itemSpacingController)
         val scheduleClickListener=deleteOrModify()
 
-        scheduleAdapter= RecyclerAdapter(scheduleList,scheduleClickListener)
+        scheduleAdapter= RecyclerAdapter(scheduleList,scheduleClickListener,textStyleDao)
 
         refreshAdapter()
 
@@ -66,8 +67,10 @@ class MainActivity : AppCompatActivity() {
                 lifecycleScope.launch(Dispatchers.IO) {
                     val allSchedule=scheduleDao.getAll()
                     val deletedSchedule = allSchedule[position]
+                    val scheduleId = deletedSchedule.id
 
                     scheduleDao.deleteSchedule(deletedSchedule)
+                    textStyleDao.deleteTextStylesByScheduleId(scheduleId!!)
                 }
 
                 scheduleAdapter.removeItem(position)
