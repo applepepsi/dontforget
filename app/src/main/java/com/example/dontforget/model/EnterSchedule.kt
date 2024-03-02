@@ -11,6 +11,7 @@ import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.RelativeSizeSpan
 import android.util.Log
+import android.util.Size
 import android.util.TypedValue
 import kotlin.math.abs
 import android.view.MotionEvent
@@ -26,6 +27,7 @@ import com.github.dhaval2404.colorpicker.model.ColorSwatch
 import java.io.Serializable
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.math.max
 
 
 class EnterSchedule : AppCompatActivity() {
@@ -244,11 +246,10 @@ class EnterSchedule : AppCompatActivity() {
                 val color = span.foregroundColor
 
                 val newSpanInfo=ColorInfo(start,end,color)
-                deleteDuplicateColorInfo(colorInfo, newSpanInfo)
-
+                colorInfo.add(newSpanInfo)
             }
-//            deleteDuplicateInfo(colorInfo, newSpanInfo)
         }
+//        Log.d("컬러 중복제거 테스트", deleteDuplicateColorInfo(colorInfo).toString())
 //        Log.d("test1", (colorInfo).toString())
 
         val sizeSpans = text.getSpans(0, text.length, AbsoluteSizeSpan::class.java)
@@ -261,30 +262,73 @@ class EnterSchedule : AppCompatActivity() {
                 val size = span.size
                 val newSpanInfo=SizeInfo(start, end, size.toFloat())
 
-                deleteDuplicateSizeInfo(sizeInfo, newSpanInfo)
-//                sizeInfo.add(newSpanInfo)
+
+                sizeInfo.add(newSpanInfo)
             }
 
         }
-//        Log.d("test2", addTextAndColorInfo(colorInfo+sizeInfo).toString())
+
+//        Log.d("test2", deleteDuplicateSizeInfo(sizeInfo).toString())
 //        Log.d("test1", (colorInfo+sizeInfo).toString())
-        return (colorInfo+sizeInfo)
+        return (deleteDuplicateColorInfo(colorInfo)+deleteDuplicateSizeInfo(sizeInfo))
     }
 
 
-    private fun deleteDuplicateSizeInfo(spanInfo:MutableList<SizeInfo>, newSpanInfo:SizeInfo){
-        val index=spanInfo.indexOfFirst{it.start==newSpanInfo.start && it.end==newSpanInfo.end}
-        if(index !=-1){
-            spanInfo.removeAt(index)
+    private fun deleteDuplicateSizeInfo(spanInfo: MutableList<SizeInfo>): MutableList<SizeInfo> {
+        val mergedInfo = mutableListOf<SizeInfo>()
+        var currentInfo: SizeInfo? = null
+//        Log.d("크기인포 테스트", spanInfo.toString())
+        spanInfo.sortedBy { it.start }.forEach { info ->
+            if (currentInfo == null) {
+
+                currentInfo = info
+
+
+            } else if (currentInfo!!.end+ 1 >= info.start && currentInfo!!.size == info.size) {
+
+                currentInfo = currentInfo!!.copy(end = max(currentInfo!!.end, info.end))
+            } else {
+                if (currentInfo != null) {
+                    mergedInfo.add(currentInfo!!)
+                }
+                currentInfo = info
+            }
         }
-        spanInfo.add(newSpanInfo)
+
+        if (currentInfo != null) {
+            mergedInfo.add(currentInfo!!)
+        }
+
+        return mergedInfo
     }
-    private fun deleteDuplicateColorInfo(spanInfo:MutableList<ColorInfo>, newSpanInfo:ColorInfo){
-        val index=spanInfo.indexOfFirst{it.start==newSpanInfo.start && it.end==newSpanInfo.end}
-        if(index !=-1){
-            spanInfo.removeAt(index)
+
+    private fun deleteDuplicateColorInfo(spanInfo:MutableList<ColorInfo>): MutableList<ColorInfo> {
+        val mergedInfo = mutableListOf<ColorInfo>()
+        var currentInfo: ColorInfo? = null
+
+        spanInfo.sortedBy { it.start }.forEach { info ->
+
+            if (currentInfo == null) {
+
+                currentInfo = info
+
+
+            } else if (currentInfo!!.end+ 1 >= info.start && currentInfo!!.color == info.color) {
+
+                currentInfo = currentInfo!!.copy(end = max(currentInfo!!.end, info.end))
+            } else {
+                if (currentInfo != null) {
+                    mergedInfo.add(currentInfo!!)
+                }
+                currentInfo = info
+            }
         }
-        spanInfo.add(newSpanInfo)
+
+        if (currentInfo != null) {
+            mergedInfo.add(currentInfo!!)
+        }
+        Log.d("컬러인포 테스트", mergedInfo.toString())
+        return mergedInfo
     }
 
 
