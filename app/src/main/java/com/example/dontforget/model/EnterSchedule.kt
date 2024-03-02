@@ -327,7 +327,7 @@ class EnterSchedule : AppCompatActivity() {
         if (currentInfo != null) {
             mergedInfo.add(currentInfo!!)
         }
-        Log.d("컬러인포 테스트", mergedInfo.toString())
+
         return mergedInfo
     }
 
@@ -340,7 +340,6 @@ class EnterSchedule : AppCompatActivity() {
 
         enterScheduleIntent.putParcelableArrayListExtra("spanInfo", ArrayList(spanInfos))
 
-        Log.d("스판인포", ArrayList(spanInfos).toString())
 
         if (scheduleDateMilli != null) {
             if (currentDateMilli <= scheduleDateMilli!!) {
