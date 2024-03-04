@@ -241,11 +241,11 @@ class EnterSchedule : AppCompatActivity() {
 
         for (span in colorSpans) {
             if(span.foregroundColor!=-16777216){
-                val start = text.getSpanStart(span)
-                val end = text.getSpanEnd(span)
+                val startIndex = text.getSpanStart(span)
+                val endIndex = text.getSpanEnd(span)
                 val color = span.foregroundColor
 
-                val newSpanInfo=ColorInfo(start,end,color)
+                val newSpanInfo=ColorInfo(startIndex,endIndex,color)
                 colorInfo.add(newSpanInfo)
             }
         }
@@ -257,10 +257,10 @@ class EnterSchedule : AppCompatActivity() {
         for (span in sizeSpans) {
             if((span.size).toString() != "15")
             {
-                val start = text.getSpanStart(span)
-                val end = text.getSpanEnd(span)
+                val startIndex = text.getSpanStart(span)
+                val endIndex = text.getSpanEnd(span)
                 val size = span.size
-                val newSpanInfo=SizeInfo(start, end, size.toFloat())
+                val newSpanInfo=SizeInfo(startIndex, endIndex, size.toFloat())
 
 
                 sizeInfo.add(newSpanInfo)
@@ -278,15 +278,15 @@ class EnterSchedule : AppCompatActivity() {
         val mergedInfo = mutableListOf<SizeInfo>()
         var currentInfo: SizeInfo? = null
 //        Log.d("크기인포 테스트", spanInfo.toString())
-        spanInfo.sortedBy { it.start }.forEach { info ->
+        spanInfo.sortedBy { it.startIndex }.forEach { info ->
             if (currentInfo == null) {
 
                 currentInfo = info
 
 
-            } else if (currentInfo!!.end+ 1 >= info.start && currentInfo!!.size == info.size) {
+            } else if (currentInfo!!.endIndex+ 1 >= info.startIndex && currentInfo!!.size == info.size) {
 
-                currentInfo = currentInfo!!.copy(end = max(currentInfo!!.end, info.end))
+                currentInfo = currentInfo!!.copy(endIndex = max(currentInfo!!.endIndex, info.endIndex))
             } else {
                 if (currentInfo != null) {
                     mergedInfo.add(currentInfo!!)
@@ -306,16 +306,16 @@ class EnterSchedule : AppCompatActivity() {
         val mergedInfo = mutableListOf<ColorInfo>()
         var currentInfo: ColorInfo? = null
 
-        spanInfo.sortedBy { it.start }.forEach { info ->
+        spanInfo.sortedBy { it.startIndex }.forEach { info ->
 
             if (currentInfo == null) {
 
                 currentInfo = info
 
 
-            } else if (currentInfo!!.end+ 1 >= info.start && currentInfo!!.color == info.color) {
+            } else if (currentInfo!!.endIndex+ 1 >= info.startIndex && currentInfo!!.color == info.color) {
 
-                currentInfo = currentInfo!!.copy(end = max(currentInfo!!.end, info.end))
+                currentInfo = currentInfo!!.copy(endIndex = max(currentInfo!!.endIndex, info.endIndex))
             } else {
                 if (currentInfo != null) {
                     mergedInfo.add(currentInfo!!)
@@ -346,8 +346,6 @@ class EnterSchedule : AppCompatActivity() {
                 enterScheduleIntent.putExtra("scheduleDate", binding.setDate.text.toString())
                 enterScheduleIntent.putExtra("scheduleDateMilli", scheduleDateMilli)
                 enterScheduleIntent.putExtra("textSize", textSize)
-
-
 
                 if (binding.scheduleText.text.toString().isNotEmpty()) {
                     enterScheduleIntent.putExtra("scheduleText", binding.scheduleText.text.toString())

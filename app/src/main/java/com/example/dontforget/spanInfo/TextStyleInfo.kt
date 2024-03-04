@@ -2,10 +2,11 @@ package com.example.dontforget.spanInfo
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
+
 @Parcelize
-data class SizeInfo(
+data class TextStyleInfo(
     val startIndex: Int,
     val endIndex: Int,
-    var size: Float? = null
-): Parcelable
-
+    val color: Int?,
+    val textSize: Float?
+) : Parcelable

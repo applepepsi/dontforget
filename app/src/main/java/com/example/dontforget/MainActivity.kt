@@ -119,8 +119,10 @@ class MainActivity : AppCompatActivity() {
 
             lifecycleScope.launch {
                 withContext(Dispatchers.IO) {
-                    val builder = AlertDialog.Builder(this@MainActivity)
+                    val textStyleList= textStyleDao.getTextStyleInfo(schedule.id!!)
+                    Log.d("텍스트스타일 리스트 확인", textStyleList.toString())
 
+                    val builder = AlertDialog.Builder(this@MainActivity)
                     builder.setTitle("")
                         .setNeutralButton("수정하기", DialogInterface.OnClickListener { dialog, _ ->
                             val modifyValue = Intent(this@MainActivity, ModifySchedule::class.java)
@@ -128,6 +130,7 @@ class MainActivity : AppCompatActivity() {
                             modifyValue.putExtra("scheduleDDay", schedule.scheduleTime)
                             modifyValue.putExtra("scheduleDate", schedule.scheduleDate)
                             modifyValue.putExtra("textSize", schedule.textSize)
+                            modifyValue.putParcelableArrayListExtra("textStyleList", ArrayList(textStyleList))
 
                             modifyActivityResult.launch(modifyValue)
                         })
@@ -175,14 +178,14 @@ class MainActivity : AppCompatActivity() {
 
                                 when (spanInfo) {
                                     is ColorInfo -> {
-                                        startIndex = spanInfo.start
-                                        endIndex = spanInfo.end
+                                        startIndex = spanInfo.startIndex
+                                        endIndex = spanInfo.endIndex
                                         color = spanInfo.color!!
                                         size = null
                                     }
                                     is SizeInfo -> {
-                                        startIndex = spanInfo.start
-                                        endIndex = spanInfo.end
+                                        startIndex = spanInfo.startIndex
+                                        endIndex = spanInfo.endIndex
                                         color = null
                                         size = spanInfo.size!!
                                     }
@@ -217,6 +220,7 @@ class MainActivity : AppCompatActivity() {
                 val modifyScheduleMilli = data?.getLongExtra("modifyScheduleMilli", 0)
                 val modifyTextSize = data?.getFloatExtra("textSize", 15f)
                 val modifyScheduleDate=data?.getStringExtra("scheduleDate")
+
 
                 if (currentSchedule != null) {
                     lifecycleScope.launch(Dispatchers.IO) {

@@ -4,8 +4,10 @@ import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.icu.util.Calendar
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Parcelable
 import android.util.Log
 import android.util.TypedValue
 import android.view.View
@@ -34,6 +36,12 @@ class ModifySchedule : AppCompatActivity() {
         val textSize=intent.getFloatExtra("textSize",15f)
         var scheduleDate=intent.getStringExtra("scheduleDate")
 
+        val oldTextStyleList = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            intent?.getParcelableArrayListExtra<Parcelable>("textStyleList")
+        } else {
+            intent?.getParcelableArrayListExtra("textStyleList")
+        }
+        Log.d("수정하기 위해 보낸 스타일리스트", oldTextStyleList.toString())
         bottomNavigation()
 
         if (scheduleText != null) {
