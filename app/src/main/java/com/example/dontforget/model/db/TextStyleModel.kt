@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "text_style")
 data class TextStyleModel(
     @PrimaryKey(autoGenerate = true)
-    val id: Int? = 0,
+    var id: Int? = 0,
 
     @ColumnInfo(name="scheduleId")
     val scheduleId: Int,

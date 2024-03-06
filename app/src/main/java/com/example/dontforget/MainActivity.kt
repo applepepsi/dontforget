@@ -39,6 +39,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var scheduleDao:ScheduleDao
     lateinit var textStyleDao:TextStyleDao
     private var currentSchedule: ScheduleModel? = null
+    private var currentTextStyle:TextStyleModel?=null
     val space=20
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -94,6 +95,7 @@ class MainActivity : AppCompatActivity() {
     private fun refreshAdapter() {
         lifecycleScope.launch(Dispatchers.IO) {
             val newList = scheduleDao.getAll()
+            Log.d("뉴리스트",newList.toString())
             withContext(Dispatchers.Main) {
                 scheduleAdapter.updateList(newList)
             }
@@ -120,6 +122,7 @@ class MainActivity : AppCompatActivity() {
             lifecycleScope.launch {
                 withContext(Dispatchers.IO) {
                     val textStyleList= textStyleDao.getTextStyleInfo(schedule.id!!)
+
                     Log.d("텍스트스타일 리스트 확인", textStyleList.toString())
 
                     val builder = AlertDialog.Builder(this@MainActivity)
@@ -168,7 +171,7 @@ class MainActivity : AppCompatActivity() {
                     lifecycleScope.launch(Dispatchers.IO) {
                         val schedule = ScheduleModel(id = null, scheduleText, scheduleDateMilli!!, textSize!!,scheduleDate!!)
                         val scheduleId=scheduleDao.insertSchedule(schedule)
-                        Log.d("스케쥴 Id", scheduleId.toString())
+                        Log.d("스케쥴 Id2", scheduleId.toString())
                         if (spanInfoList != null) {
                             for (spanInfo in spanInfoList) {
                                 val startIndex: Int
@@ -220,13 +223,58 @@ class MainActivity : AppCompatActivity() {
                 val modifyScheduleMilli = data?.getLongExtra("modifyScheduleMilli", 0)
                 val modifyTextSize = data?.getFloatExtra("textSize", 15f)
                 val modifyScheduleDate=data?.getStringExtra("scheduleDate")
+                val modifySpanInfoList= if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                    data?.getParcelableArrayListExtra<Parcelable>("modifySpanInfo")
+                } else {
+                    data?.getParcelableArrayListExtra("modifySpanInfo")
+                }
+                Log.d("modifySpanInfo",modifySpanInfoList.toString())
 
-
+                val modifyScheduleId=currentSchedule!!.id
                 if (currentSchedule != null) {
                     lifecycleScope.launch(Dispatchers.IO) {
+
                         val modifySchedule =
-                            ScheduleModel(currentSchedule!!.id, modifyText!!, modifyScheduleMilli!!, modifyTextSize!!,modifyScheduleDate!!)
+                            ScheduleModel(modifyScheduleId, modifyText!!, modifyScheduleMilli!!, modifyTextSize!!,modifyScheduleDate!!)
+                        textStyleDao.deleteTextStylesByScheduleId(modifyScheduleId!!)
                         scheduleDao.updateSchedule(modifySchedule)
+                        if (modifySpanInfoList != null) {
+                            for (spanInfo in modifySpanInfoList) {
+                                val startIndex: Int
+                                val endIndex: Int
+                                val color: Int?
+                                val size: Float?
+
+                                when (spanInfo) {
+                                    is ColorInfo -> {
+                                        startIndex = spanInfo.startIndex
+                                        endIndex = spanInfo.endIndex
+                                        color = spanInfo.color!!
+                                        size = null
+                                    }
+                                    is SizeInfo -> {
+                                        startIndex = spanInfo.startIndex
+                                        endIndex = spanInfo.endIndex
+                                        color = null
+                                        size = spanInfo.size!!
+                                    }
+                                    else -> {
+                                        continue
+                                    }
+                                }
+                                val textStyle = TextStyleModel(
+                                    id=null,
+                                    scheduleId=modifyScheduleId!!.toInt(),
+                                    startIndex=startIndex,
+                                    endIndex=endIndex,
+                                    color=color,
+                                    textSize=size
+                                )
+                                Log.d("수정직전 텍스트스타일",textStyle.toString())
+
+                                textStyleDao.insertTextStyle(textStyle)
+                            }
+                        }
                         withContext(Dispatchers.Main) {
                             refreshAdapter()
                         }

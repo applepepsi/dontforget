@@ -114,8 +114,8 @@ class EnterSchedule : AppCompatActivity() {
         Log.d("색 리스트값 확인", textColorList.toString())
         spannable.setSpan(ForegroundColorSpan(color), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         binding.scheduleText.text = spannable
-
     }
+
     private fun changeDefaultColor(text:Editable){
 
         val end=text.length
