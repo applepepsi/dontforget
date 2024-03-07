@@ -80,31 +80,8 @@ class RecyclerAdapter(private var scheduleList: List<ScheduleModel>,
 
                 scheduleInfo.text = schedule.scheduleText
 
-//                scheduleInfo.textSize=schedule.textSize
+                scheduleInfo.textSize=schedule.textSize
 
-
-                val textStyle= textStyleDao.getTextStylesByScheduleId(schedule.id!!)
-                val spannableText = SpannableStringBuilder(schedule.scheduleText)
-                Log.d("들어온 값확인", textStyle.toString())
-
-                textStyle.forEach { textStyleModel ->
-
-                    val start = textStyleModel.startIndex
-                    val end = textStyleModel.endIndex
-
-                    if (textStyleModel.color != null) {
-                        val colorSpan = ForegroundColorSpan(textStyleModel.color)
-                        spannableText.setSpan(colorSpan, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-                    }
-
-                    if (textStyleModel.textSize != null) {
-                        val textSizeSpan = AbsoluteSizeSpan(textStyleModel.textSize.toInt(), true)
-                        spannableText.setSpan(textSizeSpan, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-                    }
-                }
-
-
-                scheduleInfo.text = spannableText
 
                 //만약 사용자가 설정한 시간이 1이상으로 설정됐다면
                 if(schedule.scheduleTime>=1L){
