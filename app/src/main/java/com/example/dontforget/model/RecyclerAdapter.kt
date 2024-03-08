@@ -17,6 +17,7 @@ import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.view.updatePadding
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -110,9 +111,9 @@ class RecyclerAdapter(private var scheduleList: List<ScheduleModel>,
                 scheduleInfo.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
                     override fun onGlobalLayout() {
                         val layout = scheduleInfo.layout
-
                         Log.d("라인카운트",layout.lineCount.toString())
                         if (layout.lineCount >= 2) {
+                            scheduleInfo.setPadding(0,0,0,30)
                             scheduleInfo.maxLines = 1
                             scheduleInfo.ellipsize = TextUtils.TruncateAt.END
                             index = false
