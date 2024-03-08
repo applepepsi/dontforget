@@ -22,17 +22,16 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="1.0">
 
+
         <ImageButton
             android:id="@+id/back_button"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginStart="7dp"
-            android:layout_marginTop="7dp"
-            android:layout_marginBottom="5dp"
+            android:layout_marginTop="8dp"
             android:background="?attr/selectableItemBackground"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_baseline_arrow_back_ios_24"
-            app:layout_constraintBottom_toTopOf="@+id/line2"
             app:layout_constraintEnd_toStartOf="@+id/up_bar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -41,15 +40,13 @@
             android:id="@+id/up_bar"
             android:layout_width="0dp"
             android:layout_height="20dp"
-            android:layout_marginTop="7dp"
-            android:layout_marginBottom="5dp"
-            android:background="#ffffff"
+            android:layout_marginTop="10dp"
 
+            android:background="#ffffff"
             android:fontFamily="@font/inriasans_bold"
             android:gravity="center_vertical"
-            android:text="메모 수정하기"
+            android:text="메모 작성하기"
             android:textSize="15dp"
-            app:layout_constraintBottom_toTopOf="@+id/setDate"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/back_button"
             app:layout_constraintTop_toTopOf="parent" />
@@ -61,23 +58,24 @@
             android:background="#cccccc"
             app:layout_constraintBottom_toTopOf="@+id/setDate"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/up_bar" />
 
         <TextView
             android:id="@+id/setDate"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="40dp"
             android:background="#ffffff"
             android:fontFamily="@font/inriasans_bold"
             android:gravity="center_vertical"
-            android:paddingStart="45dp"
+            android:paddingStart="43dp"
             android:text="날짜 미선택"
             android:textSize="18dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/line1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/up_bar" />
+            app:layout_constraintTop_toBottomOf="@+id/line2" />
 
         <!--        <ImageButton-->
         <!--            android:id="@+id/back_button"-->
@@ -95,10 +93,11 @@
 
         <ImageView
             android:id="@+id/calendar"
-            android:layout_width="34dp"
-            android:layout_height="30dp"
+            android:layout_width="40dp"
+            android:layout_height="25dp"
 
             android:layout_marginStart="5dp"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             app:layout_constraintBottom_toBottomOf="@+id/setDate"
             app:layout_constraintStart_toStartOf="parent"
@@ -119,15 +118,27 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent" />
 
+        <!--        <View-->
+        <!--            android:id="@+id/line2"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="1dp"-->
+
+        <!--            android:background="#cccccc"-->
+        <!--            app:layout_constraintBottom_toTopOf="@+id/setDate"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintHorizontal_bias="0.0"-->
+        <!--            app:layout_constraintStart_toStartOf="parent" />-->
+
+
         <Button
             android:id="@+id/write_button"
             android:layout_width="77dp"
             android:layout_height="38dp"
-            android:layout_marginTop="9dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="9dp"
             android:fontFamily="@font/inriasans_bold"
-            android:text="수정 완료"
+            android:text="작성 완료"
 
             android:textSize="10dp"
             app:backgroundTint="#E3E3E3"
@@ -135,9 +146,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cstLyMid"
@@ -150,7 +160,9 @@
         app:layout_constraintHeight_percent="0.9"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cstLyTop"
         app:layout_constraintWidth_percent="1.0">
+
 
         <EditText
             android:id="@+id/scheduleText"
@@ -164,13 +176,26 @@
             android:hint="할 일을 입력해 주세요."
 
             android:paddingStart="5dp"
-            android:paddingTop="7dp"
+
             android:textSize="20dp"
-            app:layout_constraintBottom_toTopOf="@id/bottom_navigation_view"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/textCounter"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textCounter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="right"
+            android:text="글자"
+            android:textSize="15dp"
+            app:layout_constraintBottom_toTopOf="@id/bottom_navigation_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation_view"
@@ -183,8 +208,21 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:menu="@menu/write_menu" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+
+    <!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+    <!--        android:id="@+id/cstLyBottom"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="0dp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHeight_percent="0.07"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintWidth_percent="1.0">-->
+
+    <!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

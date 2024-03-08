@@ -7,13 +7,16 @@ import android.graphics.Color
 import android.text.Editable
 import android.text.SpannableStringBuilder
 import android.text.Spanned
+import android.text.TextUtils
 import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -75,9 +78,9 @@ class RecyclerAdapter(private var scheduleList: List<ScheduleModel>,
     class Holder(private val binding: ScheduleItemViewBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        suspend fun bind(schedule: ScheduleModel, scheduleClickListener: ScheduleClickListener, textStyleDao: TextStyleDao) {
+        fun bind(schedule: ScheduleModel, scheduleClickListener: ScheduleClickListener, textStyleDao: TextStyleDao) {
             with(binding) {
-
+                var index=true
                 scheduleInfo.text = schedule.scheduleText
 
                 scheduleInfo.textSize=schedule.textSize
@@ -103,6 +106,34 @@ class RecyclerAdapter(private var scheduleList: List<ScheduleModel>,
                     scheduleDate.text="미설정"
                     ddayCounter.text = ""
                 }
+
+                scheduleInfo.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+                    override fun onGlobalLayout() {
+                        val layout = scheduleInfo.layout
+
+                        Log.d("라인카운트",layout.lineCount.toString())
+                        if (layout.lineCount >= 2) {
+                            scheduleInfo.maxLines = 1
+                            scheduleInfo.ellipsize = TextUtils.TruncateAt.END
+                            index = false
+                            extensionButton.setOnClickListener {
+                                if (index) {
+                                    scheduleInfo.maxLines = 1
+                                    scheduleInfo.ellipsize = TextUtils.TruncateAt.END
+                                    extensionButton.setImageDrawable(ContextCompat.getDrawable(binding.root.context, R.drawable.ic_baseline_arrow_drop_down_24))
+                                    index = false
+                                } else if (!index) {
+                                    scheduleInfo.maxLines = Integer.MAX_VALUE
+                                    extensionButton.setImageDrawable(ContextCompat.getDrawable(binding.root.context, R.drawable.ic_baseline_arrow_drop_up_24))
+                                    index = true
+                                }
+                            }
+                        } else {
+                            extensionButton.visibility = View.INVISIBLE
+                        }
+                        scheduleInfo.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                    }
+                })
 
                 itemView.setOnClickListener {
                     scheduleClickListener.onClick(schedule)

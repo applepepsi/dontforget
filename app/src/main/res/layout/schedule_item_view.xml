@@ -71,16 +71,18 @@
             app:layout_constraintTop_toBottomOf="@+id/frameTop"
             app:layout_constraintWidth_percent="0.95" />
 
+
         <TextView
             android:id="@+id/scheduleInfo"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:background="@drawable/radius_bottom"
+
             android:fontFamily="@font/inriasans_regular"
             android:paddingStart="10dp"
             android:paddingTop="3dp"
             android:paddingEnd="10dp"
-            android:paddingBottom="5dp"
+            android:paddingBottom="15dp"
             android:text="aa"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -88,7 +90,20 @@
             app:layout_constraintTop_toBottomOf="@+id/line1"
             app:layout_constraintWidth_percent="0.95" />
 
-<!--        <View-->
+        <ImageButton
+            android:id="@+id/extensionButton"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+
+            android:layout_marginEnd="30dp"
+            android:background="?attr/selectableItemBackground"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_baseline_arrow_drop_down_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/scheduleInfo" />
+
+        <!--        <View-->
 <!--            android:id="@+id/line2"-->
 <!--            android:layout_width="0dp"-->
 <!--            android:layout_height="1dp"-->
