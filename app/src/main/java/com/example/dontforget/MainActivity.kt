@@ -4,8 +4,6 @@ import android.app.Activity
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.*
-import android.text.Editable
-import android.text.TextWatcher
 import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
 import android.util.TypedValue
@@ -39,13 +37,11 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var scheduleAdapter: RecyclerAdapter
     var scheduleList= mutableListOf<ScheduleModel>()
-    var searchList=mutableListOf<ScheduleModel>()
+
     lateinit var scheduleDao:ScheduleDao
     lateinit var textStyleDao:TextStyleDao
     private var currentSchedule: ScheduleModel? = null
     private lateinit var spanInfoProcessor: SpanInfoProcessor
-//    private var textList=mutableListOf<String>()
-
     val space=20
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,11 +63,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.scheduleViewer.adapter=scheduleAdapter
         binding.scheduleViewer.layoutManager=LinearLayoutManager(this@MainActivity)
-        binding.cancelButton.setOnClickListener {
-            binding.searchBar.setText(null)
 
-        }
-        textWatcher()
 
         val itemTouchHelper = ItemTouchHelper(SwipeToDeleteCallback(object : SwipeToDeleteCallback.OnSwipeListener {
             override fun onSwipe(position: Int) {
@@ -113,49 +105,17 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
-    private fun textWatcher() {
-        binding.searchBar.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            }
-            override fun afterTextChanged(s: Editable?) {
-                search(s.toString())
-            }
-
-        })
-
-    }
-
-    private fun search(searchText:String){
-        Log.d("서치 텍스트",searchText)
-
-        scheduleList.clear()
-
-        if(searchText.isEmpty()){
-            lifecycleScope.launch(Dispatchers.IO) {
-                val allSchedules = scheduleDao.getAll()
-                withContext(Dispatchers.Main) {
-                    scheduleList.addAll(allSchedules)
-                    scheduleAdapter.updateList(scheduleList)
-                    Log.d("호출됨", scheduleList.toString())
-                }
-            }
-        }
-        else {
-            lifecycleScope.launch(Dispatchers.IO) {
-
-                val foundSchedules = scheduleDao.findSchedulesByText("%$searchText%")
-
-                withContext(Dispatchers.Main) {
-                    scheduleList.addAll(foundSchedules)
-                    Log.d("foundSchedules", scheduleList.toString())
-                    scheduleAdapter.updateList(scheduleList)
-                }
-            }
-        }
-    }
+//    fun convertSpanInfoToTextStyleModel(spanInfo: List<SpanInfo>, scheduleId: Int): List<TextStyleModel> {
+//        return spanInfo.map { spanInfo ->
+//            TextStyleModel(
+//                scheduleId = scheduleId,
+//                startIndex = spanInfo.start,
+//                endIndex = spanInfo.end,
+//                color = spanInfo.color ?:  0,
+//                textSize = spanInfo.size ?:  0f
+//            )
+//        }
+//    }
 
     private fun deleteOrModify(): RecyclerAdapter.ScheduleClickListener {
 
@@ -164,6 +124,9 @@ class MainActivity : AppCompatActivity() {
 
             lifecycleScope.launch {
                 withContext(Dispatchers.IO) {
+//                    val textStyleList= textStyleDao.getTextStyleInfo(schedule.id!!)
+
+//                    Log.d("텍스트스타일 리스트 확인", textStyleList.toString())
 
                     val builder = AlertDialog.Builder(this@MainActivity)
                     builder.setTitle("")
@@ -173,6 +136,7 @@ class MainActivity : AppCompatActivity() {
                             modifyValue.putExtra("scheduleDDay", schedule.scheduleTime)
                             modifyValue.putExtra("scheduleDate", schedule.scheduleDate)
                             modifyValue.putExtra("textSize", schedule.textSize)
+//                            modifyValue.putParcelableArrayListExtra("textStyleList", ArrayList(textStyleList))
 
                             modifyActivityResult.launch(modifyValue)
                         })
@@ -195,13 +159,24 @@ class MainActivity : AppCompatActivity() {
                 val scheduleDateMilli=data?.getLongExtra("scheduleDateMilli",0)
                 val scheduleDate=data?.getStringExtra("scheduleDate")
                 val textSize=data?.getFloatExtra("textSize",15f)
-                val lineCount=data?.getIntExtra("lineCount",0)
+//                val spanInfoList = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+//                    data?.getParcelableArrayListExtra<Parcelable>("spanInfo")
+//                } else {
+//                    data?.getParcelableArrayListExtra("spanInfo")
+//                }
+//                val spanInfos: ArrayList<SpanInfo>? = intent.getParcelableArrayListExtra<SpanInfo>("spanInfo")
+
+//
+//                Log.d("받은 글자크기 리스트 확인", spanInfoList.toString())
 
                 if(scheduleText!=null) {
                     lifecycleScope.launch(Dispatchers.IO) {
-                        val schedule = ScheduleModel(id = null, scheduleText, scheduleDateMilli!!, textSize!!,scheduleDate!!,lineCount)
+                        val schedule = ScheduleModel(id = null, scheduleText, scheduleDateMilli!!, textSize!!,scheduleDate!!)
                         val scheduleId=scheduleDao.insertSchedule(schedule)
 
+//                        if (spanInfoList != null) {
+//                            spanInfoProcessor.processSpanInfoList(spanInfoList, scheduleId.toInt())
+//                        }
                         withContext(Dispatchers.Main) {
                             refreshAdapter()
                         }
@@ -219,24 +194,30 @@ class MainActivity : AppCompatActivity() {
                 val modifyTextSize = data?.getFloatExtra("textSize", 15f)
                 Log.d("모디파이 텍스트 사이즈",modifyTextSize.toString())
                 val modifyScheduleDate=data?.getStringExtra("scheduleDate")
+//                val modifySpanInfoList= if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+//                    data?.getParcelableArrayListExtra<Parcelable>("modifySpanInfo")
+//                } else {
+//                    data?.getParcelableArrayListExtra("modifySpanInfo")
+//                }
 
                 val modifyScheduleId=currentSchedule!!.id
-                val lineCount=data?.getIntExtra("lineCount",0)
 
                 if (currentSchedule != null) {
                     lifecycleScope.launch(Dispatchers.IO) {
 
+//                        textStyleDao.deleteTextStylesByScheduleId(modifyScheduleId!!)
 
                         val modifySchedule =
                             ScheduleModel(modifyScheduleId,
                                 modifyText!!,
                                 modifyScheduleMilli!!,
                                 modifyTextSize!!,
-                                modifyScheduleDate!!,
-                                lineCount
+                                modifyScheduleDate!!
                             )
                         scheduleDao.updateSchedule(modifySchedule)
-
+//                        if (modifySpanInfoList != null) {
+//                            spanInfoProcessor.processSpanInfoList(modifySpanInfoList, modifyScheduleId.toInt())
+//                        }
                         withContext(Dispatchers.Main) {
                             refreshAdapter()
                         }

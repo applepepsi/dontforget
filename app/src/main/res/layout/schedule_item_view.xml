@@ -95,12 +95,13 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
 
-            android:layout_marginBottom="-5dp"
+            android:layout_marginEnd="30dp"
             android:background="?attr/selectableItemBackground"
             android:scaleType="fitCenter"
-            app:layout_constraintBottom_toBottomOf="@id/scheduleInfo"
-
-            app:layout_constraintEnd_toEndOf="@+id/scheduleInfo" />
+            android:src="@drawable/ic_baseline_arrow_drop_down_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/scheduleInfo" />
 
         <!--        <View-->
 <!--            android:id="@+id/line2"-->

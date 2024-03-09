@@ -190,7 +190,7 @@ class ModifySchedule : AppCompatActivity() {
 
     private fun handleScheduleInput(textSize:Float,scheduleDDay:Long,scheduleDate:String) {
         val modifyIntent = Intent(this, MainActivity::class.java)
-        modifyIntent.putExtra("lineCount", binding.scheduleText.getLineCount())
+
 
         if (modifyScheduleMilli != null) {
             if(currentDateMilli<=modifyScheduleMilli!!){

@@ -20,6 +20,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/search_bar" />
 
+<!--        <ImageButton-->
+<!--        android:id="@+id/CreateScheduleButton2"-->
+<!--        android:layout_width="26dp"-->
+<!--        android:layout_height="24dp"-->
+<!--        android:layout_marginTop="2dp"-->
+<!--        android:layout_marginEnd="5dp"-->
+<!--        android:layout_marginBottom="8dp"-->
+<!--        android:background="@android:color/transparent"-->
+<!--        android:scaleType="fitCenter "-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/scheduleViewer"-->
+<!--        app:layout_constraintEnd_toEndOf="@+id/imageView5"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintVertical_bias="1.0"-->
+<!--        app:srcCompat="@drawable/write_icon" />-->
+
 
     <Button
         android:id="@+id/CreateScheduleButton"
@@ -37,7 +52,21 @@
         app:layout_constraintEnd_toEndOf="@+id/up_bar"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Button
+        android:id="@+id/search_button"
+        android:layout_width="77dp"
+        android:layout_height="38dp"
+        android:layout_marginEnd="10dp"
 
+        android:layout_marginBottom="3dp"
+        android:fontFamily="@font/inriasans_bold"
+
+        android:text="검색"
+        android:textSize="10dp"
+        app:backgroundTint="#E3E3E3"
+
+        app:layout_constraintEnd_toStartOf="@+id/CreateScheduleButton"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/up_bar"
@@ -54,54 +83,32 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <EditText
+        android:id="@+id/search_bar"
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:paddingStart="10dp"
+        android:background="#ffffff"
+        android:fontFamily="@font/inriasans_regular"
+        android:gravity="center_vertical"
+        android:hint="찾으려는 메모를 입력해 주세요."
+        android:textSize="15dp"
+        android:textColor="#000000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/up_bar" />
+
     <View
         android:id="@+id/line1"
         android:layout_width="match_parent"
         android:layout_height="1dp"
+
+
         android:background="#cccccc"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/up_bar" />
-
-    <EditText
-        android:id="@+id/search_bar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-
-        app:layout_constraintWidth_percent="0.95"
-        android:background="@drawable/search_bone"
-        android:drawableStart="@drawable/ic_baseline_search_24"
-        android:drawablePadding="5dp"
-        android:fontFamily="@font/inriasans_regular"
-        android:gravity="center_vertical"
-        android:hint="검색"
-        android:paddingStart="10dp"
-        android:paddingEnd="30dp"
-        android:paddingBottom="5dp"
-        android:paddingTop="3dp"
-        android:textColor="#000000"
-        android:textSize="15dp"
-        app:layout_constraintBottom_toTopOf="@+id/scheduleViewer"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/line1" />
-
-    <ImageButton
-        android:id="@+id/cancel_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="17dp"
-        android:background="?attr/selectableItemBackground"
-        android:scaleType="fitCenter"
-        android:src="@drawable/ic_baseline_cancle_24"
-        app:layout_constraintBottom_toBottomOf="@id/search_bar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/line1" />
-
-
 
 
 
