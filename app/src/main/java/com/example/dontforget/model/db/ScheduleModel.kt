@@ -19,5 +19,8 @@ data class ScheduleModel(
     var textSize:Float,
 
     @ColumnInfo(name="scheduleDate")
-    var scheduleDate:String
+    var scheduleDate:String,
+
+    @ColumnInfo(name="lineCount")
+    var lineCount:Int?
 )

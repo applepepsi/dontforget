@@ -158,7 +158,7 @@ class EnterSchedule : AppCompatActivity() {
         val text=binding.scheduleText.text as Editable
 
 //        enterScheduleIntent.putParcelableArrayListExtra("spanInfo", ArrayList(spanInfos))
-
+        enterScheduleIntent.putExtra("lineCount", binding.scheduleText.getLineCount())
 
         if (scheduleDateMilli != null) {
             if (currentDateMilli <= scheduleDateMilli!!) {
