@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
-@Database(entities = [ScheduleModel::class,TextStyleModel::class], version = 4, exportSchema = false)
+@Database(entities = [ScheduleModel::class,TextStyleModel::class], version = 5, exportSchema = false)
 abstract class ScheduleHelper : RoomDatabase() {
 
     abstract fun scheduleDao(): ScheduleDao
@@ -37,6 +37,11 @@ abstract class ScheduleHelper : RoomDatabase() {
                         "FOREIGN KEY(scheduleId) REFERENCES schedule(id) ON DELETE CASCADE)")
             }
         }
+        private val MIGRATION_4_5 = object : Migration(4, 5) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE schedule ADD COLUMN lineCount INTEGER")
+            }
+        }
 
         @Volatile
         private var INSTANCE: ScheduleHelper? = null
@@ -48,7 +53,7 @@ abstract class ScheduleHelper : RoomDatabase() {
                     ScheduleHelper::class.java,
                     "schedule_database"
                 )
-                    .addMigrations(MIGRATION_1_2,MIGRATION_2_3, MIGRATION_3_4)
+                    .addMigrations(MIGRATION_1_2,MIGRATION_2_3, MIGRATION_3_4,MIGRATION_4_5)
                     .build()
                 INSTANCE = instance
                 instance

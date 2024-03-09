@@ -2,39 +2,21 @@ package com.example.dontforget.model
 
 
 
-import android.content.Context
-import android.graphics.Color
-import android.text.Editable
-import android.text.SpannableStringBuilder
-import android.text.Spanned
 import android.text.TextUtils
-import android.text.style.AbsoluteSizeSpan
-import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.view.ViewTreeObserver
-import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.core.view.updatePadding
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dontforget.R
 import com.example.dontforget.ScheduleDiffCallback
-import com.example.dontforget.databinding.ActivityMainBinding
 import com.example.dontforget.databinding.ScheduleItemViewBinding
-
 import com.example.dontforget.model.db.ScheduleModel
 import com.example.dontforget.model.db.TextStyleDao
-import com.example.dontforget.model.db.TextStyleModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.nio.file.Files.size
-import java.text.FieldPosition
-import java.text.SimpleDateFormat
 
 class RecyclerAdapter(private var scheduleList: List<ScheduleModel>,
                       private val scheduleClickListener: ScheduleClickListener,
@@ -52,7 +34,7 @@ class RecyclerAdapter(private var scheduleList: List<ScheduleModel>,
     override fun onBindViewHolder(holder: Holder, position: Int) {
 
         CoroutineScope(Dispatchers.Main).launch {
-            holder.bind(scheduleList[position], scheduleClickListener, textStyleDao)
+            holder.bind(scheduleList[position], scheduleClickListener)
         }
     }
 
@@ -76,12 +58,14 @@ class RecyclerAdapter(private var scheduleList: List<ScheduleModel>,
     }
 
 
+
     class Holder(private val binding: ScheduleItemViewBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(schedule: ScheduleModel, scheduleClickListener: ScheduleClickListener, textStyleDao: TextStyleDao) {
+        fun bind(schedule: ScheduleModel, scheduleClickListener: ScheduleClickListener) {
             with(binding) {
-                var index=true
+
+
                 scheduleInfo.text = schedule.scheduleText
 
                 scheduleInfo.textSize=schedule.textSize
@@ -108,33 +92,46 @@ class RecyclerAdapter(private var scheduleList: List<ScheduleModel>,
                     ddayCounter.text = ""
                 }
 
-                scheduleInfo.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-                    override fun onGlobalLayout() {
-                        val layout = scheduleInfo.layout
-                        Log.d("라인카운트",layout.lineCount.toString())
-                        if (layout.lineCount >= 2) {
-                            scheduleInfo.setPadding(0,0,0,30)
-                            scheduleInfo.maxLines = 1
-                            scheduleInfo.ellipsize = TextUtils.TruncateAt.END
-                            index = false
-                            extensionButton.setOnClickListener {
-                                if (index) {
-                                    scheduleInfo.maxLines = 1
-                                    scheduleInfo.ellipsize = TextUtils.TruncateAt.END
-                                    extensionButton.setImageDrawable(ContextCompat.getDrawable(binding.root.context, R.drawable.ic_baseline_arrow_drop_down_24))
-                                    index = false
-                                } else if (!index) {
-                                    scheduleInfo.maxLines = Integer.MAX_VALUE
-                                    extensionButton.setImageDrawable(ContextCompat.getDrawable(binding.root.context, R.drawable.ic_baseline_arrow_drop_up_24))
-                                    index = true
-                                }
-                            }
-                        } else {
-                            extensionButton.visibility = View.INVISIBLE
-                        }
-                        scheduleInfo.viewTreeObserver.removeOnGlobalLayoutListener(this)
+
+                val drawableDown = ContextCompat.getDrawable(binding.root.context, R.drawable.ic_baseline_arrow_drop_down_24)
+                val drawableUp = ContextCompat.getDrawable(binding.root.context, R.drawable.ic_baseline_arrow_drop_up_24)
+                var index = false
+                Log.d("라인카운트", schedule.lineCount.toString())
+
+
+                extensionButton.setImageDrawable(drawableDown)
+                scheduleInfo.setPadding(10, 5, 10, 20)
+                scheduleInfo.maxLines = 1
+                scheduleInfo.ellipsize = TextUtils.TruncateAt.END
+
+                Log.d("인덱스id", scheduleInfo.id.toString())
+                Log.d("인덱스값", index.toString())
+
+                extensionButton.setOnClickListener {
+                    if (index) {
+                        extensionButton.setImageDrawable(drawableDown)
+                        scheduleInfo.maxLines = 1
+                        scheduleInfo.ellipsize = TextUtils.TruncateAt.END
+
+                        index = false
+                        Log.d("인덱스값", index.toString())
+                    } else if (!index) {
+                        extensionButton.setImageDrawable(drawableUp)
+                        scheduleInfo.maxLines = Integer.MAX_VALUE
+                        index = true
+                        Log.d("인덱스값", index.toString())
                     }
-                })
+                }
+
+
+//                scheduleInfo.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+//                    override fun onGlobalLayout() {
+//                        val layout = scheduleInfo.layout
+//                        val line=layout.lineCount
+//
+//                        scheduleInfo.viewTreeObserver.removeOnGlobalLayoutListener(this)
+//                    }
+//                })
 
                 itemView.setOnClickListener {
                     scheduleClickListener.onClick(schedule)
