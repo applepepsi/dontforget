@@ -163,11 +163,13 @@ class EnterSchedule : AppCompatActivity() {
         if (scheduleDateMilli != null) {
             if (currentDateMilli <= scheduleDateMilli!!) {
                 enterScheduleIntent.putExtra("scheduleDate", binding.setDate.text.toString())
+
                 enterScheduleIntent.putExtra("scheduleDateMilli", scheduleDateMilli)
                 enterScheduleIntent.putExtra("textSize", textSize)
 
-                if (binding.scheduleText.text.toString().isNotEmpty()) {
+                if (binding.scheduleText.text.toString().isNotEmpty() && binding.scheduleTitle.toString().isNotEmpty()) {
                     enterScheduleIntent.putExtra("scheduleText", binding.scheduleText.text.toString())
+                    enterScheduleIntent.putExtra("scheduleTitle", binding.scheduleTitle.text.toString())
                     setResult(RESULT_OK, enterScheduleIntent)
                     finish()
                 } else {
@@ -181,8 +183,9 @@ class EnterSchedule : AppCompatActivity() {
             enterScheduleIntent.putExtra("scheduleDateMilli", 0)
             enterScheduleIntent.putExtra("textSize", textSize)
 
-            if (binding.scheduleText.text.toString().isNotEmpty()) {
+            if (binding.scheduleText.text.toString().isNotEmpty() && binding.scheduleTitle.toString().isNotEmpty()) {
                 enterScheduleIntent.putExtra("scheduleText", binding.scheduleText.text.toString())
+                enterScheduleIntent.putExtra("scheduleTitle", binding.scheduleTitle.text.toString())
                 setResult(RESULT_OK, enterScheduleIntent)
                 finish()
             } else {

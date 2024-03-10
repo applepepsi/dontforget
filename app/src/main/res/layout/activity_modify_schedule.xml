@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".model.ModifySchedule">
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cstLyTop"
         android:layout_width="0dp"
@@ -56,26 +55,28 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#cccccc"
-            app:layout_constraintBottom_toTopOf="@+id/setDate"
+
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/up_bar" />
+            app:layout_constraintTop_toBottomOf="@+id/up_bar"
+            app:layout_constraintBottom_toTopOf="@+id/setDate"/>
 
         <TextView
             android:id="@+id/setDate"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="20dp"
+
             android:background="#ffffff"
             android:fontFamily="@font/inriasans_bold"
             android:gravity="center_vertical"
             android:paddingStart="43dp"
             android:text="날짜 미선택"
             android:textSize="18dp"
-            app:layout_constraintBottom_toBottomOf="@id/line1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/line2" />
+            app:layout_constraintBottom_toBottomOf="@id/line1"
+            app:layout_constraintTop_toBottomOf="@id/line2" />
 
         <!--        <ImageButton-->
         <!--            android:id="@+id/back_button"-->
@@ -97,8 +98,6 @@
             android:layout_height="25dp"
 
             android:layout_marginStart="5dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
             app:layout_constraintBottom_toBottomOf="@+id/setDate"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/setDate"
@@ -111,23 +110,14 @@
             android:layout_height="1dp"
 
 
-            android:layout_marginBottom="2dp"
+            android:layout_marginBottom="5dp"
             android:background="#cccccc"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <!--        <View-->
-        <!--            android:id="@+id/line2"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="1dp"-->
 
-        <!--            android:background="#cccccc"-->
-        <!--            app:layout_constraintBottom_toTopOf="@+id/setDate"-->
-        <!--            app:layout_constraintEnd_toEndOf="parent"-->
-        <!--            app:layout_constraintHorizontal_bias="0.0"-->
-        <!--            app:layout_constraintStart_toStartOf="parent" />-->
 
 
         <Button
@@ -163,6 +153,38 @@
         app:layout_constraintTop_toBottomOf="@+id/cstLyTop"
         app:layout_constraintWidth_percent="1.0">
 
+        <EditText
+            android:id="@+id/scheduleTitle"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="1dp"
+            android:background="#ffffff"
+            android:fontFamily="@font/inriasans_regular"
+
+            android:gravity="top"
+            android:hint="제목을 입력해 주세요."
+
+            android:paddingStart="5dp"
+
+            android:textSize="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/line3"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+
+
+            android:layout_marginBottom="2dp"
+            android:background="#cccccc"
+            app:layout_constraintBottom_toTopOf="@id/scheduleText"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <EditText
             android:id="@+id/scheduleText"
@@ -182,7 +204,7 @@
             app:layout_constraintBottom_toTopOf="@id/textCounter"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/scheduleTitle" />
 
         <TextView
             android:id="@+id/textCounter"
@@ -212,17 +234,6 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    <!--    <androidx.constraintlayout.widget.ConstraintLayout-->
-    <!--        android:id="@+id/cstLyBottom"-->
-    <!--        android:layout_width="0dp"-->
-    <!--        android:layout_height="0dp"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintHeight_percent="0.07"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintWidth_percent="1.0">-->
-
-    <!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

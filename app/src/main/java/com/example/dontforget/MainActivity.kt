@@ -173,6 +173,7 @@ class MainActivity : AppCompatActivity() {
                             modifyValue.putExtra("scheduleDDay", schedule.scheduleTime)
                             modifyValue.putExtra("scheduleDate", schedule.scheduleDate)
                             modifyValue.putExtra("textSize", schedule.textSize)
+                            modifyValue.putExtra("scheduleTitle", schedule.title)
 
                             modifyActivityResult.launch(modifyValue)
                         })
@@ -196,10 +197,15 @@ class MainActivity : AppCompatActivity() {
                 val scheduleDate=data?.getStringExtra("scheduleDate")
                 val textSize=data?.getFloatExtra("textSize",15f)
                 val lineCount=data?.getIntExtra("lineCount",0)
-
-                if(scheduleText!=null) {
+                val scheduleTitle=data?.getStringExtra("scheduleTitle")
+                if (scheduleTitle != null) {
+                    Log.d("타이틀",scheduleTitle)
+                }
+                if(scheduleText!=null && scheduleTitle!=null) {
                     lifecycleScope.launch(Dispatchers.IO) {
-                        val schedule = ScheduleModel(id = null, scheduleText, scheduleDateMilli!!, textSize!!,scheduleDate!!,lineCount)
+                        val schedule = ScheduleModel(id = null, scheduleText, scheduleDateMilli!!, textSize!!,scheduleDate!!,lineCount,
+                            scheduleTitle
+                        )
                         val scheduleId=scheduleDao.insertSchedule(schedule)
 
                         withContext(Dispatchers.Main) {
@@ -222,6 +228,7 @@ class MainActivity : AppCompatActivity() {
 
                 val modifyScheduleId=currentSchedule!!.id
                 val lineCount=data?.getIntExtra("lineCount",0)
+                val modifyTitle=data?.getStringExtra("modifyTitle")
 
                 if (currentSchedule != null) {
                     lifecycleScope.launch(Dispatchers.IO) {
@@ -233,7 +240,8 @@ class MainActivity : AppCompatActivity() {
                                 modifyScheduleMilli!!,
                                 modifyTextSize!!,
                                 modifyScheduleDate!!,
-                                lineCount
+                                lineCount,
+                                modifyTitle
                             )
                         scheduleDao.updateSchedule(modifySchedule)
 

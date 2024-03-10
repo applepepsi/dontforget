@@ -22,5 +22,8 @@ data class ScheduleModel(
     var scheduleDate:String,
 
     @ColumnInfo(name="lineCount")
-    var lineCount:Int?
+    var lineCount:Int?,
+
+    @ColumnInfo(name="title")
+    var title:String?
 )

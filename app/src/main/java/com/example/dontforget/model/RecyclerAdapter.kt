@@ -70,6 +70,13 @@ class RecyclerAdapter(private var scheduleList: List<ScheduleModel>,
 
                 scheduleInfo.textSize=schedule.textSize
 
+                if(schedule.title!=null){
+                    scheduleTitle.text=schedule.title
+                }
+                else{
+                    scheduleTitle.text="미설정"
+                }
+
 
                 //만약 사용자가 설정한 시간이 1이상으로 설정됐다면
                 if(schedule.scheduleTime>=1L){
@@ -93,35 +100,35 @@ class RecyclerAdapter(private var scheduleList: List<ScheduleModel>,
                 }
 
 
-                val drawableDown = ContextCompat.getDrawable(binding.root.context, R.drawable.ic_baseline_arrow_drop_down_24)
-                val drawableUp = ContextCompat.getDrawable(binding.root.context, R.drawable.ic_baseline_arrow_drop_up_24)
-                var index = false
-                Log.d("라인카운트", schedule.lineCount.toString())
+//                val drawableDown = ContextCompat.getDrawable(binding.root.context, R.drawable.ic_baseline_arrow_drop_down_24)
+//                val drawableUp = ContextCompat.getDrawable(binding.root.context, R.drawable.ic_baseline_arrow_drop_up_24)
+//                var index = false
+//                Log.d("라인카운트", schedule.lineCount.toString())
 
 
-                extensionButton.setImageDrawable(drawableDown)
-                scheduleInfo.setPadding(10, 5, 10, 20)
-                scheduleInfo.maxLines = 1
-                scheduleInfo.ellipsize = TextUtils.TruncateAt.END
-
-                Log.d("인덱스id", scheduleInfo.id.toString())
-                Log.d("인덱스값", index.toString())
-
-                extensionButton.setOnClickListener {
-                    if (index) {
-                        extensionButton.setImageDrawable(drawableDown)
-                        scheduleInfo.maxLines = 1
-                        scheduleInfo.ellipsize = TextUtils.TruncateAt.END
-
-                        index = false
-                        Log.d("인덱스값", index.toString())
-                    } else if (!index) {
-                        extensionButton.setImageDrawable(drawableUp)
-                        scheduleInfo.maxLines = Integer.MAX_VALUE
-                        index = true
-                        Log.d("인덱스값", index.toString())
-                    }
-                }
+//                extensionButton.setImageDrawable(drawableDown)
+//                scheduleInfo.setPadding(10, 5, 10, 20)
+//                scheduleInfo.maxLines = 1
+//                scheduleInfo.ellipsize = TextUtils.TruncateAt.END
+//
+//                Log.d("인덱스id", scheduleInfo.id.toString())
+//                Log.d("인덱스값", index.toString())
+//
+//                extensionButton.setOnClickListener {
+//                    if (index) {
+//                        extensionButton.setImageDrawable(drawableDown)
+//                        scheduleInfo.maxLines = 1
+//                        scheduleInfo.ellipsize = TextUtils.TruncateAt.END
+//
+//                        index = false
+//                        Log.d("인덱스값", index.toString())
+//                    } else if (!index) {
+//                        extensionButton.setImageDrawable(drawableUp)
+//                        scheduleInfo.maxLines = Integer.MAX_VALUE
+//                        index = true
+//                        Log.d("인덱스값", index.toString())
+//                    }
+//                }
 
 
 //                scheduleInfo.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {

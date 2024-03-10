@@ -50,14 +50,15 @@ class ModifySchedule : AppCompatActivity() {
         var scheduleDDay = intent.getLongExtra("scheduleDDay",0)
         val textSize=intent.getFloatExtra("textSize",15f)
         var scheduleDate=intent.getStringExtra("scheduleDate")
-
+        var scheduleTitle = intent.getStringExtra("scheduleTitle")
 
         bottomNavigation()
         textWatcher()
 
-        if (scheduleText != null) {
+        if (scheduleText != null && scheduleTitle!=null) {
             binding.scheduleText.setText(scheduleText)
             binding.scheduleText.setTextSize(textSize)
+            binding.scheduleTitle.setText(scheduleTitle)
         }
         if(scheduleDate==""){
             binding.setDate.setText("날짜 미선택")
@@ -196,8 +197,9 @@ class ModifySchedule : AppCompatActivity() {
             if(currentDateMilli<=modifyScheduleMilli!!){
                 modifyIntent.putExtra("modifyScheduleMilli", modifyScheduleMilli)
                 modifyIntent.putExtra("scheduleDate",binding.setDate.getText().toString())
-                if(binding.scheduleText.text.toString()!=""){
+                if(binding.scheduleText.text.toString()!="" && binding.scheduleTitle.text.toString()!=""){
                     modifyIntent.putExtra("modifyText", binding.scheduleText.text.toString())
+                    modifyIntent.putExtra("modifyTitle", binding.scheduleTitle.text.toString())
                     if(modifyTextSize!=0f){
                         modifyIntent.putExtra("textSize", modifyTextSize)
                         setResult(RESULT_OK, modifyIntent)
@@ -220,8 +222,9 @@ class ModifySchedule : AppCompatActivity() {
         else{
             modifyIntent.putExtra("modifyScheduleMilli", scheduleDDay)
             modifyIntent.putExtra("scheduleDate",scheduleDate)
-            if(binding.scheduleText.text.toString()!=""){
+            if(binding.scheduleText.text.toString()!="" && binding.scheduleTitle.text.toString()!=""){
                 modifyIntent.putExtra("modifyText", binding.scheduleText.text.toString())
+                modifyIntent.putExtra("modifyTitle", binding.scheduleTitle.text.toString())
                 if(modifyTextSize!=0f){
                     modifyIntent.putExtra("textSize", modifyTextSize)
                     setResult(RESULT_OK, modifyIntent)
