@@ -8,7 +8,7 @@ interface ScheduleDao {
     @Query("SELECT * FROM schedule")
     suspend fun getAll(): List<ScheduleModel>
 
-    @Query("SELECT * FROM schedule WHERE scheduleInfo LIKE :searchText")
+    @Query("SELECT * FROM schedule WHERE scheduleInfo LIKE :searchText OR title LIKE :searchText")
     suspend fun findSchedulesByText(searchText: String): List<ScheduleModel>
 
     @Insert
