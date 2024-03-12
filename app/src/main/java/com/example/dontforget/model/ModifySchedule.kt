@@ -37,7 +37,7 @@ class ModifySchedule : AppCompatActivity() {
     private var modifyTextSize: Float = 0f
     val currentDateMilli = DayCalculation().getCurrentDateMillis()
     private var modifyScheduleMilli: Long? = null
-
+    private var setNotification=0
     private var defaultColor=-16777216
     private val textColorList= mutableMapOf<Int,Int>()
     private val textSizeList= mutableMapOf<Int,Float>()
@@ -51,9 +51,18 @@ class ModifySchedule : AppCompatActivity() {
         val textSize=intent.getFloatExtra("textSize",15f)
         var scheduleDate=intent.getStringExtra("scheduleDate")
         var scheduleTitle = intent.getStringExtra("scheduleTitle")
-
-        bottomNavigation()
+        setNotification = intent.getIntExtra("setNotification",0)
+        Log.d("수정된 노티피",setNotification.toString())
         textWatcher()
+        bottomNavigation()
+
+
+        if(setNotification==1){
+            binding.notificationSwitch.isChecked = true
+            binding.notificationText.text="알림 On"
+        }
+
+        notificationSwitchControl()
 
         if (scheduleText != null && scheduleTitle!=null) {
             binding.scheduleText.setText(scheduleText)
@@ -67,6 +76,11 @@ class ModifySchedule : AppCompatActivity() {
             binding.setDate.setText(scheduleDate)
         }
 
+
+
+        binding.setDate.setOnClickListener{
+            showDatePickerDialog()
+        }
 
 
 
@@ -96,7 +110,22 @@ class ModifySchedule : AppCompatActivity() {
 
         datePickerDialog.show()
     }
+    private fun notificationSwitchControl(){
 
+        binding.notificationSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
+
+            if (isChecked) {
+                binding.notificationSwitch.isChecked=true
+
+                binding.notificationText.text="알림 On"
+                setNotification=1
+            }
+            else{
+                binding.notificationText.text="알림 Off"
+                setNotification=0
+            }
+        }
+    }
 //    private fun colorPickerDialog(){
 //
 //        MaterialColorPickerDialog
@@ -131,21 +160,28 @@ class ModifySchedule : AppCompatActivity() {
 //        spannable.setSpan(ForegroundColorSpan(color), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
 //        binding.scheduleText.text = spannable
 //    }
+private fun showTextSizeChangePopUp(){
+    val popupMenu = PopupMenu(this, binding.bottomNavigationView)
+    popupMenu.inflate(R.menu.character_size_settings)
 
+    popupMenu.setOnMenuItemClickListener { menuItem ->
+        modifyTextSize = when (menuItem.itemId) {
+            R.id.size15 -> 15f
+            R.id.size20 -> 20f
+            R.id.size25 -> 25f
+            R.id.size30 -> 30f
+            R.id.size35 -> 35f
+            R.id.size40 -> 40f
+            R.id.size45 -> 45f
+            R.id.size50 -> 50f
 
-    private fun textWatcher() {
-        binding.scheduleText.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            }
-            override fun afterTextChanged(s: Editable?) {
-                binding.textCounter.setText("${s?.length ?:0} 글자")
-            }
-        })
+            else -> 15f
+        }
+        binding.scheduleText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, modifyTextSize)
+        true
     }
-
-
+    popupMenu.show()
+}
     private fun bottomNavigation(){
         binding.bottomNavigationView.setOnItemSelectedListener { item->
             when(item.itemId){
@@ -162,29 +198,18 @@ class ModifySchedule : AppCompatActivity() {
         }
     }
 
-
-    private fun showTextSizeChangePopUp(){
-        val popupMenu = PopupMenu(this, binding.bottomNavigationView)
-        popupMenu.inflate(R.menu.character_size_settings)
-
-        popupMenu.setOnMenuItemClickListener { menuItem ->
-            modifyTextSize = when (menuItem.itemId) {
-                R.id.size15 -> 15f
-                R.id.size20 -> 20f
-                R.id.size25 -> 25f
-                R.id.size30 -> 30f
-                R.id.size35 -> 35f
-                R.id.size40 -> 40f
-                R.id.size45 -> 45f
-                R.id.size50 -> 50f
-
-                else -> 15f
+    private fun textWatcher() {
+        binding.scheduleText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
-            binding.scheduleText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, modifyTextSize)
-            true
-        }
-        popupMenu.show()
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+            override fun afterTextChanged(s: Editable?) {
+                binding.textCounter.setText("${s?.length ?:0} 글자")
+            }
+        })
     }
+
 
 
 
@@ -197,6 +222,8 @@ class ModifySchedule : AppCompatActivity() {
             if(currentDateMilli<=modifyScheduleMilli!!){
                 modifyIntent.putExtra("modifyScheduleMilli", modifyScheduleMilli)
                 modifyIntent.putExtra("scheduleDate",binding.setDate.getText().toString())
+                modifyIntent.putExtra("modifySetNotification", setNotification)
+
                 if(binding.scheduleText.text.toString()!="" && binding.scheduleTitle.text.toString()!=""){
                     modifyIntent.putExtra("modifyText", binding.scheduleText.text.toString())
                     modifyIntent.putExtra("modifyTitle", binding.scheduleTitle.text.toString())
@@ -222,6 +249,8 @@ class ModifySchedule : AppCompatActivity() {
         else{
             modifyIntent.putExtra("modifyScheduleMilli", scheduleDDay)
             modifyIntent.putExtra("scheduleDate",scheduleDate)
+            modifyIntent.putExtra("modifySetNotification", setNotification)
+
             if(binding.scheduleText.text.toString()!="" && binding.scheduleTitle.text.toString()!=""){
                 modifyIntent.putExtra("modifyText", binding.scheduleText.text.toString())
                 modifyIntent.putExtra("modifyTitle", binding.scheduleTitle.text.toString())

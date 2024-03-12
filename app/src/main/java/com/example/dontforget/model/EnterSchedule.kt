@@ -36,6 +36,7 @@ class EnterSchedule : AppCompatActivity() {
 
     private var scheduleDateMilli: Long? = null
     val currentDateMilli = DayCalculation().getCurrentDateMillis()
+    private var setNotification=0
     private val textColorList= mutableMapOf<Int,Int>()
     private val textSizeList= mutableMapOf<Int,Float>()
     private var defaultColor=-16777216
@@ -45,15 +46,21 @@ class EnterSchedule : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.scheduleText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize)
-        bottomNavigation()
+//        bottomNavigation()
         textWatcher()
+        bottomNavigation()
 
+        binding.setDate.setOnClickListener{
+            showDatePickerDialog()
+        }
+        notificationSwitchControl()
         binding.writeButton.setOnClickListener { handleScheduleInput() }
 
 
         binding.backButton.setOnClickListener{
             finish()
         }
+        binding.notificationSwitch
     }
 
 
@@ -98,6 +105,28 @@ class EnterSchedule : AppCompatActivity() {
 //            .show()
 //    }
 
+    private fun notificationSwitchControl(){
+
+        binding.notificationSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
+            if(scheduleDateMilli!=null){
+                if (isChecked) {
+                    binding.notificationSwitch.isChecked=true
+
+                    binding.notificationText.text="알림 On"
+                    setNotification=1
+                }
+                else{
+                    binding.notificationText.text="알림 Off"
+                    setNotification=0
+                }
+            }else{
+                Toast.makeText(this@EnterSchedule, "알림을 설정하기 위해선 날짜를 선택해야 합니다.", Toast.LENGTH_SHORT).show()
+                binding.notificationSwitch.isChecked = false
+                setNotification=0
+            }
+        }
+    }
+
     private fun textWatcher() {
         binding.scheduleText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -126,7 +155,7 @@ class EnterSchedule : AppCompatActivity() {
         }
     }
 
-
+//
     private fun showTextSizeChangePopUp(){
         val popupMenu = PopupMenu(this, binding.bottomNavigationView)
         popupMenu.inflate(R.menu.character_size_settings)
@@ -166,8 +195,9 @@ class EnterSchedule : AppCompatActivity() {
 
                 enterScheduleIntent.putExtra("scheduleDateMilli", scheduleDateMilli)
                 enterScheduleIntent.putExtra("textSize", textSize)
+                enterScheduleIntent.putExtra("setNotification", setNotification)
 
-                if (binding.scheduleText.text.toString().isNotEmpty() && binding.scheduleTitle.toString().isNotEmpty()) {
+                if (binding.scheduleText.text.toString().isNotEmpty() && binding.scheduleTitle.text.toString().isNotEmpty()) {
                     enterScheduleIntent.putExtra("scheduleText", binding.scheduleText.text.toString())
                     enterScheduleIntent.putExtra("scheduleTitle", binding.scheduleTitle.text.toString())
                     setResult(RESULT_OK, enterScheduleIntent)
@@ -182,8 +212,9 @@ class EnterSchedule : AppCompatActivity() {
             enterScheduleIntent.putExtra("scheduleDate", "")
             enterScheduleIntent.putExtra("scheduleDateMilli", 0)
             enterScheduleIntent.putExtra("textSize", textSize)
+            enterScheduleIntent.putExtra("setNotification", 0)
 
-            if (binding.scheduleText.text.toString().isNotEmpty() && binding.scheduleTitle.toString().isNotEmpty()) {
+            if (binding.scheduleText.text.toString().isNotEmpty() && binding.scheduleTitle.text.toString().isNotEmpty()) {
                 enterScheduleIntent.putExtra("scheduleText", binding.scheduleText.text.toString())
                 enterScheduleIntent.putExtra("scheduleTitle", binding.scheduleTitle.text.toString())
                 setResult(RESULT_OK, enterScheduleIntent)

@@ -25,5 +25,9 @@ data class ScheduleModel(
     var lineCount:Int?,
 
     @ColumnInfo(name="title")
-    var title:String?
+    var title:String?,
+
+    @ColumnInfo(name="setNotification")
+    var setNotification:Int?
+
 )

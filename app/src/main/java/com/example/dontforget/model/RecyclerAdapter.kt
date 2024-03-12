@@ -2,11 +2,18 @@ package com.example.dontforget.model
 
 
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context.NOTIFICATION_SERVICE
+import android.graphics.Color
+import android.graphics.Typeface
+import android.os.Build
 import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dontforget.R
@@ -72,6 +79,7 @@ class RecyclerAdapter(private var scheduleList: List<ScheduleModel>,
 
                 if(schedule.title!=null){
                     scheduleTitle.text=schedule.title
+
                 }
                 else{
                     scheduleTitle.text="미설정"

@@ -13,38 +13,46 @@
         android:layout_height="match_parent"
         >
 
-        <TextView
-            android:id="@+id/frameTop"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:background="@drawable/radius_top"
+<!--        <TextView-->
+<!--            android:id="@+id/frameTop"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="30dp"-->
+<!--            android:background="@drawable/radius_top"-->
 
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:layout_constraintWidth_percent="0.95" />-->
+
+<!--        <ImageView-->
+<!--            android:id="@+id/calendar"-->
+<!--            android:layout_width="15dp"-->
+<!--            android:layout_height="15dp"-->
+<!--            android:layout_marginStart="9dp"-->
+<!--            android:layout_marginTop="2dp"-->
+<!--            app:layout_constraintBottom_toTopOf="@id/line1"-->
+<!--            app:layout_constraintStart_toStartOf="@+id/frameTop"-->
+<!--            app:layout_constraintTop_toTopOf="@id/frameTop"-->
+<!--            app:srcCompat="@drawable/calendar_icon" />-->
+
+        <TextView
+            android:id="@+id/scheduleDate"
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_marginTop="9dp"
+            android:background="@drawable/radius_top"
+            android:drawableStart="@drawable/calendar_icon_main"
+            android:drawablePadding="5dp"
+            android:gravity="center_vertical"
+            android:fontFamily="@font/inriasans_bold"
+            android:paddingStart="5dp"
+
+            android:text="test"
+            android:textSize="12dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="0.95" />
-
-        <ImageView
-            android:id="@+id/calendar"
-            android:layout_width="19dp"
-            android:layout_height="19dp"
-            android:layout_marginStart="7dp"
-            android:layout_marginTop="6dp"
-            app:layout_constraintStart_toStartOf="@+id/frameTop"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/calendar_icon2" />
-
-        <TextView
-            android:id="@+id/scheduleDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="3dp"
-            android:layout_marginTop="9dp"
-            android:fontFamily="@font/inriasans_bold"
-            android:text="test"
-            android:textSize="12dp"
-            app:layout_constraintStart_toEndOf="@+id/calendar"
-            app:layout_constraintTop_toTopOf="parent" />
 
 
         <TextView
@@ -54,9 +62,9 @@
             android:layout_marginEnd="24dp"
             android:fontFamily="@font/inriasans_bold"
             android:textSize="12dp"
-            app:layout_constraintBottom_toBottomOf="@id/frameTop"
+            app:layout_constraintBottom_toBottomOf="@id/scheduleDate"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@id/scheduleDate" />
 
         <View
             android:id="@+id/line1"
@@ -68,7 +76,7 @@
             app:layout_constraintBottom_toTopOf="@+id/schedule_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/frameTop"
+            app:layout_constraintTop_toBottomOf="@+id/scheduleDate"
             app:layout_constraintWidth_percent="0.95" />
 
         <View
@@ -91,8 +99,8 @@
             android:layout_marginBottom="1dp"
 
             android:background="#FFFFFF"
-            android:fontFamily="@font/inriasans_regular"
-            android:paddingStart="10dp"
+            android:fontFamily="@font/inriasans_bold"
+            android:paddingStart="7dp"
             android:paddingTop="3dp"
             android:paddingEnd="10dp"
             android:paddingBottom="5dp"
@@ -110,7 +118,7 @@
             android:background="@drawable/radius_bottom"
 
             android:fontFamily="@font/inriasans_regular"
-            android:paddingStart="10dp"
+            android:paddingStart="7dp"
             android:paddingTop="3dp"
             android:paddingEnd="10dp"
             android:paddingBottom="5dp"

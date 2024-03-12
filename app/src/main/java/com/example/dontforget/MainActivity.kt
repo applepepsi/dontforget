@@ -1,8 +1,10 @@
 package com.example.dontforget
 
-import android.app.Activity
+import android.app.*
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.icu.util.Calendar
 import android.os.*
 import android.text.Editable
 import android.text.TextWatcher
@@ -12,12 +14,17 @@ import android.util.TypedValue
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
 import androidx.room.Transaction
+import com.example.dontforget.Notification.NotificationHelper
+import com.example.dontforget.Notification.NotificationReceiver
 import com.example.dontforget.databinding.ActivityMainBinding
 import com.example.dontforget.model.EnterSchedule
 import com.example.dontforget.model.ModifySchedule
@@ -174,6 +181,7 @@ class MainActivity : AppCompatActivity() {
                             modifyValue.putExtra("scheduleDate", schedule.scheduleDate)
                             modifyValue.putExtra("textSize", schedule.textSize)
                             modifyValue.putExtra("scheduleTitle", schedule.title)
+                            modifyValue.putExtra("setNotification", schedule.setNotification)
 
                             modifyActivityResult.launch(modifyValue)
                         })
@@ -198,13 +206,16 @@ class MainActivity : AppCompatActivity() {
                 val textSize=data?.getFloatExtra("textSize",15f)
                 val lineCount=data?.getIntExtra("lineCount",0)
                 val scheduleTitle=data?.getStringExtra("scheduleTitle")
+                val setNotification=data?.getIntExtra("setNotification",0)
+                Log.d("알림값", setNotification.toString())
+
                 if (scheduleTitle != null) {
                     Log.d("타이틀",scheduleTitle)
                 }
                 if(scheduleText!=null && scheduleTitle!=null) {
                     lifecycleScope.launch(Dispatchers.IO) {
                         val schedule = ScheduleModel(id = null, scheduleText, scheduleDateMilli!!, textSize!!,scheduleDate!!,lineCount,
-                            scheduleTitle
+                            scheduleTitle,setNotification
                         )
                         val scheduleId=scheduleDao.insertSchedule(schedule)
 
@@ -229,6 +240,7 @@ class MainActivity : AppCompatActivity() {
                 val modifyScheduleId=currentSchedule!!.id
                 val lineCount=data?.getIntExtra("lineCount",0)
                 val modifyTitle=data?.getStringExtra("modifyTitle")
+                val modifySetNotification=data?.getIntExtra("modifySetNotification",0)
 
                 if (currentSchedule != null) {
                     lifecycleScope.launch(Dispatchers.IO) {
@@ -241,7 +253,8 @@ class MainActivity : AppCompatActivity() {
                                 modifyTextSize!!,
                                 modifyScheduleDate!!,
                                 lineCount,
-                                modifyTitle
+                                modifyTitle,
+                                modifySetNotification
                             )
                         scheduleDao.updateSchedule(modifySchedule)
 
@@ -252,6 +265,38 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
+
+
+//    fun scheduleNotification() {
+//
+//
+//        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+//        val intent = Intent(this, NotificationReceiver::class.java).apply {
+//            putExtra("memo", memo)
+//        }
+//        val pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0)
+//
+//        // 현재 시간을 기준으로 다음 날 8시까지의 시간 계산
+//        val calendar = Calendar.getInstance().apply {
+//            time = targetDate
+//            set(Calendar.HOUR_OF_DAY, 8)
+//            set(Calendar.MINUTE, 0)
+//            set(Calendar.SECOND, 0)
+//        }
+//
+//        // 알림을 보내는 작업을 8시에 예약
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
+//        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
+//        } else {
+//            alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
+//        }
+//    }
+
+
+
 
     //todo: 디자인 생각하기
 }
