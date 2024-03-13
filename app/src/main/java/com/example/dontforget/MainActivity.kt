@@ -8,36 +8,28 @@ import android.icu.util.Calendar
 import android.os.*
 import android.text.Editable
 import android.text.TextWatcher
-import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
-import android.util.TypedValue
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
-import androidx.core.content.ContextCompat
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.room.Room
-import androidx.room.Transaction
-import com.example.dontforget.Notification.NotificationHelper
+import com.example.dontforget.Notification.NotificationData
 import com.example.dontforget.Notification.NotificationReceiver
 import com.example.dontforget.databinding.ActivityMainBinding
+import com.example.dontforget.model.DayCalculation
 import com.example.dontforget.model.EnterSchedule
 import com.example.dontforget.model.ModifySchedule
 import com.example.dontforget.model.RecyclerAdapter
 import com.example.dontforget.model.db.*
-import com.example.dontforget.spanInfo.ColorInfo
-import com.example.dontforget.spanInfo.SizeInfo
 import com.example.dontforget.util.ItemSpacingController
 import com.example.dontforget.util.SpanInfoProcessor
 import com.example.dontforget.util.SwipeToDeleteCallback
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -47,9 +39,12 @@ class MainActivity : AppCompatActivity() {
     lateinit var scheduleAdapter: RecyclerAdapter
     var scheduleList= mutableListOf<ScheduleModel>()
     var searchList=mutableListOf<ScheduleModel>()
+
     lateinit var scheduleDao:ScheduleDao
     lateinit var textStyleDao:TextStyleDao
     private var currentSchedule: ScheduleModel? = null
+    private lateinit var notifyList:List<ScheduleModel>
+
     private lateinit var spanInfoProcessor: SpanInfoProcessor
 //    private var textList=mutableListOf<String>()
 
@@ -69,11 +64,12 @@ class MainActivity : AppCompatActivity() {
         scheduleAdapter= RecyclerAdapter(scheduleList,scheduleClickListener,textStyleDao)
 
         refreshAdapter()
-
+        scheduleNotification()
 
 
         binding.scheduleViewer.adapter=scheduleAdapter
         binding.scheduleViewer.layoutManager=LinearLayoutManager(this@MainActivity)
+
         binding.cancelButton.setOnClickListener {
             binding.searchBar.setText(null)
 
@@ -268,34 +264,65 @@ class MainActivity : AppCompatActivity() {
 
 
 
-//    fun scheduleNotification() {
-//
-//
-//        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-//        val intent = Intent(this, NotificationReceiver::class.java).apply {
-//            putExtra("memo", memo)
-//        }
-//        val pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0)
-//
-//        // 현재 시간을 기준으로 다음 날 8시까지의 시간 계산
-//        val calendar = Calendar.getInstance().apply {
-//            time = targetDate
-//            set(Calendar.HOUR_OF_DAY, 8)
-//            set(Calendar.MINUTE, 0)
-//            set(Calendar.SECOND, 0)
-//        }
-//
-//        // 알림을 보내는 작업을 8시에 예약
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
-//        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-//            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
-//        } else {
-//            alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
-//        }
-//    }
+    private fun scheduleNotification() {
 
+        lifecycleScope.launch(Dispatchers.IO) {
 
+            withContext(Dispatchers.Main) {
+                notifyList = scheduleDao.findSwitchOnData(DayCalculation().getCurrentDateMillis())
+
+                val notificationDataList = notifyList.map { scheduleModel ->
+                    NotificationData(
+                        id = scheduleModel.id,
+                        scheduleText = scheduleModel.scheduleText,
+                        scheduleTime = scheduleModel.scheduleTime,
+                        scheduleDate = scheduleModel.scheduleDate,
+                        title = scheduleModel.title
+                    )
+                }
+                val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                val notificationIntent = Intent(this@MainActivity, NotificationReceiver::class.java).apply {
+                    putParcelableArrayListExtra("notifyList", ArrayList(notificationDataList))
+                    Log.d("노티파이리스트", notificationDataList.toString())
+                }
+
+                var pendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    PendingIntent.getBroadcast(
+                        this@MainActivity,
+                        0,
+                        notificationIntent,
+                        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                    )
+                } else {
+                    PendingIntent.getBroadcast(
+                        this@MainActivity,
+                        0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT
+                    )
+                }
+
+                val calendar = Calendar.getInstance().apply {
+                    add(Calendar.DAY_OF_MONTH, 1)
+                    set(Calendar.HOUR_OF_DAY, 8)
+                    set(Calendar.MINUTE, 0)
+                    set(Calendar.SECOND, 0)
+                    set(Calendar.MILLISECOND, 0)
+                }
+                Log.d("켈린더밀리", calendar.timeInMillis.toString())
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
+                    Log.d("전송성공1","성공")
+                } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
+                    Log.d("전송성공2","성공")
+                } else {
+
+                    alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
+                    Log.d("전송성공3","성공")
+                }
+            }
+        }
+    }
 
 
     //todo: 디자인 생각하기

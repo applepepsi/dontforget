@@ -11,8 +11,8 @@ interface ScheduleDao {
     @Query("SELECT * FROM schedule WHERE scheduleInfo LIKE :searchText OR title LIKE :searchText")
     suspend fun findSchedulesByText(searchText: String): List<ScheduleModel>
 
-    @Query("SELECT * FROM schedule WHERE dateInfo LIKE :searchText OR title LIKE :searchText")
-    suspend fun findDday(searchText: String): List<ScheduleModel>
+    @Query("SELECT * FROM schedule WHERE setNotification=1 AND dateInfo > :currentDayMilli")
+    suspend fun findSwitchOnData(currentDayMilli: Long): List<ScheduleModel>
 
     @Insert
     suspend fun insertSchedule(schedule: ScheduleModel): Long

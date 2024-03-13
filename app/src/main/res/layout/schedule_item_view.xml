@@ -59,12 +59,26 @@
             android:id="@+id/ddayCounter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="24dp"
+            android:layout_marginEnd="12dp"
             android:fontFamily="@font/inriasans_bold"
+            android:text="test"
             android:textSize="12dp"
             app:layout_constraintBottom_toBottomOf="@id/scheduleDate"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/notification_message"
             app:layout_constraintTop_toTopOf="@id/scheduleDate" />
+
+        <TextView
+            android:id="@+id/notification_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:fontFamily="@font/inriasans_regular"
+            android:text="test"
+            android:textSize="9dp"
+            app:layout_constraintBottom_toBottomOf="@id/scheduleDate"
+            app:layout_constraintEnd_toEndOf="@id/scheduleDate"
+            app:layout_constraintTop_toTopOf="@id/scheduleDate" />
+
 
         <View
             android:id="@+id/line1"

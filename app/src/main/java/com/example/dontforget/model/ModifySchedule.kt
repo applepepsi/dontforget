@@ -62,7 +62,7 @@ class ModifySchedule : AppCompatActivity() {
             binding.notificationText.text="알림 On"
         }
 
-        notificationSwitchControl()
+        notificationSwitchControl(scheduleDDay)
 
         if (scheduleText != null && scheduleTitle!=null) {
             binding.scheduleText.setText(scheduleText)
@@ -110,18 +110,23 @@ class ModifySchedule : AppCompatActivity() {
 
         datePickerDialog.show()
     }
-    private fun notificationSwitchControl(){
+    private fun notificationSwitchControl(scheduleDDay:Long){
 
         binding.notificationSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
+            if(modifyScheduleMilli!=null || scheduleDDay!=null){
+                if (isChecked) {
+                    binding.notificationSwitch.isChecked=true
 
-            if (isChecked) {
-                binding.notificationSwitch.isChecked=true
-
-                binding.notificationText.text="알림 On"
-                setNotification=1
-            }
-            else{
-                binding.notificationText.text="알림 Off"
+                    binding.notificationText.text="알림 On"
+                    setNotification=1
+                }
+                else{
+                    binding.notificationText.text="알림 Off"
+                    setNotification=0
+                }
+            }else{
+                Toast.makeText(this, "알림을 설정하기 위해선 날짜를 선택해야 합니다.", Toast.LENGTH_SHORT).show()
+                binding.notificationSwitch.isChecked = false
                 setNotification=0
             }
         }
