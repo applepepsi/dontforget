@@ -28,6 +28,8 @@ data class ScheduleModel(
     var title:String?,
 
     @ColumnInfo(name="setNotification")
-    var setNotification:Int?
+    var setNotification:Int?,
 
+    @ColumnInfo(name="dday")
+    var dday:Long?,
 )

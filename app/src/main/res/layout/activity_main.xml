@@ -8,17 +8,6 @@
     tools:context=".MainActivity">
 
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/scheduleViewer"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-
-        android:background="#E3E3E3"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_bar" />
 
 
     <Button
@@ -84,7 +73,7 @@
         android:paddingBottom="5dp"
         android:textColor="#000000"
         android:textSize="15dp"
-        app:layout_constraintBottom_toTopOf="@+id/scheduleViewer"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/line1"
@@ -103,7 +92,30 @@
         app:layout_constraintTop_toTopOf="@id/search_bar" />
 
 
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
 
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search_bar"
+        tools:context=".MainActivity">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/scheduleViewer"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+
+            android:background="#E3E3E3"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     <!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
     <!--        android:id="@+id/CreateScheduleButton"-->
     <!--        android:layout_width="wrap_content"-->

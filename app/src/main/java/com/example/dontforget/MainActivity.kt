@@ -30,6 +30,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.*
+import androidx.lifecycle.LifecycleOwner
 
 
 class MainActivity : AppCompatActivity() {
@@ -61,7 +62,7 @@ class MainActivity : AppCompatActivity() {
         binding.scheduleViewer.addItemDecoration(itemSpacingController)
         val scheduleClickListener=deleteOrModify()
 
-        scheduleAdapter= RecyclerAdapter(scheduleList,scheduleClickListener,textStyleDao)
+        scheduleAdapter= RecyclerAdapter(scheduleClickListener,textStyleDao)
 
         refreshAdapter()
         scheduleNotification()
@@ -75,7 +76,7 @@ class MainActivity : AppCompatActivity() {
 
         }
         textWatcher()
-
+        swipeRefresh()
         val itemTouchHelper = ItemTouchHelper(SwipeToDeleteCallback(object : SwipeToDeleteCallback.OnSwipeListener {
             override fun onSwipe(position: Int) {
 
@@ -105,13 +106,11 @@ class MainActivity : AppCompatActivity() {
         refreshAdapter()
     }
 
-    //todo: 코루틴 공부하기,삭제 수정 구현
     private fun refreshAdapter() {
         lifecycleScope.launch(Dispatchers.IO) {
             val newList = scheduleDao.getAll()
-            Log.d("뉴리스트",newList.toString())
             withContext(Dispatchers.Main) {
-                scheduleAdapter.updateList(newList)
+                scheduleAdapter.submitList(newList)
             }
         }
     }
@@ -131,30 +130,23 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun search(searchText:String){
-        Log.d("서치 텍스트",searchText)
+    private fun search(searchText: String) {
+        Log.d("서치 텍스트", searchText)
 
-        scheduleList.clear()
-
-        if(searchText.isEmpty()){
+        if (searchText.isEmpty()) {
             lifecycleScope.launch(Dispatchers.IO) {
                 val allSchedules = scheduleDao.getAll()
                 withContext(Dispatchers.Main) {
-                    scheduleList.addAll(allSchedules)
-                    scheduleAdapter.updateList(scheduleList)
+                    scheduleAdapter.submitList(allSchedules)
                     Log.d("호출됨", scheduleList.toString())
                 }
             }
-        }
-        else {
+        } else {
             lifecycleScope.launch(Dispatchers.IO) {
-
                 val foundSchedules = scheduleDao.findSchedulesByText("%$searchText%")
-
                 withContext(Dispatchers.Main) {
-                    scheduleList.addAll(foundSchedules)
+                    scheduleAdapter.submitList(foundSchedules)
                     Log.d("foundSchedules", scheduleList.toString())
-                    scheduleAdapter.updateList(scheduleList)
                 }
             }
         }
@@ -178,7 +170,7 @@ class MainActivity : AppCompatActivity() {
                             modifyValue.putExtra("textSize", schedule.textSize)
                             modifyValue.putExtra("scheduleTitle", schedule.title)
                             modifyValue.putExtra("setNotification", schedule.setNotification)
-
+                            modifyValue.putExtra("dday", schedule.dday)
                             modifyActivityResult.launch(modifyValue)
                         })
                         .setNegativeButton("취소", DialogInterface.OnClickListener { dialog, _ ->
@@ -203,6 +195,8 @@ class MainActivity : AppCompatActivity() {
                 val lineCount=data?.getIntExtra("lineCount",0)
                 val scheduleTitle=data?.getStringExtra("scheduleTitle")
                 val setNotification=data?.getIntExtra("setNotification",0)
+                val dday=data?.getLongExtra("dday",-1)
+
                 Log.d("알림값", setNotification.toString())
 
                 if (scheduleTitle != null) {
@@ -210,8 +204,14 @@ class MainActivity : AppCompatActivity() {
                 }
                 if(scheduleText!=null && scheduleTitle!=null) {
                     lifecycleScope.launch(Dispatchers.IO) {
-                        val schedule = ScheduleModel(id = null, scheduleText, scheduleDateMilli!!, textSize!!,scheduleDate!!,lineCount,
-                            scheduleTitle,setNotification
+                        val schedule = ScheduleModel(id = null, scheduleText,
+                            scheduleDateMilli!!,
+                            textSize!!,
+                            scheduleDate!!,
+                            lineCount,
+                            scheduleTitle,
+                            setNotification,
+                            dday
                         )
                         val scheduleId=scheduleDao.insertSchedule(schedule)
 
@@ -237,6 +237,7 @@ class MainActivity : AppCompatActivity() {
                 val lineCount=data?.getIntExtra("lineCount",0)
                 val modifyTitle=data?.getStringExtra("modifyTitle")
                 val modifySetNotification=data?.getIntExtra("modifySetNotification",0)
+                val modifyDday=data?.getLongExtra("modifyDday",-1)
 
                 if (currentSchedule != null) {
                     lifecycleScope.launch(Dispatchers.IO) {
@@ -250,7 +251,8 @@ class MainActivity : AppCompatActivity() {
                                 modifyScheduleDate!!,
                                 lineCount,
                                 modifyTitle,
-                                modifySetNotification
+                                modifySetNotification,
+                                modifyDday
                             )
                         scheduleDao.updateSchedule(modifySchedule)
 
@@ -311,14 +313,33 @@ class MainActivity : AppCompatActivity() {
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
-                    Log.d("전송성공1","성공")
                 } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                     alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
-                    Log.d("전송성공2","성공")
                 } else {
-
                     alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
-                    Log.d("전송성공3","성공")
+
+                }
+            }
+        }
+    }
+
+    private fun swipeRefresh() {
+        binding.swipeLayout.setOnRefreshListener {
+            lifecycleScope.launch(Dispatchers.IO) {
+                val allSchedules = scheduleDao.getAll()
+                val updatedSchedules = allSchedules.map { schedule ->
+                    val currentTime = DayCalculation().getCurrentDateMillis()
+                    val dday = DayCalculation().calculationDday(schedule.scheduleTime, currentTime)
+                    schedule.copy(dday = dday)
+
+                }
+                updatedSchedules.forEach { schedule ->
+                    scheduleDao.updateSchedule(schedule)
+                }
+                withContext(Dispatchers.Main) {
+
+                    scheduleAdapter.submitList(updatedSchedules)
+                    binding.swipeLayout.isRefreshing = false
                 }
             }
         }

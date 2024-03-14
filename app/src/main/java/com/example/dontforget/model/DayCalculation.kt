@@ -5,6 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.icu.util.Calendar
 import android.util.Log
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -39,6 +41,17 @@ class DayCalculation {
         return DdayCalculation
     }
 
+    fun replaceDday(scheduleTime: Long): String? {
+        val currentTime = getCurrentDateMillis()
+
+        val Dday = calculationDday(scheduleTime, currentTime)
+
+        return when {
+            Dday!! > 0L -> "D - ${Dday.toString()}"
+            Dday == 0L -> "D - Day"
+            else -> "만료"
+        }
+    }
 //    val DdayCalculation = ((scheduleDate!!.toLong()) - currentDate) / (24*60*60*1000)
 
 }

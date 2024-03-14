@@ -24,6 +24,8 @@ import com.example.dontforget.spanInfo.SizeInfo
 import com.github.dhaval2404.colorpicker.MaterialColorPickerDialog
 import com.github.dhaval2404.colorpicker.model.ColorShape
 import com.github.dhaval2404.colorpicker.model.ColorSwatch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.io.Serializable
 import java.util.*
 import kotlin.collections.ArrayList
@@ -179,13 +181,18 @@ class EnterSchedule : AppCompatActivity() {
         popupMenu.show()
     }
 
+    private fun ddayCalculation(): Long? {
+        val currentTime = DayCalculation().getCurrentDateMillis()
 
+        val Dday = DayCalculation().calculationDday(scheduleDateMilli, currentTime)
+        return Dday
+    }
 
 
     private fun handleScheduleInput() {
         val enterScheduleIntent = Intent(this, MainActivity::class.java)
         val text=binding.scheduleText.text as Editable
-
+        val dday=ddayCalculation()
 //        enterScheduleIntent.putParcelableArrayListExtra("spanInfo", ArrayList(spanInfos))
         enterScheduleIntent.putExtra("lineCount", binding.scheduleText.getLineCount())
 
@@ -196,6 +203,7 @@ class EnterSchedule : AppCompatActivity() {
                 enterScheduleIntent.putExtra("scheduleDateMilli", scheduleDateMilli)
                 enterScheduleIntent.putExtra("textSize", textSize)
                 enterScheduleIntent.putExtra("setNotification", setNotification)
+                enterScheduleIntent.putExtra("dday", dday)
 
                 if (binding.scheduleText.text.toString().isNotEmpty() && binding.scheduleTitle.text.toString().isNotEmpty()) {
                     enterScheduleIntent.putExtra("scheduleText", binding.scheduleText.text.toString())
@@ -213,6 +221,7 @@ class EnterSchedule : AppCompatActivity() {
             enterScheduleIntent.putExtra("scheduleDateMilli", 0)
             enterScheduleIntent.putExtra("textSize", textSize)
             enterScheduleIntent.putExtra("setNotification", 0)
+            enterScheduleIntent.putExtra("dday", -1)
 
             if (binding.scheduleText.text.toString().isNotEmpty() && binding.scheduleTitle.text.toString().isNotEmpty()) {
                 enterScheduleIntent.putExtra("scheduleText", binding.scheduleText.text.toString())

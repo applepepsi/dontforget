@@ -14,11 +14,12 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat.getSystemService
 import com.example.dontforget.R
+import com.example.dontforget.model.DayCalculation
 import kotlinx.coroutines.withContext
 
 class NotificationHelper(private val context: Context) {
     private val channelId = "channelId"
-    private val notificationId = 101
+
 
     fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -38,14 +39,33 @@ class NotificationHelper(private val context: Context) {
         createNotificationChannel()
 
         Log.d("샌드노티파이",notificationDataList.toString())
-        val builder = NotificationCompat.Builder(context, channelId)
-            .setSmallIcon(R.drawable.ic_baseline_arrow_back_ios_24)
-            .setContentTitle("타이틀")
-            .setContentText("설명")
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+        if (notificationDataList != null) {
+            for(data in notificationDataList){
+                val Dday= DayCalculation().calculationDday(data.scheduleTime, DayCalculation().getCurrentDateMillis())
+                Log.d("데이터", data.toString())
+                val builder = NotificationCompat.Builder(context, channelId)
+                    .setSmallIcon(R.drawable.ic_baseline_arrow_back_ios_24)
+                    .setContentTitle("DDay알림")
+                    .setContentText("${data.title}스케쥴이 ${Dday}일 남았습니다!")
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
-        with(NotificationManagerCompat.from(context)) {
-            notify(notificationId, builder.build())
+                val notificationId=data.id
+
+                with(NotificationManagerCompat.from(context)) {
+                    if (notificationId != null) {
+                        notify(notificationId, builder.build())
+                    }
+                }
+            }
         }
+//        val builder = NotificationCompat.Builder(context, channelId)
+//            .setSmallIcon(R.drawable.ic_baseline_arrow_back_ios_24)
+//            .setContentTitle("타이틀")
+//            .setContentText("설명")
+//            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+//
+//        with(NotificationManagerCompat.from(context)) {
+//            notify(notificationId, builder.build())
+//        }
     }
 }

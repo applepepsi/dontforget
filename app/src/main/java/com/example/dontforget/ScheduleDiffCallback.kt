@@ -3,20 +3,12 @@ package com.example.dontforget
 import androidx.recyclerview.widget.DiffUtil
 import com.example.dontforget.model.db.ScheduleModel
 
-class ScheduleDiffCallback(
-    private val oldList: List<ScheduleModel>,
-    private val newList: List<ScheduleModel>
-) : DiffUtil.Callback() {
-
-    override fun getOldListSize() = oldList.size
-
-    override fun getNewListSize() = newList.size
-
-    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldList[oldItemPosition].id == newList[newItemPosition].id
+class ScheduleDiffCallback : DiffUtil.ItemCallback<ScheduleModel>() {
+    override fun areItemsTheSame(oldItem: ScheduleModel, newItem: ScheduleModel): Boolean {
+        return oldItem.id == newItem.id
     }
 
-    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldList[oldItemPosition] == newList[newItemPosition]
+    override fun areContentsTheSame(oldItem: ScheduleModel, newItem: ScheduleModel): Boolean {
+        return oldItem == newItem
     }
 }

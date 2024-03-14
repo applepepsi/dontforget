@@ -52,6 +52,7 @@ class ModifySchedule : AppCompatActivity() {
         var scheduleDate=intent.getStringExtra("scheduleDate")
         var scheduleTitle = intent.getStringExtra("scheduleTitle")
         setNotification = intent.getIntExtra("setNotification",0)
+        var dday = intent.getLongExtra("dday",-1)
         Log.d("수정된 노티피",setNotification.toString())
         textWatcher()
         bottomNavigation()
@@ -215,19 +216,28 @@ private fun showTextSizeChangePopUp(){
         })
     }
 
+    private fun ddayCalculation(scheduleTime:Long): Long? {
+        val currentTime = DayCalculation().getCurrentDateMillis()
 
+        val Dday = DayCalculation().calculationDday(scheduleTime, currentTime)
+        return Dday
+    }
 
 
 
     private fun handleScheduleInput(textSize:Float,scheduleDDay:Long,scheduleDate:String) {
         val modifyIntent = Intent(this, MainActivity::class.java)
+
         modifyIntent.putExtra("lineCount", binding.scheduleText.getLineCount())
 
         if (modifyScheduleMilli != null) {
             if(currentDateMilli<=modifyScheduleMilli!!){
+
                 modifyIntent.putExtra("modifyScheduleMilli", modifyScheduleMilli)
                 modifyIntent.putExtra("scheduleDate",binding.setDate.getText().toString())
                 modifyIntent.putExtra("modifySetNotification", setNotification)
+                modifyIntent.putExtra("modifyDday", ddayCalculation(modifyScheduleMilli!!))
+
 
                 if(binding.scheduleText.text.toString()!="" && binding.scheduleTitle.text.toString()!=""){
                     modifyIntent.putExtra("modifyText", binding.scheduleText.text.toString())
@@ -255,6 +265,7 @@ private fun showTextSizeChangePopUp(){
             modifyIntent.putExtra("modifyScheduleMilli", scheduleDDay)
             modifyIntent.putExtra("scheduleDate",scheduleDate)
             modifyIntent.putExtra("modifySetNotification", setNotification)
+            modifyIntent.putExtra("modifyDday", ddayCalculation(scheduleDDay))
 
             if(binding.scheduleText.text.toString()!="" && binding.scheduleTitle.text.toString()!=""){
                 modifyIntent.putExtra("modifyText", binding.scheduleText.text.toString())
