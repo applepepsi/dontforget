@@ -27,6 +27,7 @@ import com.github.dhaval2404.colorpicker.model.ColorSwatch
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.Serializable
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.math.max
@@ -69,6 +70,7 @@ class EnterSchedule : AppCompatActivity() {
 
     private fun showDatePickerDialog() {
         val cal = Calendar.getInstance()
+        val dateFormat = SimpleDateFormat("yyyyMMdd")
 
         val datePickerDialog = DatePickerDialog(
             this,
@@ -76,9 +78,9 @@ class EnterSchedule : AppCompatActivity() {
                 val selectedCalendar = Calendar.getInstance()
                 selectedCalendar.set(year, month, day,0,0,0)
 
-                scheduleDateMilli = selectedCalendar.timeInMillis
                 binding.setDate.setText("${year}년 ${month+1}월 ${day}일")
-
+                scheduleDateMilli= dateFormat.parse(("${year}${String.format("%02d", month + 1)}${String.format("%02d", day)}"))?.time
+                Log.d("월", scheduleDateMilli.toString())
             },
             cal.get(Calendar.YEAR),
             cal.get(Calendar.MONTH),

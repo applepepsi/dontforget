@@ -333,6 +333,7 @@ class MainActivity : AppCompatActivity() {
                     schedule.copy(dday = dday)
 
                 }
+                Log.d("디데이변경", updatedSchedules.toString())
                 updatedSchedules.forEach { schedule ->
                     scheduleDao.updateSchedule(schedule)
                 }

@@ -30,6 +30,7 @@ import com.example.dontforget.spanInfo.SizeInfo
 import com.github.dhaval2404.colorpicker.MaterialColorPickerDialog
 import com.github.dhaval2404.colorpicker.model.ColorShape
 import com.github.dhaval2404.colorpicker.model.ColorSwatch
+import java.text.SimpleDateFormat
 import kotlin.math.max
 
 class ModifySchedule : AppCompatActivity() {
@@ -93,15 +94,15 @@ class ModifySchedule : AppCompatActivity() {
     }
     private fun showDatePickerDialog() {
         val cal = Calendar.getInstance()
-
+        val dateFormat = SimpleDateFormat("yyyyMMdd")
         val datePickerDialog = DatePickerDialog(
             this,
             { _, year, month, day ->
                 val selectedCalendar = Calendar.getInstance()
                 selectedCalendar.set(year, month, day,0,0,0)
 
-                modifyScheduleMilli = selectedCalendar.timeInMillis
                 binding.setDate.setText("${year}년 ${month+1}월 ${day}일")
+                modifyScheduleMilli= dateFormat.parse(("${year}${String.format("%02d", month + 1)}${String.format("%02d", day)}"))?.time
 
             },
             cal.get(Calendar.YEAR),

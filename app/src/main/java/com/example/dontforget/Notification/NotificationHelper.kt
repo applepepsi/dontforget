@@ -43,10 +43,20 @@ class NotificationHelper(private val context: Context) {
             for(data in notificationDataList){
                 val Dday= DayCalculation().calculationDday(data.scheduleTime, DayCalculation().getCurrentDateMillis())
                 Log.d("데이터", data.toString())
+                val message = if (Dday!! >0L) {
+                    "${data.title} 스케쥴이 D - ${Dday} 입니다."
+                }else if(Dday!! ==0L){
+                    "${data.title} 스케쥴이 D - Day 입니다."
+                }else{
+                    "${data.title} 스케줄이 만료됐습니다."
+                }
+                Log.d("디데이",Dday.toString())
+
                 val builder = NotificationCompat.Builder(context, channelId)
                     .setSmallIcon(R.drawable.ic_baseline_arrow_back_ios_24)
-                    .setContentTitle("DDay알림")
-                    .setContentText("${data.title}스케쥴이 ${Dday}일 남았습니다!")
+                    .setContentTitle("DDay 알림")
+
+                    .setContentText(message)
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
                 val notificationId=data.id
