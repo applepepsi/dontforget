@@ -9,6 +9,7 @@ import android.os.*
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -45,7 +46,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var textStyleDao:TextStyleDao
     private var currentSchedule: ScheduleModel? = null
     private lateinit var notifyList:List<ScheduleModel>
-
+    private var searchBarController=false
     private lateinit var spanInfoProcessor: SpanInfoProcessor
 //    private var textList=mutableListOf<String>()
 
@@ -73,10 +74,14 @@ class MainActivity : AppCompatActivity() {
 
         binding.cancelButton.setOnClickListener {
             binding.searchBar.setText(null)
-
         }
-        textWatcher()
+
         swipeRefresh()
+
+        binding.showSearchBar.setOnClickListener{
+            searchBarController()
+        }
+
         val itemTouchHelper = ItemTouchHelper(SwipeToDeleteCallback(object : SwipeToDeleteCallback.OnSwipeListener {
             override fun onSwipe(position: Int) {
 
@@ -115,6 +120,19 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun searchBarController() {
+        if(!searchBarController){
+            binding.searchBar.visibility= View.VISIBLE
+            binding.cancelButton.visibility= View.VISIBLE
+            searchBarController=true
+            textWatcher()
+        }else{
+            binding.searchBar.visibility= View.GONE
+            binding.cancelButton.visibility= View.GONE
+            searchBarController=false
+            binding.searchBar.setText(null)
+        }
+    }
 
     private fun textWatcher() {
         binding.searchBar.addTextChangedListener(object : TextWatcher {
@@ -127,6 +145,10 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
+
+    }
+
+    private fun showSearchBar(){
 
     }
 

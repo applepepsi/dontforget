@@ -8,6 +8,7 @@
     tools:context=".model.ModifySchedule">
 
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cstLyTop"
         android:layout_width="0dp"
@@ -37,29 +38,30 @@
 
         <TextView
             android:id="@+id/up_bar"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="20dp"
 
             android:layout_marginTop="2dp"
             android:background="#ffffff"
             android:fontFamily="@font/inriasans_bold"
             android:gravity="center_vertical"
-            android:text="메모 작성하기"
+            android:text="메모 수정하기"
             android:textSize="15dp"
             app:layout_constraintBottom_toTopOf="@id/line2"
             app:layout_constraintStart_toEndOf="@+id/back_button"
+
             app:layout_constraintTop_toTopOf="parent" />
 
 
         <Button
             android:id="@+id/write_button"
-            android:layout_width="77dp"
-            android:layout_height="38dp"
-            android:layout_marginEnd="5dp"
+            android:layout_width="70dp"
+            android:layout_height="35dp"
+            android:layout_marginEnd="12dp"
             android:fontFamily="@font/inriasans_bold"
 
             android:text="작성 완료"
-            android:textSize="10dp"
+            android:textSize="8dp"
             app:backgroundTint="#E3E3E3"
             app:layout_constraintBottom_toTopOf="@id/line2"
             app:layout_constraintEnd_toEndOf="parent"
@@ -78,7 +80,7 @@
         <TextView
             android:id="@+id/setDate"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="35dp"
             android:background="#ffffff"
             android:drawableStart="@drawable/calendar_icon"
             android:drawablePadding="5dp"
@@ -123,7 +125,7 @@
         <TextView
             android:id="@+id/notification_text"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="35dp"
             android:layout_marginEnd="10dp"
 
             android:background="#ffffff"
@@ -147,9 +149,11 @@
             android:fontFamily="@font/inriasans_regular"
 
             android:lineSpacingExtra="6.4sp"
+            android:switchMinWidth="0dp"
+            android:textOff=""
+            android:textOn=""
+            android:thumbTextPadding="15dp"
 
-            android:textColor="#2b2e32"
-            android:textSize="16sp"
             android:thumb="@drawable/thumb"
             app:layout_constraintBottom_toTopOf="@id/line1"
             app:layout_constraintEnd_toEndOf="parent"
