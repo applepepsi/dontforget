@@ -40,26 +40,30 @@ class NotificationHelper(private val context: Context) {
 
         Log.d("샌드노티파이",notificationDataList.toString())
         if (notificationDataList != null) {
-            for(data in notificationDataList){
+            var message:String
+            for (data in notificationDataList) {
                 val Dday= DayCalculation().calculationDday(data.scheduleTime, DayCalculation().getCurrentDateMillis())
-                Log.d("데이터", data.toString())
-                val message = if (Dday!! >0L) {
-                    "${data.title} 스케쥴이 D - ${Dday} 입니다."
-                }else if(Dday!! ==0L){
-                    "${data.title} 스케쥴이 D - Day 입니다."
+
+                // 조건에 부합하지 않는 경우에는 이 반복을 건너뛰고 다음 반복으로 넘어갑니다.
+                if (Dday == null || Dday < 0L) {
+                    continue
                 }else{
-                    "${data.title} 스케줄이 만료됐습니다."
+                    message = if (Dday ==0L) {
+                        "${data.title} 스케쥴의 D - Day 입니다."
+                    }else{
+                        "${data.title} 스케쥴이 ${Dday}일 남았습니다."
+                    }
                 }
-                Log.d("디데이",Dday.toString())
+
+                Log.d("데이터", data.toString())
 
                 val builder = NotificationCompat.Builder(context, channelId)
                     .setSmallIcon(R.drawable.ic_baseline_arrow_back_ios_24)
                     .setContentTitle("DDay 알림")
-
                     .setContentText(message)
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
-                val notificationId=data.id
+                val notificationId = data.id
 
                 with(NotificationManagerCompat.from(context)) {
                     if (notificationId != null) {

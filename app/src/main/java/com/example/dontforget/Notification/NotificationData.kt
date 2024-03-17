@@ -14,8 +14,6 @@ data class NotificationData(
 
     var scheduleTime:Long,
 
-    var scheduleDate:String,
-
     var title:String?,
 
 ): Parcelable

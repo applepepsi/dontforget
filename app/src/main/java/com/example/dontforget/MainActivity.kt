@@ -148,9 +148,6 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun showSearchBar(){
-
-    }
 
     private fun search(searchText: String) {
         Log.d("서치 텍스트", searchText)
@@ -293,14 +290,14 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch(Dispatchers.IO) {
 
             withContext(Dispatchers.Main) {
-                notifyList = scheduleDao.findSwitchOnData(DayCalculation().getCurrentDateMillis())
+                val currentCurrentDateMilli=DayCalculation().getCurrentDateMillis()
+                notifyList = scheduleDao.findSwitchOnData(currentCurrentDateMilli)
 
                 val notificationDataList = notifyList.map { scheduleModel ->
                     NotificationData(
                         id = scheduleModel.id,
                         scheduleText = scheduleModel.scheduleText,
                         scheduleTime = scheduleModel.scheduleTime,
-                        scheduleDate = scheduleModel.scheduleDate,
                         title = scheduleModel.title
                     )
                 }
@@ -310,7 +307,7 @@ class MainActivity : AppCompatActivity() {
                     Log.d("노티파이리스트", notificationDataList.toString())
                 }
 
-                var pendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                val pendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     PendingIntent.getBroadcast(
                         this@MainActivity,
                         0,

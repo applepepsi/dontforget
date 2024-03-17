@@ -8,35 +8,9 @@
     tools:context=".MainActivity">
 
 
-    <Button
-        android:id="@+id/CreateScheduleButton"
-        android:layout_width="70dp"
-        android:layout_height="35dp"
-        android:layout_marginEnd="12dp"
 
-        android:fontFamily="@font/inriasans_bold"
 
-        android:text="작성 하기"
-        android:textSize="8dp"
-        app:backgroundTint="#E3E3E3"
 
-        app:layout_constraintEnd_toEndOf="@+id/up_bar"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/show_search_bar"
-        android:layout_width="70dp"
-        android:layout_height="35dp"
-        android:layout_marginEnd="12dp"
-
-        android:fontFamily="@font/inriasans_bold"
-
-        android:text="검색 하기"
-        android:textSize="8dp"
-        app:backgroundTint="#E3E3E3"
-
-        app:layout_constraintEnd_toStartOf="@+id/CreateScheduleButton"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/up_bar"
@@ -53,7 +27,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageButton
+        android:id="@+id/show_search_bar"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="3dp"
+        android:background="?attr/selectableItemBackground"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_baseline_search_24_2"
+        app:layout_constraintBottom_toBottomOf="@+id/up_bar"
+        app:layout_constraintEnd_toStartOf="@+id/CreateScheduleButton"
+        app:layout_constraintTop_toTopOf="@id/up_bar" />
 
+
+    <ImageButton
+        android:id="@+id/CreateScheduleButton"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginEnd="12dp"
+        android:background="?attr/selectableItemBackground"
+        android:scaleType="centerInside"
+        android:src="@drawable/write_button"
+        app:layout_constraintEnd_toEndOf="@+id/up_bar"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <View
         android:id="@+id/line1"
@@ -91,11 +87,11 @@
 
     <ImageButton
         android:id="@+id/cancel_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_marginEnd="17dp"
         android:background="?attr/selectableItemBackground"
-        android:scaleType="fitCenter"
+        android:scaleType="centerInside"
         android:visibility="gone"
         android:src="@drawable/ic_baseline_cancle_24"
         app:layout_constraintBottom_toBottomOf="@id/search_bar"
