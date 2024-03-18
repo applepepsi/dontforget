@@ -38,6 +38,7 @@ class ModifySchedule : AppCompatActivity() {
     private var modifyTextSize: Float = 0f
     val currentDateMilli = DayCalculation().getCurrentDateMillis()
     private var modifyScheduleMilli: Long? = null
+    private var scheduleDateMilli: Long? = null
     private var setNotification=0
     private var defaultColor=-16777216
     private val textColorList= mutableMapOf<Int,Int>()
@@ -48,15 +49,18 @@ class ModifySchedule : AppCompatActivity() {
         setContentView(binding.root)
 
         var scheduleText = intent.getStringExtra("scheduleText")
-        var scheduleDDay = intent.getLongExtra("scheduleDDay",0)
+        scheduleDateMilli = intent.getLongExtra("scheduleDDay",0)
+        Log.d("시작값 종료값 테스트",  scheduleDateMilli.toString())
         val textSize=intent.getFloatExtra("textSize",15f)
         var scheduleDate=intent.getStringExtra("scheduleDate")
+        Log.d("데이트",  scheduleDate.toString())
+
         var scheduleTitle = intent.getStringExtra("scheduleTitle")
         setNotification = intent.getIntExtra("setNotification",0)
         var dday = intent.getLongExtra("dday",-1)
-        Log.d("수정된 노티피",setNotification.toString())
-        textWatcher()
-        bottomNavigation()
+
+        initUi()
+        setupListeners()
 
 
         if(setNotification==1){
@@ -64,7 +68,6 @@ class ModifySchedule : AppCompatActivity() {
             binding.notificationText.text="알림 On"
         }
 
-        notificationSwitchControl(scheduleDDay)
 
         if (scheduleText != null && scheduleTitle!=null) {
             binding.scheduleText.setText(scheduleText)
@@ -76,22 +79,30 @@ class ModifySchedule : AppCompatActivity() {
         }
         else{
             binding.setDate.setText(scheduleDate)
+            deleteScheduleTimeControl()
         }
-
-
+        notificationSwitchControl()
 
         binding.setDate.setOnClickListener{
             showDatePickerDialog()
         }
 
+        binding.writeButton.setOnClickListener { handleScheduleInput(textSize,scheduleDate!!) }
 
-
-        binding.writeButton.setOnClickListener { handleScheduleInput(textSize,scheduleDDay,scheduleDate!!) }
-
-        binding.backButton.setOnClickListener{
-            finish()
-        }
     }
+
+    private fun initUi(){
+        binding.setDate.setPaddingRelative(30, 0, 0, 0)
+    }
+
+    private fun setupListeners(){
+        binding.setDate.setOnClickListener{ showDatePickerDialog() }
+        binding.backButton.setOnClickListener{ finish() }
+        textWatcher()
+        bottomNavigation()
+
+    }
+
     private fun showDatePickerDialog() {
         val cal = Calendar.getInstance()
         val dateFormat = SimpleDateFormat("yyyyMMdd")
@@ -103,7 +114,7 @@ class ModifySchedule : AppCompatActivity() {
 
                 binding.setDate.setText("${year}년 ${month+1}월 ${day}일")
                 modifyScheduleMilli= dateFormat.parse(("${year}${String.format("%02d", month + 1)}${String.format("%02d", day)}"))?.time
-
+                deleteScheduleTimeControl()
             },
             cal.get(Calendar.YEAR),
             cal.get(Calendar.MONTH),
@@ -112,10 +123,31 @@ class ModifySchedule : AppCompatActivity() {
 
         datePickerDialog.show()
     }
-    private fun notificationSwitchControl(scheduleDDay:Long){
 
-        binding.notificationSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
-            if(modifyScheduleMilli!=null || scheduleDDay!=null){
+    private fun deleteScheduleTimeControl() {
+        binding.deleteScheduleTime.visibility = View.VISIBLE
+        binding.setDate.setPaddingRelative(100, 0, 0, 0)
+        binding.deleteScheduleTime.setOnClickListener { deleteScheduleTime() }
+    }
+
+    private fun deleteScheduleTime() {
+        binding.setDate.setText("날짜 미선택")
+        modifyScheduleMilli=null
+        scheduleDateMilli=0L
+
+        Log.d("시작값 종료값 테스트", "시작값${modifyScheduleMilli.toString()},종료값$scheduleDateMilli" )
+        binding.deleteScheduleTime.visibility = View.GONE
+        binding.setDate.setPaddingRelative(30, 0, 0, 0)
+        binding.notificationText.text = "알림 Off"
+        setNotification = 0
+        binding.notificationSwitch.isChecked = false
+    }
+
+    private fun notificationSwitchControl(){
+
+        binding.notificationSwitch.setOnCheckedChangeListener { _, isChecked ->
+            if(modifyScheduleMilli!=null || scheduleDateMilli!=0L){
+                Log.d("시작값 종료값 테스트2", "시작값${modifyScheduleMilli.toString()},종료값$scheduleDateMilli" )
                 if (isChecked) {
                     binding.notificationSwitch.isChecked=true
 
@@ -127,7 +159,6 @@ class ModifySchedule : AppCompatActivity() {
                     setNotification=0
                 }
             }else{
-                Toast.makeText(this, "알림을 설정하기 위해선 날짜를 선택해야 합니다.", Toast.LENGTH_SHORT).show()
                 binding.notificationSwitch.isChecked = false
                 setNotification=0
             }
@@ -226,10 +257,8 @@ private fun showTextSizeChangePopUp(){
 
 
 
-    private fun handleScheduleInput(textSize:Float,scheduleDDay:Long,scheduleDate:String) {
+    private fun handleScheduleInput(textSize:Float,scheduleDate:String) {
         val modifyIntent = Intent(this, MainActivity::class.java)
-
-        modifyIntent.putExtra("lineCount", binding.scheduleText.getLineCount())
 
         if (modifyScheduleMilli != null) {
             if(currentDateMilli<=modifyScheduleMilli!!){
@@ -263,10 +292,10 @@ private fun showTextSizeChangePopUp(){
             }
         }
         else{
-            modifyIntent.putExtra("modifyScheduleMilli", scheduleDDay)
-            modifyIntent.putExtra("scheduleDate",scheduleDate)
+            modifyIntent.putExtra("modifyScheduleMilli", scheduleDateMilli)
+            modifyIntent.putExtra("scheduleDate",binding.setDate.getText().toString())
             modifyIntent.putExtra("modifySetNotification", setNotification)
-            modifyIntent.putExtra("modifyDday", ddayCalculation(scheduleDDay))
+            modifyIntent.putExtra("modifyDday", -1)
 
             if(binding.scheduleText.text.toString()!="" && binding.scheduleTitle.text.toString()!=""){
                 modifyIntent.putExtra("modifyText", binding.scheduleText.text.toString())

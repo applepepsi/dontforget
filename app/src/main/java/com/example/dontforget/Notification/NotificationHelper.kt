@@ -44,7 +44,6 @@ class NotificationHelper(private val context: Context) {
             for (data in notificationDataList) {
                 val Dday= DayCalculation().calculationDday(data.scheduleTime, DayCalculation().getCurrentDateMillis())
 
-                // 조건에 부합하지 않는 경우에는 이 반복을 건너뛰고 다음 반복으로 넘어갑니다.
                 if (Dday == null || Dday < 0L) {
                     continue
                 }else{
@@ -58,8 +57,8 @@ class NotificationHelper(private val context: Context) {
                 Log.d("데이터", data.toString())
 
                 val builder = NotificationCompat.Builder(context, channelId)
-                    .setSmallIcon(R.drawable.ic_baseline_arrow_back_ios_24)
-                    .setContentTitle("DDay 알림")
+                    .setSmallIcon(R.drawable.ic_stat_name)
+                    .setContentTitle("D - Day 알림")
                     .setContentText(message)
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 

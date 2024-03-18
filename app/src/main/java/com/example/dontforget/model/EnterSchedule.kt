@@ -15,6 +15,7 @@ import android.util.Size
 import android.util.TypedValue
 import kotlin.math.abs
 import android.view.MotionEvent
+import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.example.dontforget.*
@@ -48,24 +49,24 @@ class EnterSchedule : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        binding.scheduleText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize)
-//        bottomNavigation()
-        textWatcher()
-        bottomNavigation()
+        initUi()
+        setupListeners()
 
-        binding.setDate.setOnClickListener{
-            showDatePickerDialog()
-        }
-        notificationSwitchControl()
-        binding.writeButton.setOnClickListener { handleScheduleInput() }
-
-
-        binding.backButton.setOnClickListener{
-            finish()
-        }
-        binding.notificationSwitch
     }
 
+    private fun initUi(){
+        binding.scheduleText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize)
+        binding.setDate.setPaddingRelative(30, 0, 0, 0)
+    }
+
+    private fun setupListeners(){
+        binding.setDate.setOnClickListener{ showDatePickerDialog() }
+        binding.backButton.setOnClickListener{ finish() }
+        binding.writeButton.setOnClickListener { handleScheduleInput() }
+        textWatcher()
+        bottomNavigation()
+        notificationSwitchControl()
+    }
 
 
     private fun showDatePickerDialog() {
@@ -76,11 +77,11 @@ class EnterSchedule : AppCompatActivity() {
             this,
             { _, year, month, day ->
                 val selectedCalendar = Calendar.getInstance()
-                selectedCalendar.set(year, month, day,0,0,0)
+                selectedCalendar.set(year, month, day, 0, 0, 0)
 
-                binding.setDate.setText("${year}년 ${month+1}월 ${day}일")
-                scheduleDateMilli= dateFormat.parse(("${year}${String.format("%02d", month + 1)}${String.format("%02d", day)}"))?.time
-                Log.d("월", scheduleDateMilli.toString())
+                binding.setDate.setText("${year}년 ${month + 1}월 ${day}일")
+                scheduleDateMilli = dateFormat.parse("${year}${String.format("%02d", month + 1)}${String.format("%02d", day)}")?.time
+                deleteScheduleTimeControl()
             },
             cal.get(Calendar.YEAR),
             cal.get(Calendar.MONTH),
@@ -90,46 +91,40 @@ class EnterSchedule : AppCompatActivity() {
         datePickerDialog.show()
     }
 
-//    private fun colorPickerDialog(){
-//
-//        MaterialColorPickerDialog
-//            .Builder(this)
-//            .setTitle("색상 선택")
-//            .setColorShape(ColorShape.SQAURE)
-//            .setColorSwatch(ColorSwatch._300)
-//            .setColors(arrayListOf("#f6e58d", "#ffbe76", "#ff7979", "#badc58", "#dff9fb", "#7ed6df", "#e056fd", "#686de0", "#30336b", "#95afc0","#E3E3E3","#000000"))
-//            .setDefaultColor("#ff7979")
-//            .setColorListener { color, _ ->
-////                selectedColor = color
-//                defaultColor=color
-//                changeColor(color)
-////                binding.scheduleText.setTextColor(color)
-//
-//            }
-//            .show()
-//    }
+    private fun deleteScheduleTimeControl() {
+        binding.deleteScheduleTime.visibility = View.VISIBLE
+        binding.setDate.setPaddingRelative(100, 0, 0, 0)
+        binding.deleteScheduleTime.setOnClickListener { deleteScheduleTime() }
+    }
 
-    private fun notificationSwitchControl(){
+    private fun deleteScheduleTime() {
+        binding.setDate.setText("날짜 미선택")
+        scheduleDateMilli = null
+        binding.deleteScheduleTime.visibility = View.GONE
+        binding.setDate.setPaddingRelative(30, 0, 0, 0)
+        binding.notificationText.text = "알림 Off"
+        setNotification = 0
+        binding.notificationSwitch.isChecked = false
+    }
 
-        binding.notificationSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
-            if(scheduleDateMilli!=null){
-                if (isChecked) {
-                    binding.notificationSwitch.isChecked=true
-
-                    binding.notificationText.text="알림 On"
-                    setNotification=1
-                }
-                else{
-                    binding.notificationText.text="알림 Off"
-                    setNotification=0
-                }
-            }else{
-                Toast.makeText(this@EnterSchedule, "알림을 설정하기 위해선 날짜를 선택해야 합니다.", Toast.LENGTH_SHORT).show()
+    private fun notificationSwitchControl() {
+        binding.notificationSwitch.setOnCheckedChangeListener { _, isChecked ->
+            if (scheduleDateMilli != null) {
+                updateNotificationStatus(isChecked)
+            } else {
                 binding.notificationSwitch.isChecked = false
-                setNotification=0
+                setNotification = 0
             }
         }
     }
+
+    private fun updateNotificationStatus(isChecked: Boolean) {
+        val notificationStatus = if (isChecked) "알림 On" else "알림 Off"
+        binding.notificationText.text = notificationStatus
+        setNotification = if (isChecked) 1 else 0
+        binding.notificationSwitch.isChecked = isChecked
+    }
+
 
     private fun textWatcher() {
         binding.scheduleText.addTextChangedListener(object : TextWatcher {
@@ -219,7 +214,7 @@ class EnterSchedule : AppCompatActivity() {
                 Toast.makeText(this@EnterSchedule, "날짜는 최소 내일로 선택해 주세요.", Toast.LENGTH_SHORT).show()
             }
         } else {
-            enterScheduleIntent.putExtra("scheduleDate", "")
+            enterScheduleIntent.putExtra("scheduleDate", "날짜 미선택")
             enterScheduleIntent.putExtra("scheduleDateMilli", 0)
             enterScheduleIntent.putExtra("textSize", textSize)
             enterScheduleIntent.putExtra("setNotification", 0)

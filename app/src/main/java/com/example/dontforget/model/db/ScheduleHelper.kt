@@ -33,8 +33,7 @@ abstract class ScheduleHelper : RoomDatabase() {
                         "startIndex INTEGER NOT NULL," +
                         "endIndex INTEGER NOT NULL," +
                         "color INTEGER," +
-                        "textSize REAL," +
-                        "FOREIGN KEY(scheduleId) REFERENCES schedule(id) ON DELETE CASCADE)")
+                        "textSize REAL)")
             }
         }
         private val MIGRATION_4_5 = object : Migration(4, 5) {

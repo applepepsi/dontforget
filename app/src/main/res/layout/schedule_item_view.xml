@@ -38,7 +38,7 @@
         <TextView
             android:id="@+id/scheduleDate"
             android:layout_width="0dp"
-            android:layout_height="25dp"
+            android:layout_height="35dp"
             android:layout_marginTop="9dp"
             android:background="@drawable/radius_top"
             android:drawableStart="@drawable/calendar_icon_main"
@@ -48,7 +48,7 @@
             android:paddingStart="5dp"
 
             android:text="test"
-            android:textSize="12dp"
+            android:textSize="15dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -62,22 +62,24 @@
             android:layout_marginEnd="12dp"
             android:fontFamily="@font/inriasans_bold"
             android:text="test"
-            android:textSize="12dp"
+            android:textSize="15dp"
             app:layout_constraintBottom_toBottomOf="@id/scheduleDate"
             app:layout_constraintEnd_toStartOf="@id/notification_message"
             app:layout_constraintTop_toTopOf="@id/scheduleDate" />
 
-        <TextView
-            android:id="@+id/notification_message"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="5dp"
-            android:fontFamily="@font/inriasans_regular"
-            android:text="test"
-            android:textSize="9dp"
-            app:layout_constraintBottom_toBottomOf="@id/scheduleDate"
-            app:layout_constraintEnd_toEndOf="@id/scheduleDate"
-            app:layout_constraintTop_toTopOf="@id/scheduleDate" />
+            <TextView
+                android:id="@+id/notification_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:layout_marginEnd="5dp"
+                android:fontFamily="@font/inriasans_regular"
+                android:text="test"
+
+                android:textSize="10dp"
+                app:layout_constraintBottom_toBottomOf="@id/scheduleDate"
+                app:layout_constraintEnd_toEndOf="@id/scheduleDate"
+                app:layout_constraintTop_toTopOf="@id/scheduleDate" />
 
 
         <View
@@ -109,9 +111,9 @@
         <TextView
             android:id="@+id/schedule_title"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="30dp"
             android:layout_marginBottom="1dp"
-
+            android:gravity="center_vertical"
             android:background="#FFFFFF"
             android:fontFamily="@font/inriasans_bold"
             android:paddingStart="7dp"
@@ -119,6 +121,7 @@
             android:paddingEnd="10dp"
             android:paddingBottom="5dp"
             android:text="title"
+            android:textSize="15dp"
             app:layout_constraintBottom_toTopOf="@id/scheduleInfo"
             app:layout_constraintEnd_toEndOf="parent"
 
@@ -128,12 +131,12 @@
         <TextView
             android:id="@+id/scheduleInfo"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="@drawable/radius_bottom"
 
             android:fontFamily="@font/inriasans_regular"
             android:paddingStart="7dp"
-            android:paddingTop="3dp"
+            android:paddingTop="8dp"
             android:paddingEnd="10dp"
             android:paddingBottom="5dp"
             android:text="aa"
