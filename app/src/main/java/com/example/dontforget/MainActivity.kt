@@ -32,6 +32,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.*
 import androidx.lifecycle.LifecycleOwner
+import com.example.dontforget.setting.SettingsActivity
 
 
 class MainActivity : AppCompatActivity() {
@@ -101,8 +102,21 @@ class MainActivity : AppCompatActivity() {
 
         binding.CreateScheduleButton.setOnClickListener{
             val enterScheduleValue=Intent(this@MainActivity,EnterSchedule::class.java)
-
             enterScheduleActivityResult.launch(enterScheduleValue)
+        }
+
+        binding.settingButton.setOnClickListener {
+            lifecycleScope.launch(Dispatchers.IO)
+            {
+                withContext(Dispatchers.IO)
+                {
+                    val settingsActivityValue = Intent(this@MainActivity, SettingsActivity::class.java)
+                    val maxId = scheduleDao.findMaxId()
+
+                    settingsActivityValue.putExtra("maxId",maxId)
+                    startActivity(settingsActivityValue)
+                }
+            }
         }
     }
 
@@ -232,6 +246,7 @@ class MainActivity : AppCompatActivity() {
                             setNotification,
                             dday
                         )
+
                         val scheduleId=scheduleDao.insertSchedule(schedule)
 
                         withContext(Dispatchers.Main) {
@@ -283,7 +298,20 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-
+//    private val settingsActivityResult =
+//        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+//            if (result.resultCode == Activity.RESULT_OK) {
+//                lifecycleScope.launch(Dispatchers.IO) {
+//                    withContext(Dispatchers.IO) {
+//                        val maxId = scheduleDao.findMaxId()
+//                        val data: Intent? = result.data
+//
+//                    }
+//                }
+//
+//
+//            }
+//        }
 
     private fun scheduleNotification() {
 

@@ -14,6 +14,9 @@ interface ScheduleDao {
     @Query("SELECT * FROM schedule WHERE setNotification=1 AND dateInfo > :currentDayMilli")
     suspend fun findSwitchOnData(currentDayMilli: Long): List<ScheduleModel>
 
+    @Query("SELECT MAX(id) FROM schedule")
+    suspend fun findMaxId(): Int?
+
     @Insert
     suspend fun insertSchedule(schedule: ScheduleModel): Long
 
