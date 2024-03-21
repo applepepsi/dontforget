@@ -80,8 +80,6 @@ class RecyclerAdapter(
     class ScheduleClickListener(val clickListener: (schedule: ScheduleModel) -> Unit) {
         fun onClick(schedule: ScheduleModel) = clickListener(schedule)
     }
-
-
 }
 
 

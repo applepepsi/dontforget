@@ -74,13 +74,11 @@ class ModifySchedule : AppCompatActivity() {
             binding.scheduleText.setTextSize(textSize)
             binding.scheduleTitle.setText(scheduleTitle)
         }
-        if(scheduleDate==""){
-            binding.setDate.setText("날짜 미선택")
-        }
-        else{
+        if(scheduleDate!="날짜 미선택"){
             binding.setDate.setText(scheduleDate)
             deleteScheduleTimeControl()
         }
+
         notificationSwitchControl()
 
         binding.setDate.setOnClickListener{
@@ -213,7 +211,7 @@ private fun showTextSizeChangePopUp(){
             R.id.size45 -> 45f
             R.id.size50 -> 50f
 
-            else -> 15f
+            else -> 20f
         }
         binding.scheduleText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, modifyTextSize)
         true
@@ -248,7 +246,7 @@ private fun showTextSizeChangePopUp(){
         })
     }
 
-    private fun ddayCalculation(scheduleTime:Long): Long? {
+    private fun ddayCalculation(scheduleTime:Long?): Long? {
         val currentTime = DayCalculation().getCurrentDateMillis()
 
         val Dday = DayCalculation().calculationDday(scheduleTime, currentTime)
@@ -295,7 +293,7 @@ private fun showTextSizeChangePopUp(){
             modifyIntent.putExtra("modifyScheduleMilli", scheduleDateMilli)
             modifyIntent.putExtra("scheduleDate",binding.setDate.getText().toString())
             modifyIntent.putExtra("modifySetNotification", setNotification)
-            modifyIntent.putExtra("modifyDday", -1)
+            modifyIntent.putExtra("modifyDday", ddayCalculation(modifyScheduleMilli))
 
             if(binding.scheduleText.text.toString()!="" && binding.scheduleTitle.text.toString()!=""){
                 modifyIntent.putExtra("modifyText", binding.scheduleText.text.toString())

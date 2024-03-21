@@ -13,12 +13,12 @@
     <TextView
         android:id="@+id/up_bar"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-
+        android:layout_height="50dp"
         android:fontFamily="@font/inriasans_bold"
         android:textColor="#000000"
+        android:background="#ffffff"
         android:gravity="center_vertical"
-        android:paddingStart="22dp"
+        android:paddingStart="30dp"
         android:paddingTop="2dp"
         android:text="환경설정"
         android:textSize="15dp"
@@ -30,11 +30,11 @@
 
     <ImageButton
         android:id="@+id/back_button"
-        android:layout_width="20dp"
+        android:layout_width="27dp"
         android:layout_height="40dp"
         android:layout_marginStart="5dp"
         android:background="?attr/selectableItemBackground"
-        android:scaleType="fitCenter"
+
         android:src="@drawable/ic_baseline_arrow_back_ios_24"
         app:layout_constraintBottom_toBottomOf="@id/up_bar"
         app:layout_constraintStart_toStartOf="parent"
@@ -83,23 +83,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/information" />
 
-    <TextView
-        android:id="@+id/how_long_use"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="7dp"
-        android:background="@drawable/search_bone"
-        android:fontFamily="@font/inriasans_regular"
-        android:gravity="center_vertical"
-        android:paddingStart="10dp"
-        android:paddingTop="2dp"
-        android:text="어플 사용 기간 : "
-        android:textSize="15dp"
-        android:textColor="#000000"
-        app:layout_constraintWidth_percent="0.95"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/count_all_schedule" />
 
     <TextView
         android:id="@+id/how_to_use"
@@ -117,7 +100,7 @@
         android:textSize="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/how_long_use"
+        app:layout_constraintTop_toBottomOf="@id/count_all_schedule"
         app:layout_constraintWidth_percent="0.95" />
 
     <View

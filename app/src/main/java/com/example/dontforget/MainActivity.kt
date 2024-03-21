@@ -19,20 +19,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.dontforget.Notification.NotificationData
 import com.example.dontforget.Notification.NotificationReceiver
 import com.example.dontforget.databinding.ActivityMainBinding
-import com.example.dontforget.model.DayCalculation
-import com.example.dontforget.model.EnterSchedule
-import com.example.dontforget.model.ModifySchedule
-import com.example.dontforget.model.RecyclerAdapter
+import com.example.dontforget.model.*
 import com.example.dontforget.model.db.*
+import com.example.dontforget.setting.SettingsActivity
 import com.example.dontforget.util.ItemSpacingController
+import com.example.dontforget.util.ScheduleFilterData
 import com.example.dontforget.util.SpanInfoProcessor
 import com.example.dontforget.util.SwipeToDeleteCallback
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.*
-import androidx.lifecycle.LifecycleOwner
-import com.example.dontforget.setting.SettingsActivity
 
 
 class MainActivity : AppCompatActivity() {
@@ -40,38 +37,50 @@ class MainActivity : AppCompatActivity() {
     val binding by lazy{ActivityMainBinding.inflate(layoutInflater)}
 
     lateinit var scheduleAdapter: RecyclerAdapter
+    lateinit var filterRecyclerAdapter: FilterRecyclerAdapter
     var scheduleList= mutableListOf<ScheduleModel>()
     var searchList=mutableListOf<ScheduleModel>()
 
     lateinit var scheduleDao:ScheduleDao
     lateinit var textStyleDao:TextStyleDao
+
+    private val filterList: List<String> = listOf("모든 항목","디데이 있음", "디데이 없음", "만료된 스케쥴","임박한 스케쥴","알림 On")
     private var currentSchedule: ScheduleModel? = null
     private lateinit var notifyList:List<ScheduleModel>
     private var searchBarController=false
     private lateinit var spanInfoProcessor: SpanInfoProcessor
 //    private var textList=mutableListOf<String>()
 
-    val space=20
+    val space=8
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        scheduleNotification()
 
         val itemSpacingController = ItemSpacingController(space)
         scheduleDao = ScheduleHelper.getDatabase(this).scheduleDao()
         textStyleDao=ScheduleHelper.getDatabase(this).textStyleDao()
         spanInfoProcessor = SpanInfoProcessor(textStyleDao)
-        binding.scheduleViewer.addItemDecoration(itemSpacingController)
-        val scheduleClickListener=deleteOrModify()
 
+        binding.filterView.addItemDecoration(itemSpacingController)
+        val scheduleClickListener=deleteOrModify()
+        val filterClickListener=scheduleFilter()
+        Log.d("클릭리스너", filterClickListener.toString())
         scheduleAdapter= RecyclerAdapter(scheduleClickListener,textStyleDao)
 
+        filterRecyclerAdapter=FilterRecyclerAdapter(filterList,filterClickListener)
         refreshAdapter()
-        scheduleNotification()
+
 
 
         binding.scheduleViewer.adapter=scheduleAdapter
         binding.scheduleViewer.layoutManager=LinearLayoutManager(this@MainActivity)
+
+        //어뎁터
+        binding.filterView.adapter=filterRecyclerAdapter
+        binding.filterView.layoutManager=LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL, false)
+
 
         binding.cancelButton.setOnClickListener {
             binding.searchBar.setText(null)
@@ -81,6 +90,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.showSearchBar.setOnClickListener{
             searchBarController()
+            filterViewController()
         }
 
         val itemTouchHelper = ItemTouchHelper(SwipeToDeleteCallback(object : SwipeToDeleteCallback.OnSwipeListener {
@@ -103,6 +113,7 @@ class MainActivity : AppCompatActivity() {
         binding.CreateScheduleButton.setOnClickListener{
             val enterScheduleValue=Intent(this@MainActivity,EnterSchedule::class.java)
             enterScheduleActivityResult.launch(enterScheduleValue)
+            incrementMemoCount(this)
         }
 
         binding.settingButton.setOnClickListener {
@@ -111,9 +122,7 @@ class MainActivity : AppCompatActivity() {
                 withContext(Dispatchers.IO)
                 {
                     val settingsActivityValue = Intent(this@MainActivity, SettingsActivity::class.java)
-                    val maxId = scheduleDao.findMaxId()
 
-                    settingsActivityValue.putExtra("maxId",maxId)
                     startActivity(settingsActivityValue)
                 }
             }
@@ -127,6 +136,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun refreshAdapter() {
         lifecycleScope.launch(Dispatchers.IO) {
+
             val newList = scheduleDao.getAll()
             withContext(Dispatchers.Main) {
                 scheduleAdapter.submitList(newList)
@@ -145,6 +155,14 @@ class MainActivity : AppCompatActivity() {
             binding.cancelButton.visibility= View.GONE
             searchBarController=false
             binding.searchBar.setText(null)
+        }
+    }
+
+    private fun filterViewController(){
+        if(!searchBarController){
+            binding.filterView.visibility=View.VISIBLE
+        }else{
+            binding.filterView.visibility= View.GONE
         }
     }
 
@@ -217,6 +235,37 @@ class MainActivity : AppCompatActivity() {
         return scheduleClickListener
     }
 
+    private fun scheduleFilter(): FilterRecyclerAdapter.FilterClickListener {
+
+        val scheduleClickListener = FilterRecyclerAdapter.FilterClickListener { filter ->
+            lifecycleScope.launch(Dispatchers.IO) {
+                val filterSchedule:List<ScheduleModel> = when (filter) {
+                    filterList[0] -> {
+                        scheduleDao.getAll()
+                    }
+                    filterList[1] -> scheduleDao.findHaveDday()
+                    filterList[2] -> scheduleDao.findWithOutDday()
+                    filterList[3] -> scheduleDao.findHExpiredDday()
+                    filterList[4] -> scheduleDao.findImminentDday()
+                    filterList[5] -> scheduleDao.findSetNotification()
+                    else -> {scheduleDao.getAll()}
+                }
+                withContext(Dispatchers.Main) {
+                    scheduleAdapter.submitList(filterSchedule)
+                    val previousSelectedIndex = filterRecyclerAdapter.selectedItemIndex
+                    filterRecyclerAdapter.selectedItemIndex = filterList.indexOf(filter)
+                    Log.d("인덱스", previousSelectedIndex.toString())
+
+                    filterRecyclerAdapter.notifyItemChanged(previousSelectedIndex!!)
+
+                    filterRecyclerAdapter.notifyItemChanged(filterList.indexOf(filter))
+                }
+            }
+        }
+        return scheduleClickListener
+    }
+
+
     private val enterScheduleActivityResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
@@ -224,16 +273,16 @@ class MainActivity : AppCompatActivity() {
                 val scheduleText=data?.getStringExtra("scheduleText")
                 val scheduleDateMilli=data?.getLongExtra("scheduleDateMilli",0)
                 val scheduleDate=data?.getStringExtra("scheduleDate")
-                val textSize=data?.getFloatExtra("textSize",15f)
+                val textSize=data?.getFloatExtra("textSize",20f)
                 val lineCount=data?.getIntExtra("lineCount",0)
                 val scheduleTitle=data?.getStringExtra("scheduleTitle")
                 val setNotification=data?.getIntExtra("setNotification",0)
-                val dday=data?.getLongExtra("dday",-1)
+                var dday=data?.getLongExtra("dday",Long.MIN_VALUE)
 
-                Log.d("알림값", setNotification.toString())
+                Log.d("modifyDday",dday.toString())
 
-                if (scheduleTitle != null) {
-                    Log.d("타이틀",scheduleTitle)
+                if (dday == Long.MIN_VALUE) {
+                    dday = null
                 }
                 if(scheduleText!=null && scheduleTitle!=null) {
                     lifecycleScope.launch(Dispatchers.IO) {
@@ -247,7 +296,8 @@ class MainActivity : AppCompatActivity() {
                             dday
                         )
 
-                        val scheduleId=scheduleDao.insertSchedule(schedule)
+                        scheduleDao.insertSchedule(schedule)
+
 
                         withContext(Dispatchers.Main) {
                             refreshAdapter()
@@ -263,7 +313,7 @@ class MainActivity : AppCompatActivity() {
                 val data: Intent? = result.data
                 val modifyText = data?.getStringExtra("modifyText")
                 val modifyScheduleMilli = data?.getLongExtra("modifyScheduleMilli", 0)
-                val modifyTextSize = data?.getFloatExtra("textSize", 15f)
+                val modifyTextSize = data?.getFloatExtra("textSize", 20f)
                 Log.d("모디파이 텍스트 사이즈",modifyTextSize.toString())
                 val modifyScheduleDate=data?.getStringExtra("scheduleDate")
 
@@ -271,8 +321,12 @@ class MainActivity : AppCompatActivity() {
                 val lineCount=data?.getIntExtra("lineCount",0)
                 val modifyTitle=data?.getStringExtra("modifyTitle")
                 val modifySetNotification=data?.getIntExtra("modifySetNotification",0)
-                val modifyDday=data?.getLongExtra("modifyDday",-1)
+                var modifyDday=data?.getLongExtra("modifyDday",Long.MIN_VALUE)
 
+                if (modifyDday == Long.MIN_VALUE) {
+
+                    modifyDday = null
+                }
                 if (currentSchedule != null) {
                     lifecycleScope.launch(Dispatchers.IO) {
 
@@ -332,7 +386,6 @@ class MainActivity : AppCompatActivity() {
                 val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
                 val notificationIntent = Intent(this@MainActivity, NotificationReceiver::class.java).apply {
                     putParcelableArrayListExtra("notifyList", ArrayList(notificationDataList))
-                    Log.d("노티파이리스트", notificationDataList.toString())
                 }
 
                 val pendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -350,13 +403,12 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 val calendar = Calendar.getInstance().apply {
-                    add(Calendar.DAY_OF_MONTH, 1)
+                    add(Calendar.DAY_OF_MONTH, 0)
                     set(Calendar.HOUR_OF_DAY, 8)
                     set(Calendar.MINUTE, 0)
                     set(Calendar.SECOND, 0)
                     set(Calendar.MILLISECOND, 0)
                 }
-                Log.d("켈린더밀리", calendar.timeInMillis.toString())
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
@@ -376,6 +428,7 @@ class MainActivity : AppCompatActivity() {
                 val allSchedules = scheduleDao.getAll()
                 val updatedSchedules = allSchedules.map { schedule ->
                     val currentTime = DayCalculation().getCurrentDateMillis()
+
                     val dday = DayCalculation().calculationDday(schedule.scheduleTime, currentTime)
                     schedule.copy(dday = dday)
 
@@ -393,6 +446,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun incrementMemoCount(context: Context) {
+        val sharedPreferences = context.getSharedPreferences("MemoCount", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        val currentCount = sharedPreferences.getInt("count", 0)
+        val newCount = currentCount + 1
+        editor.putInt("count", newCount)
+        editor.apply()
+    }
 
-    //todo: 디자인 생각하기
 }

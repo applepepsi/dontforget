@@ -10,18 +10,16 @@
 
 
 
-
-
     <TextView
         android:id="@+id/up_bar"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:paddingStart="10dp"
+        android:paddingStart="15dp"
         android:background="#ffffff"
-        android:fontFamily="@font/inriasans_bold"
+        android:fontFamily="@font/inriasans_regular"
         android:gravity="center_vertical"
-        android:text="Don't Forget"
-        android:textSize="25dp"
+        android:text="메인 화면"
+        android:textSize="18dp"
         android:textColor="#000000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -58,7 +56,7 @@
         android:layout_marginEnd="12dp"
         android:background="?attr/selectableItemBackground"
         android:scaleType="centerInside"
-        android:src="@drawable/write_button"
+        android:src="@drawable/ic_baseline_settings_24"
         app:layout_constraintBottom_toBottomOf="@+id/up_bar"
         app:layout_constraintEnd_toEndOf="@+id/up_bar"
         app:layout_constraintTop_toTopOf="parent" />
@@ -78,7 +76,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-
+        android:visibility="gone"
         android:background="@drawable/search_bone"
         android:drawableStart="@drawable/ic_baseline_search_24"
         android:drawablePadding="5dp"
@@ -91,11 +89,12 @@
         android:paddingBottom="5dp"
         android:textColor="#000000"
         android:textSize="15dp"
-        android:visibility="gone"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/line1"
         app:layout_constraintWidth_percent="0.95" />
+
 
     <ImageButton
         android:id="@+id/cancel_button"
@@ -110,16 +109,28 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/search_bar" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/filterView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search_bar" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
 
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/search_bar"
+        app:layout_constraintTop_toBottomOf="@id/filterView"
         tools:context=".MainActivity">
 
         <androidx.recyclerview.widget.RecyclerView

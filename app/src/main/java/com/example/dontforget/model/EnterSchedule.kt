@@ -36,7 +36,7 @@ import kotlin.math.max
 
 class EnterSchedule : AppCompatActivity() {
     val binding by lazy{ActivityEnterScheduleBinding.inflate(layoutInflater)}
-    private var textSize: Float = 15f
+    private var textSize: Float = 20f
 
     private var scheduleDateMilli: Long? = null
     val currentDateMilli = DayCalculation().getCurrentDateMillis()
@@ -170,7 +170,7 @@ class EnterSchedule : AppCompatActivity() {
                 R.id.size45 -> 45f
                 R.id.size50 -> 50f
 
-                else -> 15f
+                else -> 20f
             }
             binding.scheduleText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize)
             true
@@ -218,7 +218,7 @@ class EnterSchedule : AppCompatActivity() {
             enterScheduleIntent.putExtra("scheduleDateMilli", 0)
             enterScheduleIntent.putExtra("textSize", textSize)
             enterScheduleIntent.putExtra("setNotification", 0)
-            enterScheduleIntent.putExtra("dday", -1)
+            enterScheduleIntent.putExtra("dday", dday)
 
             if (binding.scheduleText.text.toString().isNotEmpty() && binding.scheduleTitle.text.toString().isNotEmpty()) {
                 enterScheduleIntent.putExtra("scheduleText", binding.scheduleText.text.toString())
