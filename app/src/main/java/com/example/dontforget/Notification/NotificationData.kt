@@ -16,4 +16,5 @@ data class NotificationData(
 
     var title:String?,
 
+    var dday:Long?
 ): Parcelable

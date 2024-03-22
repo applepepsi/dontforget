@@ -24,8 +24,7 @@
             android:label="@string/title_activity_settings" />
 
         <receiver
-            android:name=".Notification.NotificationReceiver"
-            android:exported="true"></receiver>
+            android:name=".Notification.NotificationReceiver"/>
 
         <activity
             android:name=".model.ModifySchedule"

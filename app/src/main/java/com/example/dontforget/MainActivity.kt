@@ -4,6 +4,7 @@ import android.app.*
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Color
 import android.icu.util.Calendar
 import android.os.*
 import android.text.Editable
@@ -27,31 +28,34 @@ import com.example.dontforget.util.ScheduleFilterData
 import com.example.dontforget.util.SpanInfoProcessor
 import com.example.dontforget.util.SwipeToDeleteCallback
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class MainActivity : AppCompatActivity() {
 
-    val binding by lazy{ActivityMainBinding.inflate(layoutInflater)}
+    val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
 
     lateinit var scheduleAdapter: RecyclerAdapter
     lateinit var filterRecyclerAdapter: FilterRecyclerAdapter
-    var scheduleList= mutableListOf<ScheduleModel>()
-    var searchList=mutableListOf<ScheduleModel>()
+    var scheduleList = mutableListOf<ScheduleModel>()
+    var searchList = mutableListOf<ScheduleModel>()
 
-    lateinit var scheduleDao:ScheduleDao
-    lateinit var textStyleDao:TextStyleDao
+    lateinit var scheduleDao: ScheduleDao
+    lateinit var textStyleDao: TextStyleDao
 
-    private val filterList: List<String> = listOf("모든 항목","디데이 있음", "디데이 없음", "만료된 스케쥴","임박한 스케쥴","알림 On")
+    private val filterList: List<String> =
+        listOf("모든 항목", "디데이 있음", "디데이 없음", "만료된 스케쥴", "임박한 스케쥴", "알림 On")
     private var currentSchedule: ScheduleModel? = null
-    private lateinit var notifyList:List<ScheduleModel>
-    private var searchBarController=false
+
+    private var searchBarController = false
     private lateinit var spanInfoProcessor: SpanInfoProcessor
 //    private var textList=mutableListOf<String>()
 
-    val space=8
+    val space = 8
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,26 +64,27 @@ class MainActivity : AppCompatActivity() {
 
         val itemSpacingController = ItemSpacingController(space)
         scheduleDao = ScheduleHelper.getDatabase(this).scheduleDao()
-        textStyleDao=ScheduleHelper.getDatabase(this).textStyleDao()
+        textStyleDao = ScheduleHelper.getDatabase(this).textStyleDao()
         spanInfoProcessor = SpanInfoProcessor(textStyleDao)
 
         binding.filterView.addItemDecoration(itemSpacingController)
-        val scheduleClickListener=deleteOrModify()
-        val filterClickListener=scheduleFilter()
+        val scheduleClickListener = deleteOrModify()
+        val filterClickListener = scheduleFilter()
         Log.d("클릭리스너", filterClickListener.toString())
-        scheduleAdapter= RecyclerAdapter(scheduleClickListener,textStyleDao)
+        scheduleAdapter = RecyclerAdapter(scheduleClickListener, textStyleDao)
 
-        filterRecyclerAdapter=FilterRecyclerAdapter(filterList,filterClickListener)
-        refreshAdapter()
-
+        filterRecyclerAdapter = FilterRecyclerAdapter(filterList, filterClickListener)
 
 
-        binding.scheduleViewer.adapter=scheduleAdapter
-        binding.scheduleViewer.layoutManager=LinearLayoutManager(this@MainActivity)
+
+
+        binding.scheduleViewer.adapter = scheduleAdapter
+        binding.scheduleViewer.layoutManager = LinearLayoutManager(this@MainActivity)
 
         //어뎁터
-        binding.filterView.adapter=filterRecyclerAdapter
-        binding.filterView.layoutManager=LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL, false)
+        binding.filterView.adapter = filterRecyclerAdapter
+        binding.filterView.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
 
         binding.cancelButton.setOnClickListener {
@@ -88,40 +93,44 @@ class MainActivity : AppCompatActivity() {
 
         swipeRefresh()
 
-        binding.showSearchBar.setOnClickListener{
+        binding.showSearchBar.setOnClickListener {
             searchBarController()
             filterViewController()
         }
 
-        val itemTouchHelper = ItemTouchHelper(SwipeToDeleteCallback(object : SwipeToDeleteCallback.OnSwipeListener {
-            override fun onSwipe(position: Int) {
+        val itemTouchHelper =
+            ItemTouchHelper(SwipeToDeleteCallback(object : SwipeToDeleteCallback.OnSwipeListener {
+                override fun onSwipe(position: Int) {
 
-                lifecycleScope.launch(Dispatchers.IO) {
-                    val allSchedule=scheduleDao.getAll()
-                    val deletedSchedule = allSchedule[position]
-                    val scheduleId = deletedSchedule.id
+                    lifecycleScope.launch(Dispatchers.IO) {
+                        val allSchedule = scheduleDao.getAll()
+                        val deletedSchedule = allSchedule[position]
+                        val scheduleId = deletedSchedule.id
 
-                    scheduleDao.deleteSchedule(deletedSchedule)
+                        scheduleDao.deleteSchedule(deletedSchedule)
 //                    textStyleDao.deleteTextStylesByScheduleId(scheduleId!!)
-                }
+                    }
 
-                scheduleAdapter.removeItem(position)
-            }
-        }))
+                    scheduleAdapter.removeItem(position)
+                }
+            }))
         itemTouchHelper.attachToRecyclerView(binding.scheduleViewer)
 
-        binding.CreateScheduleButton.setOnClickListener{
-            val enterScheduleValue=Intent(this@MainActivity,EnterSchedule::class.java)
+        binding.CreateScheduleButton.setOnClickListener {
+            val enterScheduleValue = Intent(this@MainActivity, EnterSchedule::class.java)
             enterScheduleActivityResult.launch(enterScheduleValue)
             incrementMemoCount(this)
         }
 
         binding.settingButton.setOnClickListener {
+
             lifecycleScope.launch(Dispatchers.IO)
             {
                 withContext(Dispatchers.IO)
+
                 {
-                    val settingsActivityValue = Intent(this@MainActivity, SettingsActivity::class.java)
+                    val settingsActivityValue =
+                        Intent(this@MainActivity, SettingsActivity::class.java)
 
                     startActivity(settingsActivityValue)
                 }
@@ -136,7 +145,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun refreshAdapter() {
         lifecycleScope.launch(Dispatchers.IO) {
-
+//            notificationFilter()
             val newList = scheduleDao.getAll()
             withContext(Dispatchers.Main) {
                 scheduleAdapter.submitList(newList)
@@ -145,24 +154,24 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun searchBarController() {
-        if(!searchBarController){
-            binding.searchBar.visibility= View.VISIBLE
-            binding.cancelButton.visibility= View.VISIBLE
-            searchBarController=true
+        if (!searchBarController) {
+            binding.searchBar.visibility = View.VISIBLE
+            binding.cancelButton.visibility = View.VISIBLE
+            searchBarController = true
             textWatcher()
-        }else{
-            binding.searchBar.visibility= View.GONE
-            binding.cancelButton.visibility= View.GONE
-            searchBarController=false
+        } else {
+            binding.searchBar.visibility = View.GONE
+            binding.cancelButton.visibility = View.GONE
+            searchBarController = false
             binding.searchBar.setText(null)
         }
     }
 
-    private fun filterViewController(){
-        if(!searchBarController){
-            binding.filterView.visibility=View.VISIBLE
-        }else{
-            binding.filterView.visibility= View.GONE
+    private fun filterViewController() {
+        if (!searchBarController) {
+            binding.filterView.visibility = View.VISIBLE
+        } else {
+            binding.filterView.visibility = View.GONE
         }
     }
 
@@ -170,8 +179,10 @@ class MainActivity : AppCompatActivity() {
         binding.searchBar.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
+
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             }
+
             override fun afterTextChanged(s: Editable?) {
                 search(s.toString())
             }
@@ -239,7 +250,7 @@ class MainActivity : AppCompatActivity() {
 
         val scheduleClickListener = FilterRecyclerAdapter.FilterClickListener { filter ->
             lifecycleScope.launch(Dispatchers.IO) {
-                val filterSchedule:List<ScheduleModel> = when (filter) {
+                val filterSchedule: List<ScheduleModel> = when (filter) {
                     filterList[0] -> {
                         scheduleDao.getAll()
                     }
@@ -248,7 +259,9 @@ class MainActivity : AppCompatActivity() {
                     filterList[3] -> scheduleDao.findHExpiredDday()
                     filterList[4] -> scheduleDao.findImminentDday()
                     filterList[5] -> scheduleDao.findSetNotification()
-                    else -> {scheduleDao.getAll()}
+                    else -> {
+                        scheduleDao.getAll()
+                    }
                 }
                 withContext(Dispatchers.Main) {
                     scheduleAdapter.submitList(filterSchedule)
@@ -270,23 +283,24 @@ class MainActivity : AppCompatActivity() {
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val data: Intent? = result.data
-                val scheduleText=data?.getStringExtra("scheduleText")
-                val scheduleDateMilli=data?.getLongExtra("scheduleDateMilli",0)
-                val scheduleDate=data?.getStringExtra("scheduleDate")
-                val textSize=data?.getFloatExtra("textSize",20f)
-                val lineCount=data?.getIntExtra("lineCount",0)
-                val scheduleTitle=data?.getStringExtra("scheduleTitle")
-                val setNotification=data?.getIntExtra("setNotification",0)
-                var dday=data?.getLongExtra("dday",Long.MIN_VALUE)
+                val scheduleText = data?.getStringExtra("scheduleText")
+                val scheduleDateMilli = data?.getLongExtra("scheduleDateMilli", 0)
+                val scheduleDate = data?.getStringExtra("scheduleDate")
+                val textSize = data?.getFloatExtra("textSize", 20f)
+                val lineCount = data?.getIntExtra("lineCount", 0)
+                val scheduleTitle = data?.getStringExtra("scheduleTitle")
+                val setNotification = data?.getIntExtra("setNotification", 0)
+                var dday = data?.getLongExtra("dday", Long.MIN_VALUE)
 
-                Log.d("modifyDday",dday.toString())
+
 
                 if (dday == Long.MIN_VALUE) {
                     dday = null
                 }
-                if(scheduleText!=null && scheduleTitle!=null) {
+                if (scheduleText != null && scheduleTitle != null) {
                     lifecycleScope.launch(Dispatchers.IO) {
-                        val schedule = ScheduleModel(id = null, scheduleText,
+                        val schedule = ScheduleModel(
+                            id = null, scheduleText,
                             scheduleDateMilli!!,
                             textSize!!,
                             scheduleDate!!,
@@ -314,14 +328,14 @@ class MainActivity : AppCompatActivity() {
                 val modifyText = data?.getStringExtra("modifyText")
                 val modifyScheduleMilli = data?.getLongExtra("modifyScheduleMilli", 0)
                 val modifyTextSize = data?.getFloatExtra("textSize", 20f)
-                Log.d("모디파이 텍스트 사이즈",modifyTextSize.toString())
-                val modifyScheduleDate=data?.getStringExtra("scheduleDate")
+                Log.d("모디파이 텍스트 사이즈", modifyTextSize.toString())
+                val modifyScheduleDate = data?.getStringExtra("scheduleDate")
 
-                val modifyScheduleId=currentSchedule!!.id
-                val lineCount=data?.getIntExtra("lineCount",0)
-                val modifyTitle=data?.getStringExtra("modifyTitle")
-                val modifySetNotification=data?.getIntExtra("modifySetNotification",0)
-                var modifyDday=data?.getLongExtra("modifyDday",Long.MIN_VALUE)
+                val modifyScheduleId = currentSchedule!!.id
+                val lineCount = data?.getIntExtra("lineCount", 0)
+                val modifyTitle = data?.getStringExtra("modifyTitle")
+                val modifySetNotification = data?.getIntExtra("modifySetNotification", 0)
+                var modifyDday = data?.getLongExtra("modifyDday", Long.MIN_VALUE)
 
                 if (modifyDday == Long.MIN_VALUE) {
 
@@ -329,10 +343,9 @@ class MainActivity : AppCompatActivity() {
                 }
                 if (currentSchedule != null) {
                     lifecycleScope.launch(Dispatchers.IO) {
-
-
                         val modifySchedule =
-                            ScheduleModel(modifyScheduleId,
+                            ScheduleModel(
+                                modifyScheduleId,
                                 modifyText!!,
                                 modifyScheduleMilli!!,
                                 modifyTextSize!!,
@@ -352,75 +365,137 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-//    private val settingsActivityResult =
-//        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-//            if (result.resultCode == Activity.RESULT_OK) {
-//                lifecycleScope.launch(Dispatchers.IO) {
-//                    withContext(Dispatchers.IO) {
-//                        val maxId = scheduleDao.findMaxId()
-//                        val data: Intent? = result.data
-//
-//                    }
-//                }
-//
-//
-//            }
-//        }
-
     private fun scheduleNotification() {
-
         lifecycleScope.launch(Dispatchers.IO) {
-
             withContext(Dispatchers.Main) {
-                val currentCurrentDateMilli=DayCalculation().getCurrentDateMillis()
-                notifyList = scheduleDao.findSwitchOnData(currentCurrentDateMilli)
 
+                val notificationId=0
+
+                val currentCurrentDateMilli = DayCalculation().getCurrentDateMillis()
+                val notifyList = scheduleDao.findSwitchOnData(currentCurrentDateMilli)
                 val notificationDataList = notifyList.map { scheduleModel ->
                     NotificationData(
                         id = scheduleModel.id,
                         scheduleText = scheduleModel.scheduleText,
                         scheduleTime = scheduleModel.scheduleTime,
-                        title = scheduleModel.title
+                        title = scheduleModel.title,
+                        dday=scheduleModel.dday
                     )
                 }
-                val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-                val notificationIntent = Intent(this@MainActivity, NotificationReceiver::class.java).apply {
-                    putParcelableArrayListExtra("notifyList", ArrayList(notificationDataList))
-                }
+
+                Log.d("리스트", notificationDataList.toString())
+                val alarmManager: AlarmManager =
+                    getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                val notificationIntent =
+                    Intent(this@MainActivity, NotificationReceiver::class.java)
+
+                notificationIntent.putParcelableArrayListExtra("notificationDataList", ArrayList(notificationDataList))
+                notificationIntent.putExtra("notificationId", notificationId)
+
 
                 val pendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     PendingIntent.getBroadcast(
                         this@MainActivity,
-                        0,
+                        notificationId,
                         notificationIntent,
                         PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
                     )
                 } else {
                     PendingIntent.getBroadcast(
                         this@MainActivity,
-                        0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT
+                        notificationId,
+                        notificationIntent,
+                        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
                     )
                 }
-
+                Log.d("팬딩", pendingIntent.toString())
                 val calendar = Calendar.getInstance().apply {
-                    add(Calendar.DAY_OF_MONTH, 0)
+                    timeInMillis = System.currentTimeMillis()
                     set(Calendar.HOUR_OF_DAY, 8)
-                    set(Calendar.MINUTE, 0)
-                    set(Calendar.SECOND, 0)
-                    set(Calendar.MILLISECOND, 0)
+                    add(Calendar.DAY_OF_YEAR, 1)
                 }
 
+                Log.d("calendar", calendar.timeInMillis.toString())
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
+                    alarmManager.setExactAndAllowWhileIdle(
+                        AlarmManager.RTC_WAKEUP,
+                        calendar.timeInMillis,
+                        pendingIntent
+                    )
                 } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                    alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
+                    alarmManager.setExact(
+                        AlarmManager.RTC_WAKEUP,
+                        calendar.timeInMillis,
+                        pendingIntent
+                    )
                 } else {
                     alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
-
                 }
             }
         }
     }
+
+    private fun notificationCheck() {
+        lifecycleScope.launch(Dispatchers.IO) {
+            withContext(Dispatchers.Main) {
+                val currentCurrentDateMilli = DayCalculation().getCurrentDateMillis()
+                val notifyList = scheduleDao.findSwitchOnData(currentCurrentDateMilli)
+                val notificationDataList = notifyList.map { scheduleModel ->
+                    NotificationData(
+                        id = scheduleModel.id,
+                        scheduleText = scheduleModel.scheduleText,
+                        scheduleTime = scheduleModel.scheduleTime,
+                        title = scheduleModel.title,
+                        dday=scheduleModel.dday
+                    )
+                }
+            }
+        }
+    }
+
+//    fun scheduleNotification() {
+//
+//        lifecycleScope.launch(Dispatchers.IO) {
+//            withContext(Dispatchers.Main) {
+//
+//                val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+//                val notificationIntent = Intent(this@MainActivity, NotificationReceiver::class.java).apply {
+//                    putExtra("notificationDataList", 2000)
+//                }
+//
+//                val pendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                    PendingIntent.getBroadcast(
+//                        this@MainActivity,
+//                        0,
+//                        notificationIntent,
+//                        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+//                    )
+//                } else {
+//                    PendingIntent.getBroadcast(
+//                        this@MainActivity,
+//                        0,
+//                        notificationIntent,
+//                        PendingIntent.FLAG_UPDATE_CURRENT
+//                    )
+//                }
+//
+//                val calendar = Calendar.getInstance().apply {
+//                    timeInMillis = System.currentTimeMillis()
+//                    set(Calendar.HOUR_OF_DAY, 8)
+//                    add(Calendar.DAY_OF_YEAR, 1)
+//                }
+//
+//                Log.d("calendar", calendar.timeInMillis.toString())
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                    alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
+//                } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//                    alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
+//                } else {
+//                    alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
+//                }
+//            }
+//        }
+//    }
 
     private fun swipeRefresh() {
         binding.swipeLayout.setOnRefreshListener {
@@ -438,8 +513,9 @@ class MainActivity : AppCompatActivity() {
                     scheduleDao.updateSchedule(schedule)
                 }
                 withContext(Dispatchers.Main) {
-
-                    scheduleAdapter.submitList(updatedSchedules)
+//                    scheduleNotification()
+//                    scheduleAdapter.submitList(updatedSchedules)
+                    refreshAdapter()
                     binding.swipeLayout.isRefreshing = false
                 }
             }
