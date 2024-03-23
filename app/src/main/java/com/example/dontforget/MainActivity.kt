@@ -60,7 +60,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        scheduleNotification()
 
         val itemSpacingController = ItemSpacingController(space)
         scheduleDao = ScheduleHelper.getDatabase(this).scheduleDao()
@@ -146,6 +145,8 @@ class MainActivity : AppCompatActivity() {
     private fun refreshAdapter() {
         lifecycleScope.launch(Dispatchers.IO) {
 //            notificationFilter()
+            scheduleNotification()
+
             val newList = scheduleDao.getAll()
             withContext(Dispatchers.Main) {
                 scheduleAdapter.submitList(newList)
@@ -386,6 +387,8 @@ class MainActivity : AppCompatActivity() {
                 Log.d("리스트", notificationDataList.toString())
                 val alarmManager: AlarmManager =
                     getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+
                 val notificationIntent =
                     Intent(this@MainActivity, NotificationReceiver::class.java)
 
@@ -412,8 +415,11 @@ class MainActivity : AppCompatActivity() {
                 val calendar = Calendar.getInstance().apply {
                     timeInMillis = System.currentTimeMillis()
                     set(Calendar.HOUR_OF_DAY, 8)
-                    add(Calendar.DAY_OF_YEAR, 1)
+//                    add(Calendar.DAY_OF_YEAR, 1)
                 }
+
+                if(calendar.before(Calendar.getInstance()))
+                    calendar.add(Calendar.DAY_OF_YEAR,1)
 
                 Log.d("calendar", calendar.timeInMillis.toString())
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -431,6 +437,7 @@ class MainActivity : AppCompatActivity() {
                 } else {
                     alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
                 }
+
             }
         }
     }
