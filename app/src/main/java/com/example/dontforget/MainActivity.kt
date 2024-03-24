@@ -374,6 +374,7 @@ class MainActivity : AppCompatActivity() {
 
                 val currentCurrentDateMilli = DayCalculation().getCurrentDateMillis()
                 val notifyList = scheduleDao.findSwitchOnData(currentCurrentDateMilli)
+
                 val notificationDataList = notifyList.map { scheduleModel ->
                     NotificationData(
                         id = scheduleModel.id,
@@ -438,6 +439,10 @@ class MainActivity : AppCompatActivity() {
                     alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
                 }
 
+                //알림이 켜진 스케쥴이 없다면 알림 제거
+                if(notificationDataList.isEmpty()){
+                    alarmManager.cancel(pendingIntent)
+                }
             }
         }
     }

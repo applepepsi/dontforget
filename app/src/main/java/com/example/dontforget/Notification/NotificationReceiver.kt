@@ -30,16 +30,16 @@ class NotificationReceiver : BroadcastReceiver() {
 
         var notificationHelper:NotificationHelper=NotificationHelper(context)
 
-
+        Log.d("notificationDataList", notificationDataList.toString())
         for (data in notificationDataList!!) {
             val Dday= DayCalculation().calculationDday(data.scheduleTime, DayCalculation().getCurrentDateMillis())
             if (Dday == null || Dday < 0L) {
                 continue
             }else{
                 var message = if (Dday ==0L) {
-                    "${data.title} D - Day"
+                    "${data.title} 스케쥴의 D - Day 입니다."
                 }else{
-                    "${data.title}${Dday}"
+                    "${data.title} 스케쥴이 ${Dday}일 남았습니다."
                 }
                 val nb:NotificationCompat.Builder=notificationHelper.getChannelNotification(data.title!!,message)
                 notificationHelper.getManager().notify(data.id!!, nb.build())
