@@ -1,5 +1,6 @@
 package com.example.dontforget.model
 
+import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -47,15 +48,19 @@ class FilterRecyclerAdapter(
         fun bind(filterData: String, scheduleClickListener: FilterClickListener,isSelected: Boolean) {
 
             binding.filterItem.setText(filterData)
-            itemView.background = if (isSelected) {
-                ContextCompat.getDrawable(itemView.context, R.drawable.filter_on)
+            if (isSelected) {
+                itemView.background = ContextCompat.getDrawable(itemView.context, R.drawable.filter_on)
+                binding.filterItem.setTextColor(Color.parseColor("#ffffff"))
             } else {
-                ContextCompat.getDrawable(itemView.context, R.drawable.filter_off)
+                itemView.background = ContextCompat.getDrawable(itemView.context, R.drawable.filter_off)
+                binding.filterItem.setTextColor(Color.parseColor("#181818"))
             }
             itemView.setOnClickListener {
                 scheduleClickListener.onClick(filterData)
             }
         }
+
+
     }
 
     class FilterClickListener(val scheduleClickListener: (filterCondition: String) -> Unit) {

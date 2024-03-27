@@ -6,6 +6,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:id="@+id/oneSchedule"
+    android:background="#E3E3E3"
     >
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -13,39 +14,18 @@
         android:layout_height="match_parent"
         >
 
-<!--        <TextView-->
-<!--            android:id="@+id/frameTop"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="30dp"-->
-<!--            android:background="@drawable/radius_top"-->
-
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent"-->
-<!--            app:layout_constraintWidth_percent="0.95" />-->
-
-<!--        <ImageView-->
-<!--            android:id="@+id/calendar"-->
-<!--            android:layout_width="15dp"-->
-<!--            android:layout_height="15dp"-->
-<!--            android:layout_marginStart="9dp"-->
-<!--            android:layout_marginTop="2dp"-->
-<!--            app:layout_constraintBottom_toTopOf="@id/line1"-->
-<!--            app:layout_constraintStart_toStartOf="@+id/frameTop"-->
-<!--            app:layout_constraintTop_toTopOf="@id/frameTop"-->
-<!--            app:srcCompat="@drawable/calendar_icon" />-->
 
         <TextView
             android:id="@+id/scheduleDate"
             android:layout_width="0dp"
             android:layout_height="35dp"
-            android:layout_marginTop="9dp"
+            android:layout_marginTop="15dp"
             android:background="@drawable/radius_top"
             android:drawableStart="@drawable/calendar_icon_main"
             android:drawablePadding="5dp"
             android:gravity="center_vertical"
             android:fontFamily="@font/inriasans_bold"
-            android:paddingStart="5dp"
+            android:paddingStart="10dp"
 
             android:text="test"
             android:textSize="15dp"
@@ -59,7 +39,7 @@
             android:id="@+id/ddayCounter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="12dp"
+            android:layout_marginEnd="7dp"
             android:fontFamily="@font/inriasans_bold"
             android:text="test"
             android:textSize="15dp"
@@ -67,19 +47,19 @@
             app:layout_constraintEnd_toStartOf="@id/notification_message"
             app:layout_constraintTop_toTopOf="@id/scheduleDate" />
 
-            <TextView
-                android:id="@+id/notification_message"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="1dp"
-                android:layout_marginEnd="5dp"
-                android:fontFamily="@font/inriasans_regular"
-                android:text="test"
+        <TextView
+            android:id="@+id/notification_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:layout_marginEnd="8dp"
+            android:fontFamily="@font/inriasans_regular"
+            android:text="test"
 
-                android:textSize="10dp"
-                app:layout_constraintBottom_toBottomOf="@id/scheduleDate"
-                app:layout_constraintEnd_toEndOf="@id/scheduleDate"
-                app:layout_constraintTop_toTopOf="@id/scheduleDate" />
+            android:textSize="10dp"
+            app:layout_constraintBottom_toBottomOf="@id/scheduleDate"
+            app:layout_constraintEnd_toEndOf="@id/scheduleDate"
+            app:layout_constraintTop_toTopOf="@id/scheduleDate" />
 
 
         <View
@@ -116,12 +96,12 @@
             android:gravity="center_vertical"
             android:background="#FFFFFF"
             android:fontFamily="@font/inriasans_bold"
-            android:paddingStart="7dp"
+            android:paddingStart="10dp"
             android:paddingTop="3dp"
             android:paddingEnd="10dp"
             android:paddingBottom="5dp"
             android:text="title"
-            android:textSize="15dp"
+            android:textSize="17dp"
             app:layout_constraintBottom_toTopOf="@id/scheduleInfo"
             app:layout_constraintEnd_toEndOf="parent"
 
@@ -135,10 +115,10 @@
             android:background="@drawable/radius_bottom"
 
             android:fontFamily="@font/inriasans_regular"
-            android:paddingStart="7dp"
-            android:paddingTop="8dp"
+            android:paddingStart="10dp"
+            android:paddingTop="5dp"
             android:paddingEnd="10dp"
-            android:paddingBottom="5dp"
+            android:paddingBottom="7dp"
             android:text="aa"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

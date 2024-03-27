@@ -20,8 +20,8 @@
         android:paddingTop="2dp"
         android:paddingStart="30dp"
         android:text="메모 수정하기"
-        android:textSize="18dp"
-
+        android:textSize="15dp"
+        android:textColor="#000000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/back_button"
         app:layout_constraintBottom_toTopOf="@id/setDate"
@@ -34,7 +34,7 @@
         android:layout_marginStart="7dp"
         android:background="?attr/selectableItemBackground"
 
-        android:src="@drawable/ic_baseline_arrow_back_ios_24"
+        android:src="@drawable/ic_baseline_arrow_back_ios_24_2"
         app:layout_constraintBottom_toBottomOf="@id/up_bar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

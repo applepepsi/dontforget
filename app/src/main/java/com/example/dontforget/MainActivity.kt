@@ -55,13 +55,13 @@ class MainActivity : AppCompatActivity() {
     private lateinit var spanInfoProcessor: SpanInfoProcessor
 //    private var textList=mutableListOf<String>()
 
-    val space = 8
+    private val filterSpace = 13
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        val itemSpacingController = ItemSpacingController(space)
+        val itemSpacingController = ItemSpacingController(filterSpace)
         scheduleDao = ScheduleHelper.getDatabase(this).scheduleDao()
         textStyleDao = ScheduleHelper.getDatabase(this).textStyleDao()
         spanInfoProcessor = SpanInfoProcessor(textStyleDao)
@@ -329,7 +329,6 @@ class MainActivity : AppCompatActivity() {
                 val modifyText = data?.getStringExtra("modifyText")
                 val modifyScheduleMilli = data?.getLongExtra("modifyScheduleMilli", 0)
                 val modifyTextSize = data?.getFloatExtra("textSize", 20f)
-                Log.d("모디파이 텍스트 사이즈", modifyTextSize.toString())
                 val modifyScheduleDate = data?.getStringExtra("scheduleDate")
 
                 val modifyScheduleId = currentSchedule!!.id
@@ -416,7 +415,6 @@ class MainActivity : AppCompatActivity() {
                 val calendar = Calendar.getInstance().apply {
                     timeInMillis = System.currentTimeMillis()
                     set(Calendar.HOUR_OF_DAY, 8)
-//                    add(Calendar.DAY_OF_YEAR, 1)
                 }
 
                 if(calendar.before(Calendar.getInstance()))
@@ -447,67 +445,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun notificationCheck() {
-        lifecycleScope.launch(Dispatchers.IO) {
-            withContext(Dispatchers.Main) {
-                val currentCurrentDateMilli = DayCalculation().getCurrentDateMillis()
-                val notifyList = scheduleDao.findSwitchOnData(currentCurrentDateMilli)
-                val notificationDataList = notifyList.map { scheduleModel ->
-                    NotificationData(
-                        id = scheduleModel.id,
-                        scheduleText = scheduleModel.scheduleText,
-                        scheduleTime = scheduleModel.scheduleTime,
-                        title = scheduleModel.title,
-                        dday=scheduleModel.dday
-                    )
-                }
-            }
-        }
-    }
-
-//    fun scheduleNotification() {
-//
-//        lifecycleScope.launch(Dispatchers.IO) {
-//            withContext(Dispatchers.Main) {
-//
-//                val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-//                val notificationIntent = Intent(this@MainActivity, NotificationReceiver::class.java).apply {
-//                    putExtra("notificationDataList", 2000)
-//                }
-//
-//                val pendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//                    PendingIntent.getBroadcast(
-//                        this@MainActivity,
-//                        0,
-//                        notificationIntent,
-//                        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-//                    )
-//                } else {
-//                    PendingIntent.getBroadcast(
-//                        this@MainActivity,
-//                        0,
-//                        notificationIntent,
-//                        PendingIntent.FLAG_UPDATE_CURRENT
-//                    )
-//                }
-//
-//                val calendar = Calendar.getInstance().apply {
-//                    timeInMillis = System.currentTimeMillis()
-//                    set(Calendar.HOUR_OF_DAY, 8)
-//                    add(Calendar.DAY_OF_YEAR, 1)
-//                }
-//
-//                Log.d("calendar", calendar.timeInMillis.toString())
-//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//                    alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
-//                } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-//                    alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
-//                } else {
-//                    alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
-//                }
-//            }
-//        }
-//    }
+// TODO: 폰 다시켰을때도 알람울리는 기능 추가
 
     private fun swipeRefresh() {
         binding.swipeLayout.setOnRefreshListener {
