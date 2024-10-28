@@ -46,24 +46,12 @@ DontForget은 사용자들의 스케쥴을 잊지 않도록 도와주기 위해 
 
 
 
-### 애플리케이션 이미지
-![메인화면](https://github.com/applepepsi/dontforget/assets/102598019/7c732386-8b15-44ff-8973-c81c38ca9b9e)
-- **메인 화면**: 사용자가 작성한 메모의 남은 기한과 내용을 볼 수 있습니다.
+### 🏙 결과
+| ![메인화면](https://github.com/user-attachments/assets/44940e8a-4609-49c4-a276-221ff1d384bf) | ![검색 기능](https://github.com/user-attachments/assets/a0f01b5c-b7fe-4ccc-86c1-6a9a405c1465) |
+|---|---|
 
-![필터dday있음](https://github.com/applepepsi/dontforget/assets/102598019/becca8e2-957f-48c6-9519-b77f552c105d)
-- **필터 작동**: 필터를 사용하여 사용자가 원하는 종류의 메모만 필터링 할 수 있습니다.
+| ![필터dday있음](https://github.com/user-attachments/assets/686c6cda-9ed9-41ec-996e-d0a7a337b6c0) | ![작성](https://github.com/user-attachments/assets/567215bf-ca49-41a6-8ed0-69e7685a4b9e) |
+|---|---|
 
-![검색 기능](https://github.com/applepepsi/dontforget/assets/102598019/c1cb0bdc-2d78-459e-a899-c86f8c5a34b9)
-- **검색 기능**: 검색바에 텍스트를 입력하여 사용자가 원하는 메모를 찾을 수 있습니다.
-
-![작성](https://github.com/applepepsi/dontforget/assets/102598019/14e75dbc-3ef6-42b2-84b9-0a975efdc9d3)
-- **메모 작성 기능**: 작성 엑티비티로 이동한 모습 이곳에서 메모를 작성 할 수 있습니다.
-
-![작성2](https://github.com/applepepsi/dontforget/assets/102598019/7956de78-7063-4aee-aece-1bd4525ff456)
-- **메모 작성 기능2**: 해당 엑티비티에서 마감일을 정하거나 알림 설정을 할 수 있습니다.
-
-![메모 수정](https://github.com/applepepsi/dontforget/assets/102598019/8dc9e05a-422c-45aa-805c-2a94e5ab6e49)
-- **메모 수정**: 메인화면에서 메모를 터치하여 메모를 수정 할 수 있습니다.
-
-![옵션](https://github.com/applepepsi/dontforget/assets/102598019/88cdd5e8-d458-4f89-ae31-7c0be4edad0f)
-- **옵션**: 해당 엑티비티에서 각종 옵션을 설정 할 수 있습니다.
+| ![옵션](https://github.com/user-attachments/assets/68ee7b80-5126-44fa-9ddd-39ab253ec7ec) | ![알림](https://github.com/user-attachments/assets/697a9a56-7672-41b4-afa5-6bc2e197a2e9) |
+|---|---|

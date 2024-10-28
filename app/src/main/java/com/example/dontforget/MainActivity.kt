@@ -1,5 +1,6 @@
 package com.example.dontforget
 
+import android.annotation.SuppressLint
 import android.app.*
 import android.content.Context
 import android.content.DialogInterface
@@ -365,6 +366,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+    @SuppressLint("ScheduleExactAlarm")
     private fun scheduleNotification() {
         lifecycleScope.launch(Dispatchers.IO) {
             withContext(Dispatchers.Main) {

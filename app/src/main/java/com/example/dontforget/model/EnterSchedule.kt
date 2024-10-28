@@ -1,5 +1,6 @@
 package com.example.dontforget.model
 
+import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.graphics.Color
@@ -69,6 +70,7 @@ class EnterSchedule : AppCompatActivity() {
     }
 
 
+    @SuppressLint("SimpleDateFormat")
     private fun showDatePickerDialog() {
         val cal = Calendar.getInstance()
         val dateFormat = SimpleDateFormat("yyyyMMdd")
