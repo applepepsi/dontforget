@@ -5,16 +5,19 @@ import android.app.*
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
-import android.graphics.Color
+import android.content.SharedPreferences
 import android.icu.util.Calendar
 import android.os.*
+import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,11 +28,9 @@ import com.example.dontforget.model.*
 import com.example.dontforget.model.db.*
 import com.example.dontforget.setting.SettingsActivity
 import com.example.dontforget.util.ItemSpacingController
-import com.example.dontforget.util.ScheduleFilterData
 import com.example.dontforget.util.SpanInfoProcessor
 import com.example.dontforget.util.SwipeToDeleteCallback
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.*
@@ -62,6 +63,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+
+
+
         val itemSpacingController = ItemSpacingController(filterSpace)
         scheduleDao = ScheduleHelper.getDatabase(this).scheduleDao()
         textStyleDao = ScheduleHelper.getDatabase(this).textStyleDao()
@@ -75,8 +79,8 @@ class MainActivity : AppCompatActivity() {
 
         filterRecyclerAdapter = FilterRecyclerAdapter(filterList, filterClickListener)
 
-
-
+        //앱 실행시 알림 설정 확인
+        checkFirstLaunch()
 
         binding.scheduleViewer.adapter = scheduleAdapter
         binding.scheduleViewer.layoutManager = LinearLayoutManager(this@MainActivity)
@@ -97,6 +101,10 @@ class MainActivity : AppCompatActivity() {
             searchBarController()
             filterViewController()
         }
+
+
+
+
 
         val itemTouchHelper =
             ItemTouchHelper(SwipeToDeleteCallback(object : SwipeToDeleteCallback.OnSwipeListener {
@@ -146,7 +154,12 @@ class MainActivity : AppCompatActivity() {
     private fun refreshAdapter() {
         lifecycleScope.launch(Dispatchers.IO) {
 //            notificationFilter()
+
+
+
             scheduleNotification()
+
+
 
             val newList = scheduleDao.getAll()
             withContext(Dispatchers.Main) {
@@ -366,6 +379,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+    @RequiresApi(Build.VERSION_CODES.S)
     @SuppressLint("ScheduleExactAlarm")
     private fun scheduleNotification() {
         lifecycleScope.launch(Dispatchers.IO) {
@@ -422,20 +436,36 @@ class MainActivity : AppCompatActivity() {
                 if(calendar.before(Calendar.getInstance()))
                     calendar.add(Calendar.DAY_OF_YEAR,1)
 
-                Log.d("calendar", calendar.timeInMillis.toString())
+
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+
+
+
+                        alarmManager.setExactAndAllowWhileIdle(
+                            AlarmManager.RTC_WAKEUP,
+                            calendar.timeInMillis,
+                            pendingIntent
+                        )
+
+                }
+
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
                     alarmManager.setExactAndAllowWhileIdle(
                         AlarmManager.RTC_WAKEUP,
                         calendar.timeInMillis,
                         pendingIntent
                     )
                 } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+
                     alarmManager.setExact(
                         AlarmManager.RTC_WAKEUP,
                         calendar.timeInMillis,
                         pendingIntent
                     )
-                } else {
+                }
+                else {
                     alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
                 }
 
@@ -447,7 +477,16 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-// TODO: 폰 다시켰을때도 알람울리는 기능 추가
+
+
+    private fun checkFirstLaunch(){
+
+        val notificationManager = NotificationManagerCompat.from(applicationContext)
+        //앱을 처음 켰을때 알림이 꺼져있다면 켜달라는 팝업
+        if (!notificationManager.areNotificationsEnabled()) {
+            showNotificationSettingsDialog()
+        }
+    }
 
     private fun swipeRefresh() {
         binding.swipeLayout.setOnRefreshListener {
@@ -481,6 +520,21 @@ class MainActivity : AppCompatActivity() {
         val newCount = currentCount + 1
         editor.putInt("count", newCount)
         editor.apply()
+    }
+
+    private fun showNotificationSettingsDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("알림 설정")
+            .setMessage("앱의 알림이 꺼져 있습니다. 알림을 활성화하시겠습니까?")
+            .setPositiveButton("설정으로 가기") { _, _ ->
+
+                val intent = Intent()
+                intent.action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
+                intent.putExtra(Settings.EXTRA_APP_PACKAGE, packageName)
+                startActivity(intent)
+            }
+            .setNegativeButton("취소", null)
+            .show()
     }
 
 }
